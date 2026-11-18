@@ -18,6 +18,7 @@ The improvement loop (what an assistant such as Hermes uses):
     python3 -m wheel.agent suggestions                # list suggestions and their status
     python3 -m wheel.agent tested <id> "result"       # record a test result (the contractor does this)
     python3 -m wheel.agent tune <id>                  # apply a suggestion. Refused unless WHEEL_AGENT_CAN_TUNE=1
+    python3 -m wheel.agent context SYMBOL "what you found" [source-url]   # shown beside proposals; the engine never reads it
 
 It never decides a trade. The engine proposes from the rules, the owner approves on the dashboard
 (or in Telegram), and only then does `send` carry the order to the broker.
@@ -206,6 +207,8 @@ def _loop(cmd, args):
             print(f"{s['id']} [{s['status']}] {s['title']} | change: {json.dumps(s.get('change'))} | test: {s.get('test_result')}")
     elif cmd == "tested":
         print(core.suggestion_tested(MODE, args[0], " ".join(args[1:])))
+    elif cmd == "context":
+        print(core.add_context(MODE, args[0] if args else "", args[1] if len(args) > 1 else "", args[2] if len(args) > 2 else ""))
     elif cmd == "tune":
         print(core.suggestion_decide(MODE, args[0], "adopt", "applied by the assistant", "assistant"))
 
@@ -219,7 +222,7 @@ def cycle():
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
-    if cmd in ("goals", "notes", "note", "suggest", "suggestions", "tested", "tune"):
+    if cmd in ("goals", "notes", "note", "suggest", "suggestions", "tested", "tune", "context"):
         _loop(cmd, sys.argv[2:])
         sys.exit(0)
     fn = {"read": read, "send": send, "sync": sync, "notify": notify, "telegram": telegram, "connect": connect,

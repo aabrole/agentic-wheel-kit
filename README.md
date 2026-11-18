@@ -112,6 +112,10 @@ hermes gateway setup && hermes gateway start                           # connect
 
 Hermes reports, keeps a notebook, and files one suggestion at a time. A coding agent tests the suggestion and you adopt or reject it on the control panel. That is the improvement loop. Hermes is told never to approve a trade, and it cannot touch a locked rule. See [docs/HERMES.md](docs/HERMES.md) for details and for the kit's own Telegram Approve and Decline buttons.
 
+## Connecting data sources
+
+QuiverQuant, Firecrawl, news and filings all have a place, and it is not the engine. See [docs/DATA.md](docs/DATA.md): data is for research first, context second, and it only changes a trade after it has been tested as a rule.
+
 ## Run the tests on your own data
 
 [prompts/RUN_FULL_TEST.md](prompts/RUN_FULL_TEST.md) is a prompt you paste into Claude Code. With your own Alpaca data key it downloads about three years of option prices and reruns every test in [RESULTS.md](RESULTS.md).
@@ -130,13 +134,13 @@ It takes several hours and a few gigabytes of disk. The results describe one str
 | `hermes/` | The `wheel-desk` skill Hermes loads. |
 | `prompts/` | Setup, full test rerun, weekly review, and the contractor prompt that tests a suggestion. |
 | `research/` | The test code and the small data files it needs. Downloaded option prices are not included. |
-| `tests/` | 63 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
+| `tests/` | 64 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
 
 ## What is and is not verified
 
 | Part | Status |
 |---|---|
-| Engine, guardrails, control panel | Tested (63 automated tests, clicked through in a browser) |
+| Engine, guardrails, control panel | Tested (64 automated tests, clicked through in a browser) |
 | Alpaca: reading an account | Run against a real paper account |
 | Alpaca: sending orders | Tested against a fake connection only. Not yet run on a paper account. |
 | Robinhood: connecting | Connection code is from a kit that ran a live stock bot |

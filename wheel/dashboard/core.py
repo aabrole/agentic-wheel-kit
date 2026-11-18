@@ -652,6 +652,27 @@ def suggestion_decide(mode, sid, decision, note="", source="you") -> dict:
     return {"ok": True}
 
 
+# ------------------------------------------------------------------ outside context
+# Research the assistant found (news, filings, insider or congressional trades, an earnings date
+# from another source). It is shown next to proposals for the owner to read. The ENGINE NEVER
+# READS IT: a data source only changes a trade after it has been tested and added as a rule.
+def add_context(mode, symbol, text, url="", source="assistant") -> dict:
+    symbol, text = str(symbol or "").upper().strip()[:10], str(text or "").strip()[:600]
+    if not symbol or not text:
+        return {"ok": False, "error": "Context needs a symbol and a sentence."}
+    log(mode, {"event": "context", "symbol": symbol, "text": text, "url": str(url or "")[:400], "source": source})
+    return {"ok": True}
+
+
+def context(mode, days=14, per_symbol=5) -> dict:
+    cutoff = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=days)).isoformat()
+    out = {}
+    for e in _lines(state_dir(mode) / "journal.jsonl")[::-1]:
+        if e.get("event") == "context" and e["at"] >= cutoff and len(out.setdefault(e["symbol"], [])) < per_symbol:
+            out[e["symbol"]].append({"at": e["at"], "text": e["text"], "url": e.get("url", ""), "source": e.get("source")})
+    return out
+
+
 # ------------------------------------------------------------------ scoreboard, history, log
 def scoreboard(mode, pf: dict) -> dict:
     ev = _lines(state_dir(mode) / "journal.jsonl")
@@ -730,6 +751,8 @@ def _say(e: dict) -> str:
         return f"Staging scenario loaded: {e.get('name')}"
     if k == "note":
         return f"Note from {e.get('source')}: {e['text']}"
+    if k == "context":
+        return f"Context on {e['symbol']} from {e.get('source')}: {e['text']}"
     if k == "goals":
         return "Goals updated"
     if k == "suggestion":
@@ -764,12 +787,15 @@ def full_state(mode) -> dict:
     queued = {o.get("proposal_id") for o in outbox(mode) if o["status"] in ("queued", "sent")}
     declined = {e.get("id") for e in _lines(state_dir(mode) / "journal.jsonl")
                 if e.get("event") == "decision" and e.get("decision") == "declined"}
+    ctx = context(mode)
     for p in out["proposals"]:
+        p["context"] = ctx.get(p["symbol"], [])
         p["legs_to_send"] = legs_of(p)
         p["status"] = "queued" if p["id"] in queued else ("declined" if p["id"] in declined else "new")
     return {"mode": mode, "send_enabled": SEND_ENABLED and mode == "live", "broker": snap.get("broker") or config.BROKER,
             "generated": now(), "engine": out, "portfolio": pf,
             "outbox": outbox(mode), "settings": settings_view(settings), "scoreboard": scoreboard(mode, pf),
             "history": history(mode), "log": decision_log(mode),
+            "context": ctx,
             "loop": {"goals": goals(mode), "notes": notes(mode), "suggestions": suggestions(mode),
                      "agent_can_tune": AGENT_CAN_TUNE}}

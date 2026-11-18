@@ -169,6 +169,16 @@ class Loop(Base):
         finally:
             core.AGENT_CAN_TUNE = old
 
+    def test_context_is_shown_but_never_changes_a_proposal(self):
+        before = [(p["id"], p["strike"] if "strike" in p else None) for p in self.st()["engine"]["proposals"]]
+        self.assertTrue(core.add_context("staging", "hood", "Two insiders sold last week.", "https://example.com/filing")["ok"])
+        self.assertFalse(core.add_context("staging", "", "x")["ok"])
+        s = self.st()
+        self.assertEqual([(p["id"], p["strike"] if "strike" in p else None) for p in s["engine"]["proposals"]], before)
+        hood = next(p for p in s["engine"]["proposals"] if p["symbol"] == "HOOD")
+        self.assertEqual(hood["context"][0]["text"], "Two insiders sold last week.")
+        self.assertIn("HOOD", s["context"])
+
     def test_open_suggestions_are_capped(self):
         for i in range(3):
             self.assertTrue(core.add_suggestion("staging", f"idea {i}", "why")["ok"])

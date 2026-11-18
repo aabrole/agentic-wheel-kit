@@ -136,7 +136,7 @@ svg{display:block;width:100%;height:150px}
 </div>
 <div class="panel"><h2>Decision log</h2>
   <div class="form" style="margin-bottom:8px"><label>Filter<input id="l_q" placeholder="symbol or word"></label>
-    <label>Type<select id="l_type"><option value="">Everything</option><option value="decision">Your decisions</option><option value="proposed">Proposals</option><option value="order_queued">Orders</option><option value="fill">Option fills</option><option value="stock_fill">Stock fills</option><option value="assigned">Call-aways</option><option value="settings">Setting changes</option><option value="suggestion">Suggestions</option><option value="note">Notes</option><option value="run">Engine runs</option></select></label></div>
+    <label>Type<select id="l_type"><option value="">Everything</option><option value="decision">Your decisions</option><option value="proposed">Proposals</option><option value="order_queued">Orders</option><option value="fill">Option fills</option><option value="stock_fill">Stock fills</option><option value="assigned">Call-aways</option><option value="settings">Setting changes</option><option value="suggestion">Suggestions</option><option value="note">Notes</option><option value="context">Context</option><option value="run">Engine runs</option></select></label></div>
   <div id="log"></div>
 </div>
 </div>
@@ -205,6 +205,7 @@ function renderProposals(){
       ${p.downside?`<div style="font-size:13px"><b>Downside:</b> ${esc(p.downside)}.</div>`:''}
       ${(p.flags||[]).map(f=>`<div class="flag">${esc(f)}</div>`).join('')}
       ${p.evidence?`<details><summary>Test record behind this rule</summary><div>${esc(p.evidence)}</div></details>`:''}
+      ${(p.context||[]).length?`<details open><summary>Context from your assistant (the engine does not use this)</summary>${p.context.map(c=>`<div style="padding:3px 0">${esc(c.at.slice(0,10))}: ${esc(c.text)}${/^https?:\/\//.test(c.url)?` <a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">source</a>`:''}</div>`).join('')}</details>`:''}
       ${ranked}${rej}${editBox}
       ${p.status==='new'?`<div class="acts"><button class="primary" data-act="approve">${ed?'Approve edited order':'Approve'}</button>${canEdit?`<button data-act="edit">${ed?'Cancel edit':'Edit'}</button>`:''}<button class="danger" data-act="decline">Decline</button><input data-note placeholder="Why (goes in the log)" style="flex:1;min-width:120px"></div>`:''}
       <div data-out></div></div>`;
