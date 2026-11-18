@@ -14,6 +14,8 @@ Set up the Agentic Wheel Kit for me.
    - Robinhood: set `BROKER=robinhood` in `.env` and tell me to run `.venv/bin/python -m wheel.agent connect` myself, since it needs me to sign in.
 5. When I say the broker is connected, run `.venv/bin/python -m wheel.agent read` and `.venv/bin/python -m wheel.agent status`, and show me the result.
 
+6. Ask me if I want the always-on assistant. If yes: tell me to install Hermes with its own installer and run `hermes setup` myself, then run `bash deploy/hermes.sh --dry-run`, show me what it will do, and run `bash deploy/hermes.sh` only after I say go. Then tell me to run `hermes gateway setup` and `hermes gateway start`.
+
 Rules for you:
 
 - Leave `WHEEL_SEND=0`. Do not change it. I will turn sending on myself if I decide to.

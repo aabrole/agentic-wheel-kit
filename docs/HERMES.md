@@ -2,7 +2,7 @@
 
 The kit decides nothing with AI. The engine applies written rules. An always-on agent such as Hermes is useful around it: it runs the cycle on time, tells you what happened, and writes the weekly review.
 
-This page has not been run end to end yet. Treat it as a starting point.
+The Hermes setup script was written against the Hermes Agent v0.23 documentation and checked with a dry run. It has not yet been run against a live Hermes install.
 
 ## Telegram: proposals with buttons
 
@@ -31,29 +31,54 @@ On a server, `sudo systemctl enable --now wheel-telegram.service` does the same.
 
 Only the chat id in `.env` is obeyed. Approving in Telegram does exactly what the Approve button on the control panel does: it queues the order. With Robinhood, the Robinhood app still asks you to approve.
 
-## Using Hermes (or any agent that can run commands on the server)
+## Hermes: the always-on assistant
 
-Install the agent by following its own guide. Then give it these three jobs. Each is a command it runs and a short instruction.
+Hermes Agent is a free, open-source agent from Nous Research. It stays running, keeps memory, has a built-in scheduler and can message you on Telegram. The kit ships a Hermes skill and a script that sets everything up.
 
-**Morning run, on trading days**
+**1. Install Hermes** (its own installer), then choose your model:
 
 ```
-cd ~/wheel-kit && .venv/bin/python -m wheel.agent cycle && .venv/bin/python -m wheel.agent status
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+source ~/.bashrc          # or ~/.zshrc
+hermes setup
 ```
 
-Instruction: "Run this at 9:45 Eastern on trading days. Send me the status line and one sentence per proposal. Do not approve anything."
+**2. Add the wheel layer** from the kit folder:
 
-**Heads-up check, mid-afternoon**
+```
+bash deploy/hermes.sh
+```
 
-Instruction: "Run `python -m wheel.agent read`. If the output or `state/live/journal.jsonl` shows a call in the money within two days of expiry, or anything blocked, message me. Otherwise stay quiet."
+That does two things:
 
-**Weekly review, Friday after the close**
+- Copies the `wheel-desk` skill into `~/.hermes/skills/`. The skill tells Hermes what the kit is, which commands it may run, and what it must never do.
+- Creates three scheduled jobs, in Eastern time:
 
-Instruction: use the prompt in [prompts/WEEKLY_REVIEW.md](../prompts/WEEKLY_REVIEW.md).
+| Job | When | What it does |
+|---|---|---|
+| `wheel-morning` | 9:45, trading days | Runs the cycle and sends you the proposals with reasons |
+| `wheel-afternoon` | 3:15, trading days | Checks open calls; messages you only if one is in the money near expiry or a run was blocked |
+| `wheel-weekly` | Friday 4:30 | Writes the weekly review: premium next to profit, against just holding |
+
+Run `bash deploy/hermes.sh --dry-run` first to see every command without running it.
+
+**3. Connect your phone and start it:**
+
+```
+hermes gateway setup      # Telegram, or another app
+hermes gateway start
+hermes cron list          # wheel-morning, wheel-afternoon, wheel-weekly
+```
+
+If you use Hermes for the schedule on a server, turn the kit's own timer off so the cycle does not run twice: `sudo systemctl disable --now wheel-cycle.timer`.
+
+Talk to it any time: "what is the wheel doing?", "what is open?", "how did last week go?".
+
+Hermes's Telegram and the kit's own Telegram buttons are separate. Hermes sends you reports. The kit's buttons (above) are what approve or decline a proposal.
 
 ## Rules for the agent
 
-Give your agent these as standing instructions:
+The `wheel-desk` skill already carries these. If you use a different agent, give it the same standing instructions:
 
 - It may run `read`, `sync`, `notify`, `status` and `cycle`.
 - It may **not** approve or decline a proposal, edit `.env`, edit anything in `wheel/`, or change settings.

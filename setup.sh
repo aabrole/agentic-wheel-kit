@@ -2,6 +2,7 @@
 # One-shot setup. Safe to run again.
 #   ./setup.sh            install, run the tests, open the control panel in practice mode
 #   ./setup.sh --no-run   install and test only
+#   ./setup.sh --hermes   also add the Hermes layer (skill + three scheduled jobs)
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -36,8 +37,14 @@ Next:
        Alpaca paper:  put ALPACA_KEY and ALPACA_SECRET in .env, then  .venv/bin/python -m wheel.agent read
        Robinhood:     set BROKER=robinhood in .env, then              .venv/bin/python -m wheel.agent connect
   3. See your own account:  WHEEL_MODE=live .venv/bin/python wheel/dashboard/server.py
-  4. Read DISCLAIMER.md before you set WHEEL_SEND=1.
+  4. Add the always-on assistant (Hermes):  ./setup.sh --hermes     (or: bash deploy/hermes.sh)
+  5. Read DISCLAIMER.md before you set WHEEL_SEND=1.
 MSG
+
+if [ "${1:-}" = "--hermes" ]; then
+  bash deploy/hermes.sh
+  exit 0
+fi
 
 if [ "${1:-}" != "--no-run" ]; then
   echo

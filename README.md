@@ -101,7 +101,16 @@ See [docs/ORACLE_SETUP.md](docs/ORACLE_SETUP.md). One script installs the kit be
 
 ### Telegram and Hermes
 
-See [docs/HERMES.md](docs/HERMES.md) for proposals on your phone and for using an always-on agent as the bookkeeper.
+The kit includes a Hermes layer: a skill that teaches Hermes the routine and its limits, and three scheduled jobs (morning run, afternoon check, Friday review).
+
+```
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash     # Hermes's own installer
+hermes setup                                                           # choose your model
+bash deploy/hermes.sh                                                  # add the wheel skill and jobs
+hermes gateway setup && hermes gateway start                           # connect your phone
+```
+
+Hermes reports and reminds. It is told never to approve a trade or change a rule. See [docs/HERMES.md](docs/HERMES.md) for details and for the kit's own Telegram Approve and Decline buttons.
 
 ## Run the tests on your own data
 
@@ -117,7 +126,8 @@ It takes several hours and a few gigabytes of disk. The results describe one str
 | `wheel/dashboard/` | The control panel: one small server, one page. |
 | `wheel/brokers/` | Alpaca and Robinhood connections. |
 | `wheel/agent.py` | Reads the account, sends approved orders, Telegram. |
-| `deploy/` | Server install script and services. |
+| `deploy/` | Server install script and services, and `hermes.sh` for the Hermes layer. |
+| `hermes/` | The `wheel-desk` skill Hermes loads. |
 | `research/` | The test code and the small data files it needs. Downloaded option prices are not included. |
 | `tests/` | 59 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
 
@@ -131,6 +141,7 @@ It takes several hours and a few gigabytes of disk. The results describe one str
 | Robinhood: connecting | Connection code is from a kit that ran a live stock bot |
 | Robinhood: reading options, sending option orders | Written from Robinhood's responses. Not yet run end to end. |
 | Telegram buttons | Written, not yet run |
+| Hermes layer (skill and scheduled jobs) | Written from Hermes's documentation, dry-run only. Not yet run on a live Hermes install. |
 | Server install | Adapted from a working installer. Not yet run for this kit. |
 | Research rerun on a fresh clone | Runs on the author's machine. Fresh-clone run not yet verified. |
 

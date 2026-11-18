@@ -73,5 +73,6 @@ Nothing reads your account or sends an order yet. On the server:
   .venv/bin/python -m wheel.agent connect           # Robinhood only
   .venv/bin/python -m wheel.agent read              # first account read
   sudo systemctl enable --now wheel-cycle.timer     # read the account twice each trading day
+  bash deploy/hermes.sh                             # OR let Hermes run the routine and report to you
 Orders are only passed to the broker after you set WHEEL_SEND=1 in .env.
 MSG
