@@ -112,7 +112,7 @@ class Rotation(unittest.TestCase):
         return [p for p in out["proposals"] if p["kind"] in ("rotation stock", "idle cash to SPY")]
 
     def test_picks_strongest_trend_it_can_afford(self):
-        out = engine.propose(self.snap(9000.0), rules())
+        out = engine.propose(self.snap(9000.0), rules(ROT_RULE="trend"))
         p = self.rot(out)[0]
         # BIG ranks first but 100 shares cost 40,000; DOWN is below its average; PENNY is under $10;
         # AAA is already held. RUN is the strongest that qualifies and fits.
@@ -123,18 +123,18 @@ class Rotation(unittest.TestCase):
         self.assertTrue(any("BETA" in f for f in p["flags"]))
 
     def test_buys_the_top_name_when_cash_allows(self):
-        p = self.rot(engine.propose(self.snap(100_000.0), rules()))[0]
+        p = self.rot(engine.propose(self.snap(100_000.0), rules(ROT_RULE="trend")))[0]
         self.assertEqual((p["symbol"], p["shares"]), ("BIG", 200))
 
     def test_nothing_when_cash_is_short(self):
-        out = engine.propose(self.snap(2000.0), rules())
+        out = engine.propose(self.snap(2000.0), rules(ROT_RULE="trend"))
         self.assertEqual(self.rot(out), [])
         self.assertTrue(any("does not cover 100 shares" in x["reason"] for x in out["skipped"]))
 
     def test_cash_securing_puts_is_not_free(self):
         s = self.snap(9000.0)
         s["short_options"] = [{"symbol": "ZZZ", "type": "put", "strike": 60.0, "expiry": "2026-12-24", "contracts": 1}]
-        self.assertEqual(self.rot(engine.propose(s, rules())), [])
+        self.assertEqual(self.rot(engine.propose(s, rules(ROT_RULE="trend"))), [])
 
     def test_quality_rule_picks_calmest(self):
         p = self.rot(engine.propose(self.snap(9000.0), rules(ROT_RULE="quality")))[0]

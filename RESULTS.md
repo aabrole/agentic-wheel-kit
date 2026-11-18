@@ -66,7 +66,7 @@ Over 2.5 years there are only three overlapping start dates (549 cases), so thes
 
 - Base rule: 35-day calls at or above your net cost, one lot always kept free. Tested, modest, locked.
 - Rolls: on, small benefit.
-- Rotation: labelled beta and "not confirmed" on every proposal. The full run does not support it over putting called-away cash in SPY. Switchable to quality, SPY or off from the dashboard.
+- Rotation: called-away cash goes to SPY by default, which is what the full run supports. The trend rule is still in the kit as a switch, labelled beta and "not confirmed" on every proposal. Quality and off are the other choices.
 - Puts: off. Not tested enough.
 - The scoreboard shows premium next to profit and next to "if you had just held", because that gap is the main finding.
 

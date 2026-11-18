@@ -38,7 +38,7 @@ ROLLS_ENABLED = True
 ROLL_DTE = 7                     # consider a roll when an in-the-money call has this many days or fewer
 
 ROTATION_ENABLED = True
-ROT_RULE = "trend"               # "trend" (beta) | "quality" (calmest, the earlier rule) | "spy" | "off"
+ROT_RULE = "spy"                 # default since the full-list test. "trend" (beta, not confirmed) | "quality" (calmest) | "spy" | "off"
 ROT_MIN_PRICE = 10.0
 ROT_QUALITY_MAX_VOL = 0.40       # "quality" only: one-year realized volatility cap
 ROT_CASH_BUFFER = 0.02           # keep 2% of the purchase aside for slippage

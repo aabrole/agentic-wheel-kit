@@ -25,7 +25,7 @@ The rules, in plain words:
 
 - **Covered calls** on shares you hold: about 35 days out, strike at or above your net cost, one lot always kept free.
 - **Rolls**: when a call is in the money with a week left, roll it up and out, only if that pays a net credit.
-- **Rotation (beta)**: when cash is free, buy the stock with the strongest one-year gain that is above its 200-day average, then sell calls on it.
+- **Called-away cash**: goes to SPY by default. A beta switch on the control panel sends it instead to the stock with the strongest one-year gain above its 200-day average, then sells calls on it. That rule did not hold up on the full 198-stock test (see [RESULTS.md](RESULTS.md)) and says so on every proposal.
 - **Locked guardrails**: never a call below your cost, never through an earnings date, never anything if trade approvals are off, no puts.
 
 You can change the adjustable rules from the control panel. Every change is logged with what it did to the proposals.
@@ -58,7 +58,7 @@ Prefer to have an AI assistant do it? Paste [prompts/SETUP.md](prompts/SETUP.md)
 Use the scenario menu at the top:
 
 - **Sample account**: 300 HOOD shares and a little cash. You get a covered-call proposal.
-- **Made up: 200 HOOD called away**: free cash, so you get a rotation proposal.
+- **Made up: 200 HOOD called away**: free cash, so you get a proposal to move it (to SPY by default, or a rotation buy if you switch the rule to trend).
 - **Made up: roll due**: a call in the money near expiry, so you get a roll proposal.
 
 Approve an order, press **Simulate fill**, and watch the portfolio, scoreboard and log update. Try editing a strike below your cost to see a guardrail stop you.
