@@ -62,13 +62,23 @@ One other row did beat holding and the SPY version, at normal and at double spre
 
 A follow-up test tried to repair the beta rule by skipping any stock that had already more than tripled in a year. The rule was written down before it ran, and it ran once. It did worse: 29.8% against 43.8% for holding and 28.3% for the SPY version, with drops as deep as holding (-36%), and it beat the SPY version in 42% of cases. Removing the stocks that crashed also removed the ones that kept running. The trend rule is not one filter away from working.
 
+**Leftover cash parked in SPY (how the kit runs by default).** The rows above leave cash idle whenever it cannot buy 100 shares. The kit instead parks that cash in SPY and sells it again when it can fund a lot. Tested the same way, on the same 4,050 cases:
+
+| Pick rule, with leftover cash in SPY | Average return | Without parking | Average worst drop | Beat holding | Beat the SPY version |
+|---|---|---|---|---|---|
+| Strongest one-year trend (the kit's beta rule) | 35.9% | 34.9% | -38% | 57% | 47% |
+| Uptrend filter, then highest premium | 46.5% | 45.5% | -37% | 66% | 60% |
+| Highest premium | 41.4% | 40.9% | -40% | 61% | 56% |
+
+Parking added about one point a year and changed no conclusion. The beta rule is still not distinguishable from holding or from the SPY version, and holding still averaged 43.8%. Parking is a small free improvement to where spare cash sits. It does not fix the stock pick.
+
 Over 2.5 years there are only three overlapping start dates (549 cases), so these are descriptions, not evidence: holding +95%, SPY version +69%, the beta rule +91%, uptrend then premium +133%.
 
 ## 4. What the kit does with this
 
 - Base rule: 35-day calls at or above your net cost, one lot always kept free. Tested, modest, locked.
 - Rolls: on, small benefit.
-- Rotation: called-away cash goes to SPY by default, which is what the full run supports. The trend rule is still in the kit as a switch, labelled beta and "not confirmed" on every proposal. Quality and off are the other choices.
+- Called-away cash: committed to the wheel. It buys 100-share lots of the top-ranked stock under the trend rule, which is labelled beta and "not confirmed" on every proposal because it failed the full test. Cash too small for a lot is parked in SPY and sold again when it can fund one. The owner chose this setup knowing the test result. A switch sends all free cash to SPY instead, which is the choice the tests support; quality and off are the other options.
 - Puts: off. Not tested enough.
 - The scoreboard shows premium next to profit and next to "if you had just held", because that gap is the main finding.
 

@@ -255,6 +255,8 @@ def validate(snap: dict):
                       "vol_252": _num(c.get("vol_252"), f"{sym} one-year volatility", E, allow_none=True)})
     out["candidates"] = cands
     out["candidates_as_of"] = str(snap.get("candidates_as_of") or "")
+    parked = _num(snap.get("parked_spy_shares") or 0.0, "parked SPY shares", E)
+    out["parked_spy_shares"] = parked if parked is not None and parked > 0 else 0.0
     return (None, E) if E else (out, [])
 
 
@@ -464,21 +466,42 @@ def rotation_proposals(snap, R, reserved=0.0):
     cands = snap.get("candidates") or []
     as_of = snap.get("candidates_as_of") or "unknown date"
     value = _account_value(snap)
+    # --- parking: cash that cannot buy 100 shares sits in SPY, and parked SPY is buying power
+    sweep = bool(getattr(R, "SWEEP_TO_SPY", False)) and rule in ("trend", "quality")
+    park = getattr(R, "PARK_SYMBOL", "SPY")
+    park_px = float((snap.get("quotes") or {}).get(park)
+                    or next((c["last"] for c in cands if c["symbol"] == park), 0.0) or 0.0)
+    park_held = sum(float(p["shares"]) for p in snap["positions"] if p["symbol"] == park)
+    park_sh = min(float(snap.get("parked_spy_shares") or 0.0), park_held) if sweep and park_px > 0 else 0.0
+    park_val = park_sh * park_px
+    cash_free = free
+    free = free + park_val * (1 - R.ROT_CASH_BUFFER)          # buying power used to pick and size the lot
+
+    def _park_cash(reason):
+        if not sweep or cash_free < getattr(R, "SWEEP_MIN", 25.0):
+            return []
+        return [{"id": _pid(R.VERSION, snap["today"], park, "park", round(cash_free)),
+                 "action": "BUY", "kind": "idle cash to SPY", "symbol": park, "dollars": round(cash_free, 2), "parked": True,
+                 "agreeing_to": f"buy ${cash_free:,.2f} of {park} (fractional shares) with cash that cannot buy 100 shares of an eligible stock",
+                 "why": reason,
+                 "evidence": "Leftover cash held in SPY instead of idle: see RESULTS.md, section 3 (the '+ leftover in SPY' rows).",
+                 "flags": [f"parked {park} is sold again when it can fund a 100-share purchase"], "rejected_strikes": []}]
+
     if rule == "spy":
         if free < 1:
             return [], [{"symbol": "SPY", "reason": "no free cash to move into SPY"}]
         return [{"id": _pid(R.VERSION, snap["today"], "SPY", "cash", round(free)),
-                 "action": "BUY", "kind": "idle cash to SPY", "symbol": "SPY", "dollars": round(free, 2),
+                 "action": "BUY", "kind": "idle cash to SPY", "symbol": "SPY", "dollars": round(free, 2), "parked": True,
                  "agreeing_to": f"buy ${free:,.2f} of SPY (fractional shares) with idle cash",
                  "evidence": "In the plan test, idle cash in SPY was worth about $10,000 more than idle cash at 0% "
                              "over 16 months, more than any options rule added.",
                  "flags": [], "rejected_strikes": []}], []
     if not cands:
-        return [], [{"symbol": "*", "reason": "rotation: no candidate list in the snapshot"}]
+        return _park_cash("no candidate list in the snapshot"), [{"symbol": "*", "reason": "rotation: no candidate list in the snapshot"}]
     ranked, passed_over = [], []
     for c in cands:
         sym, last = c["symbol"], c["last"]
-        if sym in held:
+        if sym in held or (sweep and sym == park):
             continue
         if last < R.ROT_MIN_PRICE or c["sma200"] is None or last <= c["sma200"]:
             continue
@@ -503,10 +526,22 @@ def rotation_proposals(snap, R, reserved=0.0):
     if pick is None:
         why = (f"rotation: free cash ${free:,.0f} does not cover 100 shares of any eligible stock"
                if ranked else "rotation: no stock passes the trend filter")
-        return [], [{"symbol": "*", "reason": why, "rejected": passed_over}]
+        return _park_cash(why.replace("rotation: ", "")), [{"symbol": "*", "reason": why, "rejected": passed_over}]
     sym, c, lots, rank = pick
     limit = round(c["last"] * (1 + R.ROT_LIMIT_PAD), 2)
     cost = round(limit * 100 * lots, 2)
+    if cost > cash_free:
+        # the lot is affordable only with parked SPY: free the cash first, buy on the next run
+        need = round(min(cost * (1 + R.ROT_CASH_BUFFER) - cash_free, park_val), 2)
+        return [{"id": _pid(R.VERSION, snap["today"], park, "unpark", round(need)),
+                 "action": "SELL", "kind": "release parked SPY", "symbol": park, "dollars": need, "parked": True,
+                 "agreeing_to": f"sell ${need:,.2f} of parked {park} to fund {100 * lots} {sym} shares (about ${cost:,.2f}); "
+                                f"the {sym} purchase is proposed on the next run, once this has filled",
+                 "why": f"cash is ${cash_free:,.2f}, parked {park} is worth ${park_val:,.2f}, and 100 shares of {sym} now fit",
+                 "evidence": "Leftover cash held in SPY instead of idle: see RESULTS.md, section 3 (the '+ leftover in SPY' rows).",
+                 "flags": [f"only the {park_sh:.4f} {park} shares this system parked are counted; any other {park} you hold is not touched",
+                           "the stock pick that follows uses a BETA rule that was not confirmed on the full test"],
+                 "rejected_strikes": []}], []
     what = ("strongest one-year gain among stocks above their 200-day average" if rule == "trend"
             else "calmest stock passing the quality filter")
     flags = ["BETA rule, not confirmed: on the full 198-name test it did not clearly beat holding or putting this cash in SPY",

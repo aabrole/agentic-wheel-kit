@@ -38,9 +38,14 @@ ROLLS_ENABLED = True
 ROLL_DTE = 7                     # consider a roll when an in-the-money call has this many days or fewer
 
 ROTATION_ENABLED = True
-ROT_RULE = "spy"                 # default since the full-list test. "trend" (beta, not confirmed) | "quality" (calmest) | "spy" | "off"
+ROT_RULE = "trend"               # "trend" (beta, not confirmed) | "quality" (calmest) | "spy" (all free cash to SPY) | "off"
+SWEEP_TO_SPY = True              # with "trend" or "quality": cash too small for 100 shares is parked in SPY, and
+                                 # parked SPY counts as buying power (it is sold when it can fund a 100-share lot).
+                                 # Owner's choice 2026-11-18: "most committed to the wheel, leftover cash held in SPY".
+SWEEP_MIN = 25.0                 # do not bother parking less than this
 ROT_MIN_PRICE = 10.0
 ROT_QUALITY_MAX_VOL = 0.40       # "quality" only: one-year realized volatility cap
 ROT_CASH_BUFFER = 0.02           # keep 2% of the purchase aside for slippage
 ROT_LIMIT_PAD = 0.002            # buy limit this far above the last price
+PARK_SYMBOL = "SPY"
 ROT_SHOW_RANKS = 6               # how many ranked candidates a proposal lists

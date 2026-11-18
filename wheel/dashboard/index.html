@@ -177,12 +177,13 @@ function propTitle(p){
   if(p.kind==='roll up and out')return `Roll ${p.contracts} ${esc(p.symbol)} call${p.contracts>1?'s':''} up to $${p.strike} (${esc(p.expiry)})`;
   if(p.kind==='rotation stock')return `Buy ${p.shares} ${esc(p.symbol)} shares`;
   if(p.kind==='idle cash to SPY')return `Move ${money(p.dollars)} of idle cash into SPY`;
+  if(p.kind==='release parked SPY')return `Sell ${money(p.dollars)} of parked SPY to fund a stock purchase`;
   return `Sell ${p.contracts} ${esc(p.symbol)} $${p.strike} call${p.contracts>1?'s':''}, expires ${esc(p.expiry)}`;
 }
 function renderProposals(){
   const ps=S.engine.proposals; $('pcount').textContent=ps.length?`(${ps.length})`:'';
   $('proposals').innerHTML=ps.length?ps.map(p=>{
-    const c=p.kind==='roll up and out'?'roll':(p.kind.startsWith('rotation')||p.kind.startsWith('idle'))?'rot':'';
+    const c=p.kind==='roll up and out'?'roll':(p.kind.startsWith('rotation')||p.kind.startsWith('idle')||p.kind.startsWith('release'))?'rot':'';
     const beta=(p.flags||[]).some(f=>f.startsWith('BETA'));
     let kv='';
     if(p.kind==='covered call')kv=`<div><span>Limit </span><b>$${p.limit.toFixed(2)}</b> <span>(not below $${p.limit_floor.toFixed(2)})</span></div><div><span>Credit </span><b>${money(p.credit_if_filled_at_limit)}</b></div><div><span>Stock now </span><b>$${p.spot}</b></div><div><span>Your net cost </span><b>$${p.net_cost_per_share.toFixed(2)}</b></div><div><span>Delta </span><b>${p.delta}</b></div><div><span>Days out </span><b>${p.dte}</b></div><div><span>If assigned </span><b>${signed(p.if_assigned.result_with_premium)}</b></div><div><span>Holding wins above </span><b>$${p.holding_does_better_above}</b></div>`;
@@ -200,6 +201,7 @@ function renderProposals(){
       <div class="t">${propTitle(p)}</div>
       <div class="agree"><b>You are agreeing to:</b> ${esc(p.agreeing_to)}.</div>
       ${p.why_this_stock?`<div style="font-size:13px"><b>Why this one:</b> ${esc(p.why_this_stock)}.</div>`:''}
+      ${p.why?`<div style="font-size:13px"><b>Why:</b> ${esc(p.why)}.</div>`:''}
       ${legs}<div class="kv">${kv}</div>
       ${p.if_not_rolled?`<div style="font-size:13px"><b>If you do nothing:</b> ${esc(p.if_not_rolled)}.</div>`:''}
       ${p.downside?`<div style="font-size:13px"><b>Downside:</b> ${esc(p.downside)}.</div>`:''}

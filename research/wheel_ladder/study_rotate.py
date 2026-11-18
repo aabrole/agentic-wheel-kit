@@ -34,6 +34,14 @@ SETUP (same data, fills, haircuts, fees, dividends and valuation as study_calls2
   This is the 7th pick rule on the same cases and was designed after seeing why ROTM failed.
   A win is a lead for forward paper trading, not a finding. It "holds" only if its interval
   is above zero against BOTH HOLD and the SPY arm at 1x; one run, no tuning of the 200% cutoff.
+  ADDED 2026-11-18 (night) at the owner's request: "most committed to the wheel, leftover cash
+  that cannot be split into 100 shares gets held in SPY". Written before running:
+    <ARM>+S  the same pick rule as <ARM>, but cash is never idle. Each morning any cash is moved
+           into SPY (0.05% half-spread). Buying power for the pick = cash + SPY value. When a
+           100-share lot is affordable from that, enough SPY is sold at the next open (0.05%
+           half-spread) to fund it. Run for ROTM, ROTT and ROTP. This changes where leftovers
+           sit, not which stocks are picked; it is expected to add roughly the SPY return on the
+           idle share of the account and nothing else.
   Quality by fundamentals (profits, margins) is not tested: no point-in-time fundamentals on
   disk, and today's numbers would leak the future. These are the 3rd and 4th pick rules tried
   on the same cases, so a win here needs the full list to confirm it.
@@ -108,6 +116,7 @@ def name_table(u):
 
 
 def pick_name(arm, i, cash, skip):
+    arm = arm.split("+")[0]
     best = None
     for u, t in TAB.items():
         if u in skip or i < t["first_bar"]:
@@ -151,22 +160,29 @@ def simulate(env2, HC, FEE, u0, i0, arm, basis_mult, spy):
     called = 0
     names = []
     vals = [SHARES * px0]
+    sweep = arm.endswith("+S")
     for i in range(i0 + 1, i0 + H + 1):
         for u, p in pos.items():
             if i in div[u]:
                 cash += p["shares"] * div[u][i]
+        so = spy["open"][i]
         if buy is not None:
             o = TAB[buy["u"]]["open"][i]
             if np.isfinite(o):
-                n = int(min(buy["lots"], cash // (o * (1 + STK_HC) * 100)))
+                bp = cash + (spy_sh * so * (1 - STK_HC) if sweep and np.isfinite(so) else 0.0)
+                n = int(min(buy["lots"], bp // (o * (1 + STK_HC) * 100)))
                 if n >= 1:
+                    need = n * 100 * o * (1 + STK_HC) - cash
+                    if need > 0:                       # sell just enough SPY to fund the lot(s)
+                        spy_sh -= need / (so * (1 - STK_HC))
+                        cash += need
                     cash -= n * 100 * o * (1 + STK_HC)
                     pos[buy["u"]] = {"shares": n * 100, "basis": o * (1 + STK_HC), "prem": 0.0, "n0": n * 100,
                                      "free": 0, "opt": None, "pend": None, "last": float(o)}
                     div[buy["u"]] = env2.dividends(buy["u"])
                     names.append(buy["u"])
             buy = None
-        if arm == "SPY" and cash > 0 and np.isfinite(spy["open"][i]):
+        if (arm == "SPY" or sweep) and cash > 0 and np.isfinite(spy["open"][i]):
             spy_sh += cash / (spy["open"][i] * (1 + STK_HC))
             cash = 0.0
         for u in list(pos):
@@ -218,7 +234,8 @@ def simulate(env2, HC, FEE, u0, i0, arm, basis_mult, spy):
                     if pk:
                         p["pend"] = {"sid": pk[0], "K": pk[1], "n": n, "slipped": False}
         if arm.startswith("ROT") and buy is None:
-            b = pick_name(arm, i, cash, set(pos) | {u0})
+            b = pick_name(arm, i, cash + (spy_sh * spy["close"][i] * (1 - STK_HC) if sweep and spy_sh > 0 else 0.0),
+                          set(pos) | {u0})
             if b:
                 buy = {"u": b[1], "lots": b[2]}
     vals = np.array(vals)

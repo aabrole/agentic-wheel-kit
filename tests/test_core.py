@@ -188,10 +188,42 @@ class Loop(Base):
 class Rotation(Base):
     scenario = "after_call_away"
 
-    def test_default_sends_called_away_cash_to_spy(self):
+    def test_spy_rule_sends_all_free_cash_to_spy(self):
+        core.change_settings("staging", {"rules": {"ROT_RULE": "spy"}})
         props = self.st()["engine"]["proposals"]
         self.assertEqual([p["symbol"] for p in props if p["kind"] == "idle cash to SPY"], ["SPY"])
         self.assertFalse([p for p in props if p["kind"] == "rotation stock"])
+
+    def test_buy_a_lot_then_park_the_leftover_then_release_it(self):
+        s = self.st()
+        p = next(x for x in s["engine"]["proposals"] if x["kind"] == "rotation stock")
+        oid = core.decide("staging", p["id"], "approve")["order"]["order_id"]
+        self.assertTrue(core.simulate_fill("staging", oid)["ok"])
+        # the leftover cannot buy another 100 shares: it is offered to SPY, and the fill is tagged as parked
+        snap = core.load_snapshot("staging")
+        snap["candidates"] = [c for c in snap["candidates"] if c["last"] * 100 > float(snap["account"]["cash"])]
+        snap.setdefault("quotes", {}).setdefault("SPY", 600.0)
+        spy = float(snap["quotes"]["SPY"])
+        (core.state_dir("staging") / "snapshot.json").write_text(json.dumps(snap))
+        s = self.st()
+        park = [x for x in s["engine"]["proposals"] if x["kind"] == "idle cash to SPY"]
+        self.assertEqual(len(park), 1)
+        left = park[0]["dollars"]
+        oid = core.decide("staging", park[0]["id"], "approve")["order"]["order_id"]
+        self.assertTrue(core.simulate_fill("staging", oid)["ok"])
+        snap = core.load_snapshot("staging")
+        spy = [e for e in self.events("stock_fill") if e["symbol"] == "SPY"][-1]["price"]
+        self.assertTrue([e for e in self.events("stock_fill") if e["symbol"] == "SPY"][-1].get("parked"))
+        self.assertAlmostEqual(core.parked_shares("staging", snap), left / spy, places=4)
+        self.assertLess(float(snap["account"]["cash"]), 1.0)
+        # selling parked SPY by dollars passes the order checks and reduces the parked count
+        r = core.manual("staging", {"action": "SELL", "symbol": "SPY", "dollars": round(left / 2, 2), "parked": True}, override=True)
+        self.assertTrue(r["ok"], r)
+        self.assertTrue(core.simulate_fill("staging", r["order"]["order_id"])["ok"])
+        self.assertAlmostEqual(core.parked_shares("staging", core.load_snapshot("staging")), left / spy / 2, places=3)
+        # more than is held is blocked
+        r = core.manual("staging", {"action": "SELL", "symbol": "SPY", "dollars": left * 5}, override=True)
+        self.assertFalse(r["ok"])
 
     def test_rotation_buy_then_fill(self):
         core.change_settings("staging", {"rules": {"ROT_RULE": "trend"}})

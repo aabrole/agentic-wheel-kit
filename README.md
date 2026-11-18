@@ -6,7 +6,7 @@ An options wheel that an AI agent prepares and you approve. The engine reads you
 
 It comes with a control panel, two broker connections (Alpaca and Robinhood agent accounts), a server installer, and the tests the rules came from.
 
-> **Real money is possible. Read [DISCLAIMER.md](DISCLAIMER.md) first.** This is not financial advice. The kit starts in practice mode with sending turned off. In testing, selling covered calls did **not** beat holding the shares; it gave smaller drops and less upside. One rule that looked better on a partial stock list failed on the full one; it is still included, off by default, labelled beta and not confirmed. The numbers are in [RESULTS.md](RESULTS.md).
+> **Real money is possible. Read [DISCLAIMER.md](DISCLAIMER.md) first.** This is not financial advice. The kit starts in practice mode with sending turned off. In testing, selling covered calls did **not** beat holding the shares; it gave smaller drops and less upside. One rule that looked better on a partial stock list failed on the full one; it is still the default for called-away cash at the owner's choice, labelled beta and not confirmed, with a one-click switch to SPY. The numbers are in [RESULTS.md](RESULTS.md).
 
 ---
 
@@ -25,7 +25,7 @@ The rules, in plain words:
 
 - **Covered calls** on shares you hold: about 35 days out, strike at or above your net cost, one lot always kept free.
 - **Rolls**: when a call is in the money with a week left, roll it up and out, only if that pays a net credit.
-- **Called-away cash**: goes to SPY by default. A beta switch on the control panel sends it instead to the stock with the strongest one-year gain above its 200-day average, then sells calls on it. That rule did not hold up on the full 198-stock test (see [RESULTS.md](RESULTS.md)) and says so on every proposal.
+- **Called-away cash**: goes back into the wheel. It buys 100 shares of the stock with the strongest one-year gain above its 200-day average, then sells calls on it. Cash too small for 100 shares is parked in SPY and sold again when it can fund a lot. The stock-pick rule did not hold up on the full 198-stock test (see [RESULTS.md](RESULTS.md)) and says so on every proposal. One switch on the control panel sends all free cash to SPY instead, which is what the tests support.
 - **Locked guardrails**: never a call below your cost, never through an earnings date, never anything if trade approvals are off, no puts.
 
 You can change the adjustable rules from the control panel. Every change is logged with what it did to the proposals.
@@ -58,7 +58,7 @@ Prefer to have an AI assistant do it? Paste [prompts/SETUP.md](prompts/SETUP.md)
 Use the scenario menu at the top:
 
 - **Sample account**: 300 HOOD shares and a little cash. You get a covered-call proposal.
-- **Made up: 200 HOOD called away**: free cash, so you get a proposal to move it (to SPY by default, or a rotation buy if you switch the rule to trend).
+- **Made up: 200 HOOD called away**: free cash, so you get a rotation buy, and the leftover is offered to SPY.
 - **Made up: roll due**: a call in the money near expiry, so you get a roll proposal.
 
 Approve an order, press **Simulate fill**, and watch the portfolio, scoreboard and log update. Try editing a strike below your cost to see a guardrail stop you.

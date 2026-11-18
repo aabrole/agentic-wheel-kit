@@ -116,6 +116,10 @@ def _card(p):
         head = f"Roll {p['contracts']} {p['symbol']} calls up to ${p['strike']:g} ({p['expiry']}) for about ${p['credit_if_filled_at_limit']:,.0f}"
     elif p["kind"] == "rotation stock":
         head = f"BETA rule: buy {p['shares']} {p['symbol']} at up to ${p['limit']:,.2f} (${p['cost']:,.0f})"
+    elif p["kind"] == "idle cash to SPY":
+        head = f"Park ${p['dollars']:,.0f} of leftover cash in SPY"
+    elif p["kind"] == "release parked SPY":
+        head = f"Sell ${p['dollars']:,.0f} of parked SPY to fund a stock purchase"
     else:
         head = f"{p['action']} {p['symbol']} ({p['kind']})"
     lines = [head, f"You are agreeing to: {p['agreeing_to']}."] + [f"Note: {f}" for f in p.get("flags", [])[:3]]

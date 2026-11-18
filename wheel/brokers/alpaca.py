@@ -128,7 +128,7 @@ def _order_body(leg):
                 "type": "limit", "limit_price": f"{float(leg.get('limit_max') or leg['limit']):.2f}" if leg["action"] == "BUY TO CLOSE" else f"{float(leg['limit']):.2f}",
                 "time_in_force": "day", "position_intent": "sell_to_open" if leg["action"] == "SELL TO OPEN" else "buy_to_close"}
     if leg.get("dollars"):
-        return {"symbol": leg["symbol"], "notional": f"{float(leg['dollars']):.2f}", "side": "buy", "type": "market", "time_in_force": "day"}
+        return {"symbol": leg["symbol"], "notional": f"{float(leg['dollars']):.2f}", "side": leg["action"].lower(), "type": "market", "time_in_force": "day"}
     return {"symbol": leg["symbol"], "qty": str(leg["shares"]), "side": leg["action"].lower(), "type": "limit",
             "limit_price": f"{float(leg['limit']):.2f}", "time_in_force": "day"}
 

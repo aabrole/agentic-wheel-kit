@@ -127,14 +127,58 @@ class Rotation(unittest.TestCase):
         self.assertEqual((p["symbol"], p["shares"]), ("BIG", 200))
 
     def test_nothing_when_cash_is_short(self):
-        out = engine.propose(self.snap(2000.0), rules(ROT_RULE="trend"))
+        out = engine.propose(self.snap(2000.0), rules(ROT_RULE="trend", SWEEP_TO_SPY=False))
         self.assertEqual(self.rot(out), [])
         self.assertTrue(any("does not cover 100 shares" in x["reason"] for x in out["skipped"]))
 
     def test_cash_securing_puts_is_not_free(self):
         s = self.snap(9000.0)
         s["short_options"] = [{"symbol": "ZZZ", "type": "put", "strike": 60.0, "expiry": "2026-12-24", "contracts": 1}]
-        self.assertEqual(self.rot(engine.propose(s, rules(ROT_RULE="trend"))), [])
+        self.assertEqual(self.rot(engine.propose(s, rules(ROT_RULE="trend", SWEEP_TO_SPY=False))), [])
+        park = self.rot(engine.propose(s, rules(ROT_RULE="trend")))
+        self.assertEqual([(p["symbol"], p["dollars"]) for p in park], [("SPY", 3000.0)])   # never the $6,000 behind the put
+
+    # ---- leftover cash is parked in SPY, and parked SPY funds the next 100-share lot
+    def park_snap(self, cash, spy_shares, parked):
+        s = self.snap(cash)
+        s["quotes"]["SPY"] = 600.0
+        if spy_shares:
+            s["positions"].append({"symbol": "SPY", "shares": spy_shares, "avg_cost": 590.0})
+        s["parked_spy_shares"] = parked
+        return s
+
+    def test_leftover_cash_is_parked_in_spy(self):
+        out = engine.propose(self.park_snap(2000.0, 0, 0), rules(ROT_RULE="trend"))
+        p = self.rot(out)
+        self.assertEqual([(x["action"], x["symbol"], x["dollars"], x.get("parked")) for x in p], [("BUY", "SPY", 2000.0, True)])
+        self.assertEqual(self.rot(engine.propose(self.park_snap(10.0, 0, 0), rules(ROT_RULE="trend"))), [])  # under SWEEP_MIN
+
+    def test_a_buy_from_cash_does_not_also_park(self):
+        out = engine.propose(self.park_snap(9000.0, 0, 0), rules(ROT_RULE="trend"))
+        self.assertEqual([(x["kind"], x["symbol"]) for x in self.rot(out)], [("rotation stock", "RUN")])
+
+    def test_parked_spy_is_sold_to_fund_a_lot(self):
+        # $1,000 cash + 6 parked SPY ($3,600) covers 100 RUN at about $4,008; cash alone does not
+        out = engine.propose(self.park_snap(1000.0, 6.0, 6.0), rules(ROT_RULE="trend"))
+        p = [x for x in out["proposals"] if x["kind"] == "release parked SPY"]
+        self.assertEqual(len(p), 1)
+        self.assertEqual((p[0]["action"], p[0]["symbol"]), ("SELL", "SPY"))
+        self.assertGreaterEqual(1000.0 + p[0]["dollars"], 4008.0)
+        self.assertLessEqual(p[0]["dollars"], 3600.0)
+        self.assertEqual(self.rot(out), [])                                  # the stock buy waits for the next run
+
+    def test_spy_the_owner_bought_is_never_counted(self):
+        # 6 SPY held but none of it was parked by the system: it is not buying power
+        out = engine.propose(self.park_snap(1000.0, 6.0, 0.0), rules(ROT_RULE="trend"))
+        self.assertFalse([x for x in out["proposals"] if x["kind"] == "release parked SPY"])
+        # a parked figure larger than what is held is capped at what is held
+        out = engine.propose(self.park_snap(1000.0, 1.0, 50.0), rules(ROT_RULE="trend"))
+        self.assertFalse([x for x in out["proposals"] if x["kind"] == "release parked SPY"])
+
+    def test_bad_parked_number_rejects_the_snapshot(self):
+        s = self.park_snap(1000.0, 6.0, 6.0)
+        s["parked_spy_shares"] = "lots"
+        self.assertTrue(engine.propose(s, rules(ROT_RULE="trend"))["blocked"])
 
     def test_quality_rule_picks_calmest(self):
         p = self.rot(engine.propose(self.snap(9000.0), rules(ROT_RULE="quality")))[0]

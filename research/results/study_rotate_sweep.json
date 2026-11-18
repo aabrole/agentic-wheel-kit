@@ -1,0 +1,296 @@
+{
+ "AT": {
+  "cases": 4050,
+  "names": 196,
+  "HOLD": {
+   "mean_ret": 0.438,
+   "mean_dd": -0.336,
+   "p10_ret": -0.2785
+  },
+  "SPY": {
+   "mean_ret": 0.2828,
+   "p10_ret": -0.0685,
+   "mean_dd": -0.236,
+   "premium_yield": 0.0391,
+   "called_away_share": 0.866,
+   "mean_lots_end": 1.27,
+   "share_with_more_than_3_lots": 0.0,
+   "rotations_per_case": 0.0,
+   "vs_HOLD": {
+    "log_diff": 0.0078,
+    "diff_90pct": [
+     -0.0195,
+     0.0333
+    ],
+    "better_share": 0.564
+   }
+  },
+  "ROTM+S": {
+   "mean_ret": 0.359,
+   "p10_ret": -0.2162,
+   "mean_dd": -0.3756,
+   "premium_yield": 0.2728,
+   "called_away_share": 0.923,
+   "mean_lots_end": 16.96,
+   "share_with_more_than_3_lots": 0.828,
+   "rotations_per_case": 15.15,
+   "vs_HOLD": {
+    "log_diff": 0.0318,
+    "diff_90pct": [
+     -0.0602,
+     0.1291
+    ],
+    "better_share": 0.565
+   },
+   "vs_SPY_arm": {
+    "log_diff": 0.0239,
+    "diff_90pct": [
+     -0.0919,
+     0.1469
+    ],
+    "better_share": 0.469
+   },
+   "most_rotated_into": {
+    "RGTI": 5635,
+    "QUBT": 4413,
+    "UMAC": 4119,
+    "RKLB": 3952,
+    "WULF": 3516,
+    "ASTS": 3244,
+    "CIFR": 2980,
+    "IREN": 2545,
+    "SOFI": 2497,
+    "LUNR": 2477,
+    "SOUN": 2303,
+    "SMR": 2173
+   }
+  },
+  "ROTT+S": {
+   "mean_ret": 0.4646,
+   "p10_ret": -0.1603,
+   "mean_dd": -0.3743,
+   "premium_yield": 0.3293,
+   "called_away_share": 0.924,
+   "mean_lots_end": 18.87,
+   "share_with_more_than_3_lots": 0.868,
+   "rotations_per_case": 15.55,
+   "vs_HOLD": {
+    "log_diff": 0.1051,
+    "diff_90pct": [
+     0.0605,
+     0.1517
+    ],
+    "better_share": 0.659
+   },
+   "vs_SPY_arm": {
+    "log_diff": 0.0972,
+    "diff_90pct": [
+     0.0692,
+     0.1233
+    ],
+    "better_share": 0.604
+   },
+   "most_rotated_into": {
+    "UMAC": 5304,
+    "LUNR": 4946,
+    "CIFR": 4578,
+    "IREN": 3454,
+    "RGTI": 3420,
+    "CLSK": 3246,
+    "QUBT": 3224,
+    "OKLO": 2725,
+    "WULF": 2711,
+    "SOUN": 2548,
+    "RIOT": 2508,
+    "HUT": 2250
+   }
+  },
+  "ROTP+S": {
+   "mean_ret": 0.4142,
+   "p10_ret": -0.2121,
+   "mean_dd": -0.3958,
+   "premium_yield": 0.3579,
+   "called_away_share": 0.953,
+   "mean_lots_end": 29.76,
+   "share_with_more_than_3_lots": 0.934,
+   "rotations_per_case": 20.58,
+   "vs_HOLD": {
+    "log_diff": 0.063,
+    "diff_90pct": [
+     -0.0131,
+     0.1358
+    ],
+    "better_share": 0.61
+   },
+   "vs_SPY_arm": {
+    "log_diff": 0.0551,
+    "diff_90pct": [
+     -0.0476,
+     0.1529
+    ],
+    "better_share": 0.563
+   },
+   "most_rotated_into": {
+    "UMAC": 6937,
+    "CIFR": 6512,
+    "QUBT": 4991,
+    "WULF": 4844,
+    "LUNR": 4760,
+    "PTON": 3998,
+    "SOUN": 3835,
+    "BBAI": 3829,
+    "RGTI": 3530,
+    "ACHR": 3393,
+    "IREN": 3119,
+    "SNAP": 2847
+   }
+  }
+ },
+ "UNDER": {
+  "cases": 4050,
+  "names": 196,
+  "HOLD": {
+   "mean_ret": 0.438,
+   "mean_dd": -0.336,
+   "p10_ret": -0.2785
+  },
+  "SPY": {
+   "mean_ret": 0.2913,
+   "p10_ret": -0.2091,
+   "mean_dd": -0.2692,
+   "premium_yield": 0.0336,
+   "called_away_share": 0.556,
+   "mean_lots_end": 1.89,
+   "share_with_more_than_3_lots": 0.0,
+   "rotations_per_case": 0.0,
+   "vs_HOLD": {
+    "log_diff": -0.0008,
+    "diff_90pct": [
+     -0.0215,
+     0.0188
+    ],
+    "better_share": 0.677
+   }
+  },
+  "ROTM+S": {
+   "mean_ret": 0.312,
+   "p10_ret": -0.2323,
+   "mean_dd": -0.338,
+   "premium_yield": 0.1551,
+   "called_away_share": 0.667,
+   "mean_lots_end": 10.36,
+   "share_with_more_than_3_lots": 0.654,
+   "rotations_per_case": 6.8,
+   "vs_HOLD": {
+    "log_diff": -0.0052,
+    "diff_90pct": [
+     -0.0391,
+     0.0299
+    ],
+    "better_share": 0.645
+   },
+   "vs_SPY_arm": {
+    "log_diff": -0.0044,
+    "diff_90pct": [
+     -0.0571,
+     0.0519
+    ],
+    "better_share": 0.372
+   },
+   "most_rotated_into": {
+    "RGTI": 2768,
+    "QUBT": 2481,
+    "UMAC": 2357,
+    "WULF": 1983,
+    "CIFR": 1647,
+    "RKLB": 1470,
+    "ASTS": 1219,
+    "ACHR": 1183,
+    "IREN": 1145,
+    "LUNR": 1120,
+    "SOUN": 1059,
+    "SMR": 914
+   }
+  },
+  "ROTT+S": {
+   "mean_ret": 0.4025,
+   "p10_ret": -0.2129,
+   "mean_dd": -0.3352,
+   "premium_yield": 0.1951,
+   "called_away_share": 0.671,
+   "mean_lots_end": 12.37,
+   "share_with_more_than_3_lots": 0.684,
+   "rotations_per_case": 7.26,
+   "vs_HOLD": {
+    "log_diff": 0.0494,
+    "diff_90pct": [
+     0.0067,
+     0.0903
+    ],
+    "better_share": 0.713
+   },
+   "vs_SPY_arm": {
+    "log_diff": 0.0501,
+    "diff_90pct": [
+     0.0207,
+     0.0761
+    ],
+    "better_share": 0.463
+   },
+   "most_rotated_into": {
+    "UMAC": 3134,
+    "LUNR": 2725,
+    "CIFR": 2653,
+    "CLSK": 1768,
+    "RGTI": 1666,
+    "QUBT": 1567,
+    "IREN": 1562,
+    "WULF": 1310,
+    "SOUN": 1253,
+    "CLF": 1134,
+    "OKLO": 1121,
+    "RIOT": 1032
+   }
+  },
+  "ROTP+S": {
+   "mean_ret": 0.354,
+   "p10_ret": -0.2375,
+   "mean_dd": -0.3489,
+   "premium_yield": 0.2083,
+   "called_away_share": 0.756,
+   "mean_lots_end": 18.94,
+   "share_with_more_than_3_lots": 0.837,
+   "rotations_per_case": 10.09,
+   "vs_HOLD": {
+    "log_diff": 0.016,
+    "diff_90pct": [
+     -0.0131,
+     0.0442
+    ],
+    "better_share": 0.657
+   },
+   "vs_SPY_arm": {
+    "log_diff": 0.0167,
+    "diff_90pct": [
+     -0.0302,
+     0.0623
+    ],
+    "better_share": 0.475
+   },
+   "most_rotated_into": {
+    "UMAC": 3910,
+    "CIFR": 3544,
+    "BBAI": 2723,
+    "QUBT": 2600,
+    "WULF": 2575,
+    "LUNR": 2215,
+    "PTON": 2197,
+    "OPEN": 1981,
+    "ACHR": 1824,
+    "SOUN": 1781,
+    "RGTI": 1654,
+    "SNAP": 1527
+   }
+  }
+ }
+}

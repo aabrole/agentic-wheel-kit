@@ -44,6 +44,7 @@ ADJUSTABLE = {
     "ROLLS_ENABLED": ("bool", None, None, "Propose rolling in-the-money calls up and out for a credit"),
     "ROT_RULE": ("choice", ["trend", "quality", "spy", "off"], None,
                  "Where free cash goes: trend (beta: strongest one-year gain), quality (calmest), spy, or off"),
+    "SWEEP_TO_SPY": ("bool", None, None, "With trend or quality: park cash that cannot buy 100 shares in SPY, and sell it when it can"),
     "MAX_PROPOSALS": ("int", 1, 8, "Most proposals shown per run"),
 }
 LOCKED = [
@@ -152,7 +153,19 @@ def with_premium(mode, snap: dict) -> dict:
         if v:
             np_[p["symbol"]] = round(float(np_.get(p["symbol"], 0.0)) + v, 4)
     s["net_premium"] = np_
+    s["parked_spy_shares"] = parked_shares(mode, s)
     return s
+
+
+def parked_shares(mode, snap) -> float:
+    """SPY shares this system bought to park leftover cash, less what it sold back. Never more
+    than the SPY actually held, so SPY the owner bought separately is not counted."""
+    n = 0.0
+    for e in _lines(state_dir(mode) / "journal.jsonl"):
+        if e.get("event") == "stock_fill" and e.get("parked") and e.get("symbol") == spec_v2.PARK_SYMBOL:
+            n += float(e.get("shares") or 0.0) * (1 if e.get("side") == "buy" else -1)
+    held = sum(float(p["shares"]) for p in snap["positions"] if p["symbol"] == spec_v2.PARK_SYMBOL)
+    return round(max(0.0, min(n, held)), 6)
 
 
 def run_engine(mode, settings=None) -> dict:
@@ -275,14 +288,20 @@ def check_order(mode, snap: dict, R, leg: dict) -> dict:
             if value > 0 and cost / value > 0.40:
                 warns.append(f"This puts {cost / value:.0%} of the account into one purchase.")
         elif act == "SELL":
-            sh = float(leg["shares"])
+            quote = float((s.get("quotes") or {}).get(sym) or 0.0)
+            if leg.get("dollars"):
+                if quote <= 0:
+                    blocks.append(f"No price for {sym}, so a dollar amount cannot be checked.")
+                sh = float(leg["dollars"]) / quote if quote > 0 else 0.0
+            else:
+                sh = float(leg["shares"])
             have = float(pos["shares"]) if pos else 0.0
             short = sum(int(o["contracts"]) for o in s["short_options"] if o["symbol"] == sym and o["type"] == "call")
             if sh <= 0 or sh > have + 1e-9:
                 blocks.append(f"You hold {have:g} {sym} shares.")
             elif have - sh < short * 100:
                 blocks.append(f"{short} calls are open against {sym}: selling {sh:g} shares would leave them uncovered. Close the calls first.")
-            if pos and float(leg.get("limit") or 0) < float(pos["avg_cost"]):
+            if pos and float(leg.get("limit") or (quote if leg.get("dollars") else 0)) < float(pos["avg_cost"]):
                 warns.append(f"Selling below your average cost of ${float(pos['avg_cost']):.2f} realizes a loss.")
         else:
             blocks.append(f"Unknown order type {act!r}.")
@@ -296,9 +315,11 @@ def legs_of(p: dict) -> list:
     """Broker orders a proposal turns into."""
     if p["kind"] == "roll up and out":
         return [{"instrument": "option", "symbol": p["symbol"], **{k: v for k, v in leg.items()}} for leg in p["legs"]]
-    if p["kind"] in ("rotation stock", "idle cash to SPY"):
-        leg = {"instrument": "stock", "action": "BUY", "symbol": p["symbol"]}
+    if p["kind"] in ("rotation stock", "idle cash to SPY", "release parked SPY"):
+        leg = {"instrument": "stock", "action": p["action"], "symbol": p["symbol"]}
         leg.update({"dollars": p["dollars"]} if p.get("dollars") else {"shares": p["shares"], "limit": p["limit"]})
+        if p.get("parked"):
+            leg["parked"] = True
         return [leg]
     return [{"instrument": "option", "action": "SELL TO OPEN", "symbol": p["symbol"],
              "type": "call" if "call" in p["kind"] else "put", "strike": p["strike"], "expiry": p["expiry"],
@@ -389,8 +410,12 @@ def record_fills(mode, order, fills) -> None:
                        "price": f["price"], "fees": round(spec_v2.FEE_PER_CONTRACT * n, 2),
                        "strike": float(leg["strike"]), "expiry": str(leg["expiry"])})
         else:
+            sh = f.get("qty") or leg.get("shares")
+            if not sh and leg.get("dollars") and float(f.get("price") or 0) > 0:
+                sh = round(float(leg["dollars"]) / float(f["price"]), 6)
             log(mode, {"event": "stock_fill", "order_id": order["order_id"], "symbol": leg["symbol"],
-                       "side": leg["action"].lower(), "shares": f.get("qty") or leg.get("shares"), "price": f["price"]})
+                       "side": leg["action"].lower(), "shares": sh, "price": f["price"],
+                       **({"parked": True} if leg.get("parked") else {})})
 
 
 def cancel(mode, oid) -> dict:
@@ -493,7 +518,8 @@ def apply_leg(snap: dict, leg: dict, price: float, R) -> list:
             pos["shares"] = round(float(pos["shares"]) - sh, 6)
             snap["positions"] = [p for p in snap["positions"] if float(p["shares"]) > 1e-9]
         snap.setdefault("quotes", {}).setdefault(sym, price)
-        ev.append({"event": "stock_fill", "symbol": sym, "side": act.lower(), "shares": round(sh, 6), "price": price})
+        ev.append({"event": "stock_fill", "symbol": sym, "side": act.lower(), "shares": round(sh, 6), "price": price,
+                   **({"parked": True} if leg.get("parked") else {})})
     return ev
 
 
