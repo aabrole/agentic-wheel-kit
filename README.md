@@ -6,7 +6,7 @@ An options wheel that an AI agent prepares and you approve. The engine reads you
 
 It comes with a control panel, two broker connections (Alpaca and Robinhood agent accounts), a server installer, and the tests the rules came from.
 
-> **Real money is possible. Read [DISCLAIMER.md](DISCLAIMER.md) first.** This is not financial advice. The kit starts in practice mode with sending turned off. In testing, selling covered calls did **not** beat holding the shares; it gave smaller drops and less upside. One rule that did better is labelled beta. The numbers are in [RESULTS.md](RESULTS.md).
+> **Real money is possible. Read [DISCLAIMER.md](DISCLAIMER.md) first.** This is not financial advice. The kit starts in practice mode with sending turned off. In testing, selling covered calls did **not** beat holding the shares; it gave smaller drops and less upside. One rule that looked better on a partial stock list failed on the full one; it is still included, off by default, labelled beta and not confirmed. The numbers are in [RESULTS.md](RESULTS.md).
 
 ---
 
