@@ -121,9 +121,22 @@ svg{display:block;width:100%;height:150px}
     </div>
   </div>
 </div>
+<div class="panel"><h2>Improvement loop</h2>
+  <div class="grid">
+    <div>
+      <h3 style="margin-top:0">Your goals (the assistant reads these)</h3>
+      <textarea id="g_text" rows="5" style="width:100%;border:1px solid var(--line);background:var(--panel);color:inherit;border-radius:8px;padding:8px;font:inherit" placeholder="Example: steady income over maximum growth. I do not want a drop bigger than 25%. Keep one HOOD lot free. Prefer fewer, larger positions."></textarea>
+      <div class="acts"><button id="g_save">Save goals</button><span id="g_out" class="mute"></span></div>
+      <h3>Notebook</h3><div id="notes"></div>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Suggestions <span class="mute" id="tune_note"></span></h3><div id="suggestions"></div>
+    </div>
+  </div>
+</div>
 <div class="panel"><h2>Decision log</h2>
   <div class="form" style="margin-bottom:8px"><label>Filter<input id="l_q" placeholder="symbol or word"></label>
-    <label>Type<select id="l_type"><option value="">Everything</option><option value="decision">Your decisions</option><option value="proposed">Proposals</option><option value="order_queued">Orders</option><option value="fill">Option fills</option><option value="stock_fill">Stock fills</option><option value="assigned">Call-aways</option><option value="settings">Setting changes</option><option value="run">Engine runs</option></select></label></div>
+    <label>Type<select id="l_type"><option value="">Everything</option><option value="decision">Your decisions</option><option value="proposed">Proposals</option><option value="order_queued">Orders</option><option value="fill">Option fills</option><option value="stock_fill">Stock fills</option><option value="assigned">Call-aways</option><option value="settings">Setting changes</option><option value="suggestion">Suggestions</option><option value="note">Notes</option><option value="run">Engine runs</option></select></label></div>
   <div id="log"></div>
 </div>
 </div>
@@ -157,7 +170,7 @@ function render(){
     tile('Premium collected',money(B.premium_collected),'gross, before buy-backs')+
     tile('Net option cash',money(B.net_option_cash),'after buy-backs and fees',cls(B.net_option_cash))+
     tile('Versus just holding',signed(B.vs_just_held),'same start, no trades',cls(B.vs_just_held));
-  renderProposals(); renderPortfolio(); renderOutbox(); renderScore(); renderChart(); renderSettings(); renderLog();
+  renderProposals(); renderPortfolio(); renderOutbox(); renderScore(); renderChart(); renderSettings(); renderLoop(); renderLog();
 }
 
 function propTitle(p){
@@ -262,6 +275,18 @@ function settingChanges(){
 }
 $('s_preview').onclick=async()=>{const r=await post('/api/preview',{changes:settingChanges()});$('s_out').innerHTML=r.ok?`<div class="confirm"><b>${r.changed?'This changes what the engine proposes.':'No change to the proposals.'}</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px"><div><div class="mute">Now</div>${r.now.map(x=>`<div>${esc(x)}</div>`).join('')||'<div>nothing</div>'}</div><div><div class="mute">After</div>${r.after.map(x=>`<div>${esc(x)}</div>`).join('')||'<div>nothing</div>'}</div></div></div>`:`<div class="err">${esc(r.error)}</div>`;};
 $('s_save').onclick=async()=>{const r=await post('/api/settings',{changes:settingChanges(),note:$('s_note').value});if(r.ok){$('s_note').value='';$('s_out').innerHTML='<div class="okmsg">Saved and logged.</div>';load();}else $('s_out').innerHTML=`<div class="err">${esc(r.error)}</div>`;};
+
+function renderLoop(){
+  const L=S.loop; if(!L)return;
+  if(document.activeElement!==$('g_text'))$('g_text').value=L.goals||'';
+  $('tune_note').textContent=L.agent_can_tune?'(the assistant may apply changes inside the allowed ranges)':'(only you can adopt one)';
+  $('notes').innerHTML=L.notes.length?L.notes.map(n=>`<div style="padding:5px 0;border-bottom:1px solid var(--soft);font-size:13px"><span class="mute">${esc(n.at.slice(0,10))} · ${esc(n.source)}</span><br>${esc(n.text)}</div>`).join(''):'<div class="mute">Empty. The assistant writes here after each review: what happened, what it learned, what to watch.</div>';
+  $('suggestions').innerHTML=L.suggestions.length?L.suggestions.map(s=>`<div class="card ${s.status!=='open'?'done':''}" data-sid="${s.id}"><div><span class="chip">${esc(s.source)}</span><span class="chip ${s.status==='adopted'?'ok':''}">${esc(s.status)}</span></div><div class="t" style="font-size:15px">${esc(s.title)}</div><div style="font-size:13px">${esc(s.why)}</div>${s.change?`<div class="flag">Would change: ${esc([...Object.entries(s.change.rules||{}).map(([k,v])=>k+' to '+v),...Object.entries(s.change.uncovered_lots||{}).map(([k,v])=>k+' lots kept free to '+v)].join(', '))}</div>`:'<div class="mute" style="font-size:12.5px">No setting attached: a note for you or for a test.</div>'}<div style="font-size:13px;margin-top:4px"><b>Test result:</b> ${s.test_result?esc(s.test_result):'<span class="mute">not tested yet</span>'}</div>${s.status==='open'?`<div class="acts">${s.change?'<button class="small" data-sa="preview">Preview</button>':''}<button class="small primary" data-sa="adopt">Adopt</button><button class="small danger" data-sa="reject">Reject</button></div>`:''}<div data-out></div></div>`).join(''):'<div class="mute">None yet. A suggestion is one proposed change with a reason. It gets tested, then you adopt or reject it.</div>';
+}
+$('g_save').onclick=async()=>{const r=await post('/api/goals',{text:$('g_text').value});$('g_out').textContent=r.ok?'Saved.':r.error;};
+$('suggestions').addEventListener('click',async e=>{const b=e.target.closest('button[data-sa]');if(!b)return;const card=b.closest('.card'),id=card.dataset.sid,out=card.querySelector('[data-out]'),s=S.loop.suggestions.find(x=>x.id===id);
+  if(b.dataset.sa==='preview'){const r=await post('/api/preview',{changes:s.change});out.innerHTML=r.ok?`<div class="confirm"><b>${r.changed?'Changes the proposals:':'No change to the proposals right now.'}</b><div>Now: ${r.now.map(esc).join('; ')||'nothing'}</div><div>After: ${r.after.map(esc).join('; ')||'nothing'}</div></div>`:`<div class="err">${esc(r.error)}</div>`;return;}
+  const r=await post('/api/suggestion',{id,decision:b.dataset.sa});if(r.ok)load();else out.innerHTML=`<div class="err">${esc(r.error)}</div>`;});
 
 function renderLog(){
   const q=$('l_q').value.toLowerCase(),t=$('l_type').value;

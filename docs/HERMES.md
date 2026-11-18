@@ -76,13 +76,32 @@ Talk to it any time: "what is the wheel doing?", "what is open?", "how did last 
 
 Hermes's Telegram and the kit's own Telegram buttons are separate. Hermes sends you reports. The kit's buttons (above) are what approve or decline a proposal.
 
+## The improvement loop
+
+The kit has a loop built in, and it shows on the control panel under "Improvement loop".
+
+| Step | Who | Where |
+|---|---|---|
+| 1. Goals | You | Control panel, "Your goals" |
+| 2. Do the work | The engine and you | Proposals, approvals, fills |
+| 3. Write it down | The assistant (Hermes) | Notebook, after each weekly review |
+| 4. Suggest one change | The assistant | Suggestions list |
+| 5. Test it | The contractor (Codex or Claude Code) | `prompts/CONTRACTOR.md` |
+| 6. Adopt or reject | You | Suggestions list |
+| 7. Check whether it helped | The assistant | Next weekly reviews |
+
+A suggestion can carry a settings change. The kit checks it the moment it is filed: only the adjustable settings, inside their tested ranges. A locked rule (calls never below cost, no trading with approvals off, no puts) cannot even be proposed.
+
+**Letting the assistant apply changes itself.** Set `WHEEL_AGENT_CAN_TUNE=1` in `.env` and Hermes may adopt a suggestion on its own, inside the same ranges, logged and reversible from the control panel. It ships as 0. The author's advice is to leave it at 0 for the first months: a wheel makes one or two trades a week, which is too little to tell a better setting from a lucky stretch, so the testing step matters more than the speed.
+
 ## Rules for the agent
 
 The `wheel-desk` skill already carries these. If you use a different agent, give it the same standing instructions:
 
 - It may run `read`, `sync`, `notify`, `status` and `cycle`.
-- It may **not** approve or decline a proposal, edit `.env`, edit anything in `wheel/`, or change settings.
-- It may suggest a rule change in the weekly review. A suggestion is tested first (see `prompts/RUN_FULL_TEST.md`) and you make the change yourself from the control panel.
+- It may also run `goals`, `notes`, `note`, `suggest` and `suggestions`.
+- It may **not** approve or decline a proposal, edit `.env`, or edit anything in `wheel/` or `state/`.
+- It files at most one suggestion a week. A suggestion is tested first (see `prompts/CONTRACTOR.md`) and you adopt it from the control panel, unless you switched on `WHEEL_AGENT_CAN_TUNE`.
 - It reports premium and profit together, never premium alone.
 
 The reason for the last two: a week or a month of your own trades is far too little to tell a better rule from a lucky stretch. An agent that tunes rules on recent results will chase whatever just worked.

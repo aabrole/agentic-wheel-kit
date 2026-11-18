@@ -1,7 +1,7 @@
 ---
 name: wheel-desk
-description: Run the Agentic Wheel Kit's daily cycle, report proposals and results to the owner, and write the weekly review. Never approves trades and never changes rules.
-version: 1.0.0
+description: Run the Agentic Wheel Kit's daily cycle, report to the owner, write the weekly review, and run the improvement loop (notebook and tested suggestions). Never approves trades.
+version: 1.1.0
 platforms: [macos, linux]
 metadata:
   hermes:
@@ -27,13 +27,27 @@ You are the bookkeeper for an options wheel the owner runs with the Agentic Whee
    - `.venv/bin/python -m wheel.agent sync`
    - `.venv/bin/python -m wheel.agent notify`
    - `.venv/bin/python -m wheel.agent status`
+   - `.venv/bin/python -m wheel.agent goals`, `notes`, `suggestions`
+   - `.venv/bin/python -m wheel.agent note "..."` and `suggest "title" "why" ['{json change}']`
+   - `.venv/bin/python -m wheel.agent tune <id>` (the kit refuses this unless the owner switched it on)
    and you may read files under `__KIT_DIR__/state/live/`.
 2. Never approve, edit or decline a proposal. Never run `wheel.agent send` by itself, `wheel.agent telegram` or `wheel.agent connect`.
-3. Never edit `.env`, anything under `wheel/`, or `state/live/settings.json`. Never change `WHEEL_SEND`.
+3. Never edit `.env`, anything under `wheel/`, or any file under `state/`. Never change `WHEEL_SEND`. The only way you change anything is through the `note`, `suggest` and `tune` commands, which check and log what you do.
 4. Never report premium without the profit figure next to it.
-5. You may suggest one rule change in the weekly review, phrased as something to test. Do not act on it. One week of trades is far too little to judge a rule, so never suggest a change because of a single week's result.
+5. At most one new suggestion a week. One week of trades is far too little to judge a rule, so never suggest a change because of a single week's result: look for a pattern across at least four weeks of notes, or a mismatch between what is happening and the owner's goals.
 6. If a command fails or the output says "Blocked" or "Snapshot rejected", report the exact message and stop. Do not try to fix the account or the kit.
 7. This is not financial advice and you do not give any. Report what the engine proposed and what happened.
+
+## The improvement loop
+
+This is how the desk gets better over time. It has four parts and you own two of them.
+
+1. **Goals** (the owner writes them): `wheel.agent goals`. Read them before every review. Everything you report and suggest is judged against these.
+2. **Notebook** (you write it): after every weekly review, add two or three notes with `wheel.agent note "..."`: what happened, what you learned about this account or this owner, and what to watch next week. Read `wheel.agent notes` before each review so you build on earlier weeks instead of starting fresh.
+3. **Suggestions** (you file them): `wheel.agent suggest "title" "why"` and, when the idea is a setting, the change as JSON, for example `'{"rules": {"CALL_DELTA_TARGET": 0.25}}'` or `'{"uncovered_lots": {"HOOD": 2}}'`. The kit rejects anything outside the adjustable ranges, so do not try to propose a locked rule.
+4. **Test, then decide** (not yours): a coding agent (the contractor) tests the suggestion on historical data and records the result. The owner adopts or rejects it on the control panel. If the owner has switched on `WHEEL_AGENT_CAN_TUNE`, you may run `wheel.agent tune <id>` for a suggestion that has a test result recorded and that the owner's goals clearly support; say that you did, and why, in your next message.
+
+In each weekly review, check `wheel.agent suggestions`: for every adopted one, say what changed since. That is how you find out whether your own ideas helped.
 
 ## Procedure: morning run
 
@@ -58,7 +72,9 @@ From `state/live/journal.jsonl` and the status line, write under 250 words, in t
 4. What the owner approved, edited or declined, and every guardrail they overrode with the reason they gave.
 5. Each call still open: strike, days left, in or out of the money.
 6. Earnings dates in the next 45 days for anything held (from `snapshot.json`).
-7. At most one suggestion, as something to test.
+7. Suggestions: the status of open ones, what has happened since any adopted one, and at most one new one (file it with `wheel.agent suggest`).
+
+Then run the notebook step of the improvement loop.
 
 ## Pitfalls
 

@@ -10,6 +10,15 @@ agent.py - the part that talks to the outside world. Run from the repo root:
     python3 -m wheel.agent telegram    # long-running: Approve / Decline buttons in Telegram
     python3 -m wheel.agent status
 
+The improvement loop (what an assistant such as Hermes uses):
+    python3 -m wheel.agent goals                      # print the owner's goals
+    python3 -m wheel.agent notes                      # print the notebook
+    python3 -m wheel.agent note "text"                # add a note to the notebook
+    python3 -m wheel.agent suggest "title" "why" ['{"rules": {"CALL_DELTA_TARGET": 0.25}}']
+    python3 -m wheel.agent suggestions                # list suggestions and their status
+    python3 -m wheel.agent tested <id> "result"       # record a test result (the contractor does this)
+    python3 -m wheel.agent tune <id>                  # apply a suggestion. Refused unless WHEEL_AGENT_CAN_TUNE=1
+
 It never decides a trade. The engine proposes from the rules, the owner approves on the dashboard
 (or in Telegram), and only then does `send` carry the order to the broker.
 """
@@ -181,6 +190,26 @@ def status():
           f"orders waiting {sum(o['status'] == 'queued' for o in st['outbox'])}")
 
 
+def _loop(cmd, args):
+    if cmd == "goals":
+        print(core.goals(MODE) or "(no goals written yet: the owner sets them on the control panel)")
+    elif cmd == "notes":
+        for n in core.notes(MODE)[::-1]:
+            print(f"{n['at'][:10]} [{n['source']}] {n['text']}")
+    elif cmd == "note":
+        print(core.add_note(MODE, " ".join(args), "assistant"))
+    elif cmd == "suggest":
+        change = json.loads(args[2]) if len(args) > 2 else None
+        print(core.add_suggestion(MODE, args[0] if args else "", args[1] if len(args) > 1 else "", change, "assistant"))
+    elif cmd == "suggestions":
+        for s in core.suggestions(MODE):
+            print(f"{s['id']} [{s['status']}] {s['title']} | change: {json.dumps(s.get('change'))} | test: {s.get('test_result')}")
+    elif cmd == "tested":
+        print(core.suggestion_tested(MODE, args[0], " ".join(args[1:])))
+    elif cmd == "tune":
+        print(core.suggestion_decide(MODE, args[0], "adopt", "applied by the assistant", "assistant"))
+
+
 def cycle():
     read()
     sync()
@@ -190,6 +219,9 @@ def cycle():
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
+    if cmd in ("goals", "notes", "note", "suggest", "suggestions", "tested", "tune"):
+        _loop(cmd, sys.argv[2:])
+        sys.exit(0)
     fn = {"read": read, "send": send, "sync": sync, "notify": notify, "telegram": telegram, "connect": connect,
           "status": status, "cycle": cycle}.get(cmd)
     if not fn:

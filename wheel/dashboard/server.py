@@ -53,6 +53,14 @@ def act(path, b):
         return core.simulate_fill(MODE, b.get("order_id"))
     if path == "/api/expiry":
         return core.simulate_expiry(MODE, b.get("symbol"), b.get("strike"), b.get("expiry"), b.get("outcome"))
+    if path == "/api/goals":
+        return core.set_goals(MODE, b.get("text", ""))
+    if path == "/api/note":
+        return core.add_note(MODE, b.get("text", ""), "you")
+    if path == "/api/suggest":
+        return core.add_suggestion(MODE, b.get("title"), b.get("why"), b.get("change"), "you")
+    if path == "/api/suggestion":
+        return core.suggestion_decide(MODE, b.get("id"), b.get("decision"), b.get("note", ""), "you")
     if path == "/api/scenario":
         if MODE != "staging":
             return {"ok": False, "error": "Scenarios exist only in staging."}

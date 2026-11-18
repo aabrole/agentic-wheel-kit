@@ -555,6 +555,103 @@ def simulate_expiry(mode, sym, strike, expiry, outcome) -> dict:
     return {"ok": True}
 
 
+# ------------------------------------------------------------------ the improvement loop
+# Goals (the owner writes them), notes (the assistant's notebook) and suggestions (one proposed
+# change at a time, with a status). A suggestion that names a settings change is checked against
+# ADJUSTABLE the moment it is filed, so nothing outside those bounds can even be proposed.
+AGENT_CAN_TUNE = config.get("WHEEL_AGENT_CAN_TUNE", "0") == "1"
+
+
+def goals(mode) -> str:
+    p = state_dir(mode) / "goals.md"
+    return p.read_text() if p.exists() else ""
+
+
+def set_goals(mode, text, source="you") -> dict:
+    text = str(text or "").strip()[:4000]
+    (state_dir(mode) / "goals.md").write_text(text + "\n")
+    log(mode, {"event": "goals", "source": source, "text": text})
+    return {"ok": True}
+
+
+def add_note(mode, text, source="assistant") -> dict:
+    text = str(text or "").strip()[:2000]
+    if not text:
+        return {"ok": False, "error": "Empty note."}
+    log(mode, {"event": "note", "source": source, "text": text})
+    return {"ok": True}
+
+
+def notes(mode, limit=30) -> list:
+    return [{"at": e["at"], "source": e.get("source"), "text": e["text"]}
+            for e in _lines(state_dir(mode) / "journal.jsonl") if e.get("event") == "note"][::-1][:limit]
+
+
+def suggestions(mode) -> list:
+    latest = {}
+    for s in _lines(state_dir(mode) / "suggestions.jsonl"):
+        latest[s["id"]] = {**latest.get(s["id"], {}), **s}
+    return sorted(latest.values(), key=lambda s: s["created"], reverse=True)
+
+
+def _put_suggestion(mode, rec) -> None:
+    with (state_dir(mode) / "suggestions.jsonl").open("a") as f:
+        f.write(json.dumps(rec, sort_keys=True) + "\n")
+
+
+def add_suggestion(mode, title, why, change=None, source="assistant") -> dict:
+    title, why = str(title or "").strip()[:200], str(why or "").strip()[:2000]
+    if not title or not why:
+        return {"ok": False, "error": "A suggestion needs a title and a reason."}
+    clean = None
+    if change:
+        clean, errors = clean_settings(change)
+        if errors:
+            return {"ok": False, "error": "That change is outside what can be adjusted: " + " ".join(errors)}
+        if not clean["rules"] and not clean["uncovered_lots"]:
+            clean = None
+    if sum(1 for s in suggestions(mode) if s["status"] == "open" and s.get("source") == source) >= 3:
+        return {"ok": False, "error": "Three suggestions from this source are already open. Resolve one first."}
+    sid = hashlib.sha1(f"{now()}|{title}".encode()).hexdigest()[:8]
+    rec = {"id": sid, "created": now(), "source": source, "title": title, "why": why, "change": clean,
+           "status": "open", "test_result": None}
+    _put_suggestion(mode, rec)
+    log(mode, {"event": "suggestion", "id": sid, "source": source, "title": title, "why": why, "change": clean})
+    return {"ok": True, "id": sid}
+
+
+def suggestion_tested(mode, sid, result, source="contractor") -> dict:
+    s = next((x for x in suggestions(mode) if x["id"] == sid), None)
+    if not s:
+        return {"ok": False, "error": "No such suggestion."}
+    result = str(result or "").strip()[:2000]
+    _put_suggestion(mode, {"id": sid, "test_result": result, "tested_at": now(), "tested_by": source})
+    log(mode, {"event": "suggestion_tested", "id": sid, "source": source, "title": s["title"], "result": result})
+    return {"ok": True}
+
+
+def suggestion_decide(mode, sid, decision, note="", source="you") -> dict:
+    """adopt (apply its settings change, if it has one) or reject. `source` says who decided."""
+    s = next((x for x in suggestions(mode) if x["id"] == sid), None)
+    if not s or s["status"] != "open":
+        return {"ok": False, "error": "That suggestion is not open."}
+    if decision == "adopt":
+        if source != "you" and not AGENT_CAN_TUNE:
+            return {"ok": False, "error": "Only the owner can adopt a suggestion (WHEEL_AGENT_CAN_TUNE is 0)."}
+        if source != "you" and not s.get("change"):
+            return {"ok": False, "error": "This suggestion has no settings change the assistant could apply."}
+        if s.get("change"):
+            r = change_settings(mode, s["change"], f"adopted suggestion {sid}: {s['title']}" + (f" ({note})" if note else ""))
+            if not r["ok"]:
+                return r
+    elif decision != "reject":
+        return {"ok": False, "error": "Decision must be adopt or reject."}
+    status = "adopted" if decision == "adopt" else "rejected"
+    _put_suggestion(mode, {"id": sid, "status": status, "decided_at": now(), "decided_by": source, "decision_note": note})
+    log(mode, {"event": "suggestion_decided", "id": sid, "decision": status, "by": source, "title": s["title"], "note": note})
+    return {"ok": True}
+
+
 # ------------------------------------------------------------------ scoreboard, history, log
 def scoreboard(mode, pf: dict) -> dict:
     ev = _lines(state_dir(mode) / "journal.jsonl")
@@ -631,6 +728,18 @@ def _say(e: dict) -> str:
         return f"Settings changed: {json.dumps(e['after'])}" + (f". Note: {e['note']}" if e.get("note") else "")
     if k == "scenario":
         return f"Staging scenario loaded: {e.get('name')}"
+    if k == "note":
+        return f"Note from {e.get('source')}: {e['text']}"
+    if k == "goals":
+        return "Goals updated"
+    if k == "suggestion":
+        return f"Suggestion from {e.get('source')}: {e['title']}"
+    if k == "suggestion_tested":
+        return f"Suggestion tested by {e.get('source')}: {e['title']}. Result: {e['result']}"
+    if k == "suggestion_decided":
+        return f"Suggestion {e['decision']} by {e.get('by')}: {e['title']}"
+    if k == "order_sent":
+        return f"Order {e['order_id']} sent to {e.get('broker')}"
     return k or "?"
 
 
@@ -661,4 +770,6 @@ def full_state(mode) -> dict:
     return {"mode": mode, "send_enabled": SEND_ENABLED and mode == "live", "broker": snap.get("broker") or config.BROKER,
             "generated": now(), "engine": out, "portfolio": pf,
             "outbox": outbox(mode), "settings": settings_view(settings), "scoreboard": scoreboard(mode, pf),
-            "history": history(mode), "log": decision_log(mode)}
+            "history": history(mode), "log": decision_log(mode),
+            "loop": {"goals": goals(mode), "notes": notes(mode), "suggestions": suggestions(mode),
+                     "agent_can_tune": AGENT_CAN_TUNE}}

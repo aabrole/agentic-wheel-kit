@@ -110,7 +110,7 @@ bash deploy/hermes.sh                                                  # add the
 hermes gateway setup && hermes gateway start                           # connect your phone
 ```
 
-Hermes reports and reminds. It is told never to approve a trade or change a rule. See [docs/HERMES.md](docs/HERMES.md) for details and for the kit's own Telegram Approve and Decline buttons.
+Hermes reports, keeps a notebook, and files one suggestion at a time. A coding agent tests the suggestion and you adopt or reject it on the control panel. That is the improvement loop. Hermes is told never to approve a trade, and it cannot touch a locked rule. See [docs/HERMES.md](docs/HERMES.md) for details and for the kit's own Telegram Approve and Decline buttons.
 
 ## Run the tests on your own data
 
@@ -128,14 +128,15 @@ It takes several hours and a few gigabytes of disk. The results describe one str
 | `wheel/agent.py` | Reads the account, sends approved orders, Telegram. |
 | `deploy/` | Server install script and services, and `hermes.sh` for the Hermes layer. |
 | `hermes/` | The `wheel-desk` skill Hermes loads. |
+| `prompts/` | Setup, full test rerun, weekly review, and the contractor prompt that tests a suggestion. |
 | `research/` | The test code and the small data files it needs. Downloaded option prices are not included. |
-| `tests/` | 59 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
+| `tests/` | 63 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
 
 ## What is and is not verified
 
 | Part | Status |
 |---|---|
-| Engine, guardrails, control panel | Tested (59 automated tests, clicked through in a browser) |
+| Engine, guardrails, control panel | Tested (63 automated tests, clicked through in a browser) |
 | Alpaca: reading an account | Run against a real paper account |
 | Alpaca: sending orders | Tested against a fake connection only. Not yet run on a paper account. |
 | Robinhood: connecting | Connection code is from a kit that ran a live stock bot |

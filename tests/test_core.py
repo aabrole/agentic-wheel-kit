@@ -130,6 +130,51 @@ class Real(Base):
         self.assertFalse(core.simulate_expiry("live", "HOOD", 85, "2026-12-24", "assigned")["ok"])
 
 
+class Loop(Base):
+    def test_goals_notes_and_suggestions(self):
+        core.set_goals("staging", "Income over growth. No drop over 25%.")
+        self.assertIn("Income over growth", core.goals("staging"))
+        self.assertTrue(core.add_note("staging", "Week 1: one call sold, nothing called away.")["ok"])
+        self.assertEqual(len(core.notes("staging")), 1)
+        bad = core.add_suggestion("staging", "Sell below cost", "more premium", {"rules": {"CALL_FLOOR": "none"}})
+        self.assertFalse(bad["ok"])                                         # locked rules cannot even be proposed
+        self.assertFalse(core.add_suggestion("staging", "Short calls", "x", {"rules": {"CALL_DTE_TARGET": 7}})["ok"])
+        ok = core.add_suggestion("staging", "Aim for 0.25 delta", "called away twice in a month", {"rules": {"CALL_DELTA_TARGET": 0.25}})
+        self.assertTrue(ok["ok"])
+        st = self.st()["loop"]
+        self.assertEqual((len(st["suggestions"]), st["suggestions"][0]["status"]), (1, "open"))
+
+    def test_assistant_cannot_adopt_unless_switched_on_and_owner_can(self):
+        sid = core.add_suggestion("staging", "Keep two lots free", "more upside", {"uncovered_lots": {"HOOD": 2}})["id"]
+        r = core.suggestion_decide("staging", sid, "adopt", source="assistant")
+        self.assertFalse(r["ok"])
+        self.assertEqual(self.st()["engine"]["proposals"][0]["contracts"], 2)       # unchanged
+        core.suggestion_tested("staging", sid, "On 891 cases: +1.1 points, drop 1 point deeper.")
+        self.assertTrue(core.suggestion_decide("staging", sid, "adopt", "matches my goals")["ok"])
+        self.assertEqual(self.st()["engine"]["proposals"][0]["contracts"], 1)       # applied
+        s = self.st()["loop"]["suggestions"][0]
+        self.assertEqual((s["status"], s["decided_by"]), ("adopted", "you"))
+        self.assertIn("891 cases", s["test_result"])
+        self.assertFalse(core.suggestion_decide("staging", sid, "reject")["ok"])   # already decided
+
+    def test_assistant_can_tune_only_inside_bounds_when_switched_on(self):
+        old = core.AGENT_CAN_TUNE
+        core.AGENT_CAN_TUNE = True
+        try:
+            sid = core.add_suggestion("staging", "Keep two lots free", "more upside", {"uncovered_lots": {"HOOD": 2}})["id"]
+            self.assertTrue(core.suggestion_decide("staging", sid, "adopt", source="assistant")["ok"])
+            self.assertEqual(self.events("settings")[-1]["after"]["uncovered_lots"], {"HOOD": 2})
+            note_only = core.add_suggestion("staging", "Watch earnings week", "calls shortened twice")["id"]
+            self.assertFalse(core.suggestion_decide("staging", note_only, "adopt", source="assistant")["ok"])
+        finally:
+            core.AGENT_CAN_TUNE = old
+
+    def test_open_suggestions_are_capped(self):
+        for i in range(3):
+            self.assertTrue(core.add_suggestion("staging", f"idea {i}", "why")["ok"])
+        self.assertFalse(core.add_suggestion("staging", "idea 4", "why")["ok"])
+
+
 class Rotation(Base):
     scenario = "after_call_away"
 
