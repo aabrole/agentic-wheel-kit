@@ -60,6 +60,8 @@ On 118 stocks the same rule had looked like a winner (40.1% against 35.3%). Addi
 
 One other row did beat holding and the SPY version, at normal and at double spread cost: filter for stocks in an uptrend, then pick the highest premium. Treat it as a lead, not a finding. It was the sixth pick rule tried on the same cases, it was not the rule chosen beforehand, its drops were deeper than holding, and its average return was within 2 points of simply holding. It needs a test on data it has not seen.
 
+A follow-up test tried to repair the beta rule by skipping any stock that had already more than tripled in a year. The rule was written down before it ran, and it ran once. It did worse: 29.8% against 43.8% for holding and 28.3% for the SPY version, with drops as deep as holding (-36%), and it beat the SPY version in 42% of cases. Removing the stocks that crashed also removed the ones that kept running. The trend rule is not one filter away from working.
+
 Over 2.5 years there are only three overlapping start dates (549 cases), so these are descriptions, not evidence: holding +95%, SPY version +69%, the beta rule +91%, uptrend then premium +133%.
 
 ## 4. What the kit does with this

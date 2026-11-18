@@ -27,6 +27,13 @@ SETUP (same data, fills, haircuts, fees, dividends and valuation as study_calls2
     ROTM   strongest trend: price >= $10 and above its 200-day average (no volatility cap),
            highest trailing 252-session return first.
     ROTT   trend plus premium: same two conditions, highest at-the-money implied vol first.
+  ADDED 2026-11-18 (evening), AFTER the full-list run showed ROTM failing because it bought names
+  that had already gone vertical (RGTI, QUBT, UMAC, RKLB, WULF). Written before running:
+    ROTF   ROTM with one more exclusion: skip any name whose trailing 252-session return is
+           above +200% (it has more than tripled). Highest remaining return first.
+  This is the 7th pick rule on the same cases and was designed after seeing why ROTM failed.
+  A win is a lead for forward paper trading, not a finding. It "holds" only if its interval
+  is above zero against BOTH HOLD and the SPY arm at 1x; one run, no tuning of the 200% cutoff.
   Quality by fundamentals (profits, margins) is not tested: no point-in-time fundamentals on
   disk, and today's numbers would leak the future. These are the 3rd and 4th pick rules tried
   on the same cases, so a win here needs the full list to confirm it.
@@ -63,7 +70,10 @@ H = int(os.environ.get("ROT_H", "252"))      # ROT_H=630 (2.5 years) added 2026-
 STARTS = ("2024-02-01", "2025-10-31")        # "over years it is exponential". Descriptive only: 3 overlapping starts.
 DTE, DELTA = 35, 0.30
 STK_HC = 0.0005
-ARMS = ("IDLE", "SPY", "ROTQ", "ROTP", "ROTM", "ROTT")
+ARMS = ("IDLE", "SPY", "ROTQ", "ROTP", "ROTM", "ROTT", "ROTF")
+if os.environ.get("ROT_ARMS"):          # speed only: run a subset of arms (results per arm are unchanged)
+    ARMS = tuple(os.environ["ROT_ARMS"].split(","))
+ROTF_MAX_MOM = 2.0
 TAB = SPYT = None                # set in each worker by _init()
 
 
@@ -111,6 +121,10 @@ def pick_name(arm, i, cash, skip):
             key = (t["vol"][i], u)
         elif arm == "ROTM":
             if not t["trend"][i] or not np.isfinite(t["mom"][i]):
+                continue
+            key = (-t["mom"][i], u)
+        elif arm == "ROTF":
+            if not t["trend"][i] or not np.isfinite(t["mom"][i]) or t["mom"][i] > ROTF_MAX_MOM:
                 continue
             key = (-t["mom"][i], u)
         elif arm == "ROTT":
@@ -292,7 +306,7 @@ def main():
     with Pool(6, initializer=_init, initargs=(tab, spyt), maxtasksperchild=6) as p:
         rows = [r for part in p.map(run_name, list(tab), chunksize=1) for r in part]
     df = pd.DataFrame(rows)
-    tag = ("" if S2.HAIRCUT_MULT == 1 else f"_haircut{S2.HAIRCUT_MULT:g}x") + ("" if H == 252 else f"_h{H}")
+    tag = ("" if S2.HAIRCUT_MULT == 1 else f"_haircut{S2.HAIRCUT_MULT:g}x") + ("" if H == 252 else f"_h{H}") + os.environ.get("ROT_TAG", "")
     df.to_csv(HERE / "results" / f"study_rotate_cases{tag}.csv", index=False)
     out = summarize(df)
     (HERE / "results" / f"study_rotate{tag}.json").write_text(json.dumps(out, indent=1))

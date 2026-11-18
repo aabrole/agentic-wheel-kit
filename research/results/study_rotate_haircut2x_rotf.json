@@ -1,0 +1,136 @@
+{
+ "AT": {
+  "cases": 4050,
+  "names": 196,
+  "HOLD": {
+   "mean_ret": 0.438,
+   "mean_dd": -0.336,
+   "p10_ret": -0.2785
+  },
+  "SPY": {
+   "mean_ret": 0.2794,
+   "p10_ret": -0.0722,
+   "mean_dd": -0.2369,
+   "premium_yield": 0.036,
+   "called_away_share": 0.863,
+   "mean_lots_end": 1.27,
+   "share_with_more_than_3_lots": 0.0,
+   "rotations_per_case": 0.0,
+   "vs_HOLD": {
+    "log_diff": 0.005,
+    "diff_90pct": [
+     -0.0224,
+     0.0306
+    ],
+    "better_share": 0.56
+   }
+  },
+  "ROTF": {
+   "mean_ret": 0.2798,
+   "p10_ret": -0.2248,
+   "mean_dd": -0.3635,
+   "premium_yield": 0.1928,
+   "called_away_share": 0.918,
+   "mean_lots_end": 12.5,
+   "share_with_more_than_3_lots": 0.81,
+   "rotations_per_case": 12.87,
+   "vs_HOLD": {
+    "log_diff": -0.0198,
+    "diff_90pct": [
+     -0.0677,
+     0.0303
+    ],
+    "better_share": 0.515
+   },
+   "vs_SPY_arm": {
+    "log_diff": -0.0248,
+    "diff_90pct": [
+     -0.0975,
+     0.0531
+    ],
+    "better_share": 0.382
+   },
+   "most_rotated_into": {
+    "SOFI": 4384,
+    "RIOT": 3043,
+    "JOBY": 2696,
+    "HUT": 2438,
+    "SOUN": 2413,
+    "WULF": 2408,
+    "IREN": 2007,
+    "F": 1949,
+    "HIMS": 1905,
+    "UMAC": 1854,
+    "LUNR": 1830,
+    "ACHR": 1686
+   }
+  }
+ },
+ "UNDER": {
+  "cases": 4050,
+  "names": 196,
+  "HOLD": {
+   "mean_ret": 0.438,
+   "mean_dd": -0.336,
+   "p10_ret": -0.2785
+  },
+  "SPY": {
+   "mean_ret": 0.2879,
+   "p10_ret": -0.2122,
+   "mean_dd": -0.27,
+   "premium_yield": 0.0303,
+   "called_away_share": 0.555,
+   "mean_lots_end": 1.89,
+   "share_with_more_than_3_lots": 0.0,
+   "rotations_per_case": 0.0,
+   "vs_HOLD": {
+    "log_diff": -0.0035,
+    "diff_90pct": [
+     -0.0233,
+     0.0153
+    ],
+    "better_share": 0.674
+   }
+  },
+  "ROTF": {
+   "mean_ret": 0.2786,
+   "p10_ret": -0.2277,
+   "mean_dd": -0.3286,
+   "premium_yield": 0.1177,
+   "called_away_share": 0.656,
+   "mean_lots_end": 8.61,
+   "share_with_more_than_3_lots": 0.627,
+   "rotations_per_case": 6.06,
+   "vs_HOLD": {
+    "log_diff": -0.0227,
+    "diff_90pct": [
+     -0.0361,
+     -0.0104
+    ],
+    "better_share": 0.554
+   },
+   "vs_SPY_arm": {
+    "log_diff": -0.0192,
+    "diff_90pct": [
+     -0.0489,
+     0.009
+    ],
+    "better_share": 0.321
+   },
+   "most_rotated_into": {
+    "SOFI": 2111,
+    "RIOT": 1480,
+    "WULF": 1395,
+    "JOBY": 1369,
+    "UMAC": 1264,
+    "SOUN": 1147,
+    "HUT": 1110,
+    "IREN": 1031,
+    "LUNR": 986,
+    "F": 948,
+    "CLF": 927,
+    "ACHR": 900
+   }
+  }
+ }
+}
