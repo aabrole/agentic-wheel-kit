@@ -1,0 +1,9 @@
+[Unit]
+Description=Agentic wheel kit: cycle weekdays 09:45 and 15:15 ET
+
+[Timer]
+OnCalendar=Mon..Fri 09:45 America/New_York
+OnCalendar=Mon..Fri 15:15 America/New_York
+
+[Install]
+WantedBy=timers.target

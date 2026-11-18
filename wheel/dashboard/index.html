@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wheel control panel</title>
+<style>
+:root{--bg:#f4f5f2;--panel:#fff;--ink:#14171c;--mute:#5d646d;--line:#dfe1dc;--soft:#eef0eb;
+ --good:#1f7a4d;--bad:#b3372b;--warn:#8a5a0b;--warnbg:#fff6df;--accent:#1d4f91;--accentbg:#e8f0fb;--chip:#e9ebe6}
+@media (prefers-color-scheme:dark){:root{--bg:#101215;--panel:#181b20;--ink:#eceef1;--mute:#98a0aa;--line:#2a2f37;--soft:#1f2329;
+ --good:#4cc38a;--bad:#f0776a;--warn:#e6b455;--warnbg:#2b2413;--accent:#7fb0f5;--accentbg:#16243a;--chip:#252a31}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:18px 16px 80px}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-size:24px;margin:0 6px 0 0;letter-spacing:-.4px}
+h2{font-size:16px;margin:0 0 10px;letter-spacing:-.1px}
+h3{font-size:13px;margin:14px 0 6px;color:var(--mute);text-transform:uppercase;letter-spacing:.6px}
+.badge{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid var(--line);background:var(--panel);white-space:nowrap}
+.badge.staging{background:var(--warnbg);color:var(--warn);border-color:transparent}
+.badge.live{color:var(--good)} .badge.off{color:var(--bad)}
+.sp{flex:1}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 13px;font-weight:600}
+button:hover{border-color:var(--mute)}
+button.primary{background:var(--good);border-color:var(--good);color:#fff}
+button.danger{color:var(--bad)}
+button.small{padding:3px 9px;font-size:12.5px;font-weight:600}
+button:disabled{opacity:.45;cursor:default}
+input,select{border:1px solid var(--line);background:var(--panel);border-radius:7px;padding:6px 8px;min-width:0}
+input[type=number]{width:92px}
+.note{background:var(--warnbg);color:var(--warn);border-radius:9px;padding:9px 12px;margin:12px 0 0;font-size:13px}
+.note.real{background:var(--accentbg);color:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:14px 0}
+@media (max-width:1000px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+.tile .k{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.6px;font-weight:700}
+.tile .v{font-size:22px;font-weight:800;letter-spacing:-.6px;font-variant-numeric:tabular-nums;margin-top:2px}
+.tile .s{font-size:12px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px;min-width:0}
+.card{border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:10px;border-left:4px solid var(--accent)}
+.card.roll{border-left-color:var(--warn)} .card.rot{border-left-color:var(--good)}
+.card.done{opacity:.6}
+.card .t{font-size:16px;font-weight:800;letter-spacing:-.2px}
+.card .agree{margin:5px 0 8px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px;font-size:13px;margin:6px 0}
+.kv div span{color:var(--mute)} .kv div b{font-variant-numeric:tabular-nums}
+.flag{font-size:12.5px;color:var(--warn);background:var(--warnbg);border-radius:6px;padding:4px 8px;margin:4px 0}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;background:var(--chip);color:var(--mute);margin-right:5px;text-transform:uppercase;letter-spacing:.4px}
+.chip.beta{background:var(--warnbg);color:var(--warn)} .chip.sim{background:var(--warnbg);color:var(--warn)}
+.chip.ok{background:var(--accentbg);color:var(--accent)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:9px}
+details{margin-top:6px;font-size:13px} summary{cursor:pointer;color:var(--accent);font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.5px;padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{text-align:right;padding:6px;border-bottom:1px solid var(--soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td.l,th.l{text-align:left;white-space:normal}
+.scroll{overflow-x:auto}
+.pos{color:var(--good)} .neg{color:var(--bad)} .mute{color:var(--mute)}
+.form{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.form label{display:flex;flex-direction:column;font-size:11.5px;color:var(--mute);font-weight:600;gap:3px}
+.confirm{border:1.5px solid var(--warn);background:var(--warnbg);border-radius:10px;padding:10px 12px;margin-top:10px}
+.confirm ul{margin:6px 0 8px 18px;padding:0}
+.err{color:var(--bad);font-weight:600;margin-top:8px}
+.okmsg{color:var(--good);font-weight:600;margin-top:8px}
+.set{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--soft)}
+.set .a{font-size:13px} .set .n{font-size:11px;color:var(--mute)}
+.lock{font-size:13px;padding:4px 0;color:var(--mute)}
+.logrow{display:grid;grid-template-columns:150px 64px minmax(0,1fr);gap:10px;padding:6px 0;border-bottom:1px solid var(--soft);font-size:13px}
+.logrow .w{color:var(--mute);font-variant-numeric:tabular-nums;font-size:12px}
+pre{background:var(--soft);border-radius:7px;padding:8px;overflow:auto;font-size:11.5px;margin:6px 0 0}
+svg{display:block;width:100%;height:150px}
+.legend{font-size:12px;color:var(--mute);display:flex;gap:14px;margin-top:4px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+</style>
+<div class="wrap">
+<header>
+  <h1>Wheel control panel</h1>
+  <span id="mode" class="badge"></span><span id="send" class="badge"></span><span id="ver" class="badge"></span><span id="date" class="badge"></span>
+  <span class="sp"></span>
+  <select id="scenario" title="Staging scenario" hidden></select>
+  <button id="run">Run engine</button>
+</header>
+<div id="snapnote"></div>
+<div id="blocked"></div>
+<div class="tiles" id="tiles"></div>
+
+<div class="grid">
+  <div>
+    <div class="panel"><h2>Proposals <span class="mute" id="pcount"></span></h2><div id="proposals"></div>
+      <h3>Heads-up</h3><div id="notices" class="mute">Nothing needs attention.</div>
+      <details><summary>What the engine looked at and did not propose</summary><div id="skipped"></div></details>
+    </div>
+    <div class="panel"><h2>Orders waiting to be sent</h2><div id="outbox"></div></div>
+    <div class="panel"><h2>Place your own order</h2>
+      <div class="form" id="manual">
+        <label>Order<select id="m_action"><option value="SELL TO OPEN">Sell a covered call</option><option value="BUY TO CLOSE">Buy a call back</option><option value="BUY">Buy shares</option><option value="SELL">Sell shares</option></select></label>
+        <label>Symbol<input id="m_symbol" size="7" placeholder="HOOD"></label>
+        <label class="opt">Strike<input id="m_strike" type="number" step="0.5"></label>
+        <label class="opt">Expiry<input id="m_expiry" type="date"></label>
+        <label class="opt">Contracts<input id="m_contracts" type="number" min="1" step="1" value="1"></label>
+        <label class="stk">Shares<input id="m_shares" type="number" min="1" step="1" value="100"></label>
+        <label>Limit price<input id="m_limit" type="number" step="0.01"></label>
+        <label style="flex:1;min-width:140px">Why (goes in the log)<input id="m_note" placeholder="optional"></label>
+        <button id="m_go">Check and queue</button>
+      </div>
+      <div id="m_out"></div>
+    </div>
+  </div>
+  <div>
+    <div class="panel"><h2>Portfolio</h2><div class="scroll" id="positions"></div><h3>Calls you have sold</h3><div class="scroll" id="shorts"></div></div>
+    <div class="panel"><h2>Scoreboard: premium is not profit</h2><div id="score"></div><h3>By week</h3><div class="scroll" id="weeks"></div></div>
+    <div class="panel"><h2>History</h2><div id="chart"></div></div>
+    <div class="panel"><h2>Rules in force</h2><div id="settings"></div>
+      <div class="acts"><button id="s_preview">Preview the effect</button><button id="s_save" class="primary">Save changes</button><input id="s_note" placeholder="Why (goes in the log)" style="flex:1"></div>
+      <div id="s_out"></div>
+      <h3>Locked: cannot be changed here</h3><div id="locked"></div>
+    </div>
+  </div>
+</div>
+<div class="panel"><h2>Decision log</h2>
+  <div class="form" style="margin-bottom:8px"><label>Filter<input id="l_q" placeholder="symbol or word"></label>
+    <label>Type<select id="l_type"><option value="">Everything</option><option value="decision">Your decisions</option><option value="proposed">Proposals</option><option value="order_queued">Orders</option><option value="fill">Option fills</option><option value="stock_fill">Stock fills</option><option value="assigned">Call-aways</option><option value="settings">Setting changes</option><option value="run">Engine runs</option></select></label></div>
+  <div id="log"></div>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=(x,d=2)=>x==null?'n/a':(x<0?'-':'')+'$'+Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const signed=x=>x==null?'n/a':(x>=0?'+':'-')+'$'+Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=x=>x==null?'n/a':(x>=0?'+':'')+(x*100).toFixed(1)+'%';
+const cls=x=>x==null?'':(x>=0?'pos':'neg');
+let S=null, edits={};
+async function post(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json','X-Wheel':'1'},body:JSON.stringify(body||{})});return r.json();}
+async function load(){const r=await fetch('/api/state');S=await r.json();render();}
+function tile(k,v,s,c){return `<div class="tile"><div class="k">${esc(k)}</div><div class="v ${c||''}">${v}</div><div class="s">${s||''}</div></div>`;}
+
+function render(){
+  const st=S.mode==='staging';
+  $('mode').textContent=st?'STAGING: nothing here is a real order':'LIVE'; $('mode').className='badge '+(st?'staging':'live');
+  $('send').textContent='Sending to '+(S.broker||'broker')+': '+(S.send_enabled?'ON':'OFF'); $('send').className='badge '+(S.send_enabled?'live':'off');
+  $('ver').textContent='Rules '+S.settings.version;
+  if(S.empty){$('proposals').innerHTML='<div class="mute">No account snapshot yet.</div>';return;}
+  const P=S.portfolio,E=S.engine,B=S.scoreboard;
+  $('date').textContent='Account read '+P.today;
+  if(S.scenarios&&S.scenarios.length){const sel=$('scenario');sel.hidden=false;sel.innerHTML='<option value="">Load a staging scenario…</option>'+S.scenarios.map(s=>`<option value="${esc(s.name)}">${esc(s.label)}</option>`).join('');}
+  $('snapnote').innerHTML=P.note?`<div class="note ${P.note.startsWith('SAMPLE')?'real':''}">${esc(P.note)}</div>`:'';
+  $('blocked').innerHTML=E.blocked.map(b=>`<div class="note"><b>Blocked:</b> ${esc(b)}</div>`).join('');
+  $('tiles').innerHTML=
+    tile('Account value',money(P.account_value),'stock + cash, less open calls')+
+    tile('Cash',money(P.cash),'free to deploy')+
+    tile('Calls out',P.calls_out+' <span class="mute" style="font-size:14px">of '+P.lots_total+' lots</span>','100-share lots with a call')+
+    tile('Premium collected',money(B.premium_collected),'gross, before buy-backs')+
+    tile('Net option cash',money(B.net_option_cash),'after buy-backs and fees',cls(B.net_option_cash))+
+    tile('Versus just holding',signed(B.vs_just_held),'same start, no trades',cls(B.vs_just_held));
+  renderProposals(); renderPortfolio(); renderOutbox(); renderScore(); renderChart(); renderSettings(); renderLog();
+}
+
+function propTitle(p){
+  if(p.kind==='roll up and out')return `Roll ${p.contracts} ${esc(p.symbol)} call${p.contracts>1?'s':''} up to $${p.strike} (${esc(p.expiry)})`;
+  if(p.kind==='rotation stock')return `Buy ${p.shares} ${esc(p.symbol)} shares`;
+  if(p.kind==='idle cash to SPY')return `Move ${money(p.dollars)} of idle cash into SPY`;
+  return `Sell ${p.contracts} ${esc(p.symbol)} $${p.strike} call${p.contracts>1?'s':''}, expires ${esc(p.expiry)}`;
+}
+function renderProposals(){
+  const ps=S.engine.proposals; $('pcount').textContent=ps.length?`(${ps.length})`:'';
+  $('proposals').innerHTML=ps.length?ps.map(p=>{
+    const c=p.kind==='roll up and out'?'roll':(p.kind.startsWith('rotation')||p.kind.startsWith('idle'))?'rot':'';
+    const beta=(p.flags||[]).some(f=>f.startsWith('BETA'));
+    let kv='';
+    if(p.kind==='covered call')kv=`<div><span>Limit </span><b>$${p.limit.toFixed(2)}</b> <span>(not below $${p.limit_floor.toFixed(2)})</span></div><div><span>Credit </span><b>${money(p.credit_if_filled_at_limit)}</b></div><div><span>Stock now </span><b>$${p.spot}</b></div><div><span>Your net cost </span><b>$${p.net_cost_per_share.toFixed(2)}</b></div><div><span>Delta </span><b>${p.delta}</b></div><div><span>Days out </span><b>${p.dte}</b></div><div><span>If assigned </span><b>${signed(p.if_assigned.result_with_premium)}</b></div><div><span>Holding wins above </span><b>$${p.holding_does_better_above}</b></div>`;
+    if(p.kind==='roll up and out')kv=`<div><span>Net credit at limits </span><b>${money(p.credit_if_filled_at_limit)}</b></div><div><span>Worst case </span><b>${money(p.net_credit_worst_case)}</b></div><div><span>Extra if called at new strike </span><b>${money(p.if_assigned.extra_vs_old_strike)}</b></div><div><span>Stock now </span><b>$${p.spot}</b></div>`;
+    if(p.kind==='rotation stock')kv=`<div><span>Limit </span><b>$${p.limit.toFixed(2)}</b></div><div><span>Cost </span><b>${money(p.cost)}</b></div><div><span>Cash after </span><b>${money(p.cash_after)}</b></div><div><span>One-year gain </span><b>${pct(p.ret_252)}</b></div><div><span>Rank </span><b>${p.rank} of ${p.eligible}</b></div>`;
+    const legs=p.kind==='roll up and out'?`<div style="font-size:13px;margin:4px 0">${p.legs.map((l,i)=>`<div>${i+1}. ${esc(l.action)} ${l.contracts} × $${l.strike} call ${esc(l.expiry)} at $${l.limit.toFixed(2)}</div>`).join('')}</div>`:'';
+    const ranked=p.ranked?`<details><summary>How it ranked the candidates</summary><table><tr><th>Stock</th><th>Price</th><th>1-year</th></tr>${p.ranked.map(r=>`<tr><td>${esc(r.symbol)}</td><td>$${r.last}</td><td>${pct(r.ret_252)}</td></tr>`).join('')}</table></details>`:'';
+    const rej=(p.rejected_strikes||[]).length?`<details><summary>What it passed over and why</summary>${p.rejected_strikes.map(r=>`<div>${r.strike!=null?'$'+r.strike:esc(r.symbol)}: ${esc(r.reason)}</div>`).join('')}</details>`:'';
+    const canEdit=p.kind==='covered call'||p.kind==='rotation stock';
+    const ed=edits[p.id];
+    const editBox=ed?`<div class="form" style="margin-top:8px">${p.kind==='covered call'?`<label>Strike<input type="number" step="0.5" data-e="strike" value="${p.strike}"></label><label>Expiry<input type="date" data-e="expiry" value="${esc(p.expiry)}"></label><label>Contracts<input type="number" step="1" min="1" data-e="contracts" value="${p.contracts}"></label>`:`<label>Shares<input type="number" step="100" min="100" data-e="shares" value="${p.shares}"></label>`}<label>Limit<input type="number" step="0.01" data-e="limit" value="${p.limit}"></label></div>`:'';
+    const status=p.status==='queued'?'<span class="chip ok">approved: waiting to send</span>':p.status==='declined'?'<span class="chip">declined</span>':'';
+    return `<div class="card ${c} ${p.status!=='new'?'done':''}" data-id="${p.id}">
+      <div>${beta?'<span class="chip beta">beta rule</span>':''}<span class="chip">${esc(p.kind)}</span>${status}</div>
+      <div class="t">${propTitle(p)}</div>
+      <div class="agree"><b>You are agreeing to:</b> ${esc(p.agreeing_to)}.</div>
+      ${p.why_this_stock?`<div style="font-size:13px"><b>Why this one:</b> ${esc(p.why_this_stock)}.</div>`:''}
+      ${legs}<div class="kv">${kv}</div>
+      ${p.if_not_rolled?`<div style="font-size:13px"><b>If you do nothing:</b> ${esc(p.if_not_rolled)}.</div>`:''}
+      ${p.downside?`<div style="font-size:13px"><b>Downside:</b> ${esc(p.downside)}.</div>`:''}
+      ${(p.flags||[]).map(f=>`<div class="flag">${esc(f)}</div>`).join('')}
+      ${p.evidence?`<details><summary>Test record behind this rule</summary><div>${esc(p.evidence)}</div></details>`:''}
+      ${ranked}${rej}${editBox}
+      ${p.status==='new'?`<div class="acts"><button class="primary" data-act="approve">${ed?'Approve edited order':'Approve'}</button>${canEdit?`<button data-act="edit">${ed?'Cancel edit':'Edit'}</button>`:''}<button class="danger" data-act="decline">Decline</button><input data-note placeholder="Why (goes in the log)" style="flex:1;min-width:120px"></div>`:''}
+      <div data-out></div></div>`;
+  }).join(''):'<div class="mute">No proposal right now. The reasons are in the list below.</div>';
+  $('notices').innerHTML=S.engine.notices.length?S.engine.notices.map(n=>`<div class="flag">${esc(n.text)}</div>`).join(''):'Nothing needs attention.';
+  $('skipped').innerHTML=S.engine.skipped.map(s=>`<div style="padding:3px 0"><b>${esc(s.symbol==='*'?'General':s.symbol)}:</b> ${esc(s.reason)}${(s.rejected||[]).length?'<div class="mute" style="margin-left:14px">'+s.rejected.map(r=>`${r.strike!=null?'$'+r.strike:esc(r.symbol)}: ${esc(r.reason)}`).join('<br>')+'</div>':''}</div>`).join('')||'<div class="mute">Nothing.</div>';
+}
+function warnBox(el,res,again){
+  if(res.ok){el.innerHTML='';return load();}
+  if(res.needs_override){
+    el.innerHTML=`<div class="confirm"><b>This goes against a guardrail.</b><ul>${res.warnings.map(w=>`<li>${esc(w)}</li>`).join('')}</ul><button class="danger" data-ov>Do it anyway (logged as an override)</button> <button data-no>Cancel</button></div>`;
+    el.querySelector('[data-ov]').onclick=()=>again(true); el.querySelector('[data-no]').onclick=()=>el.innerHTML='';
+  }else el.innerHTML=`<div class="err">${esc(res.error||'Could not do that.')}</div>`;
+}
+$('proposals').addEventListener('click',async e=>{
+  const b=e.target.closest('button[data-act]'); if(!b)return;
+  const card=b.closest('.card'),id=card.dataset.id,out=card.querySelector('[data-out]'),note=(card.querySelector('[data-note]')||{}).value||'';
+  if(b.dataset.act==='edit'){if(edits[id])delete edits[id];else edits[id]=true;return renderProposals();}
+  if(b.dataset.act==='decline'){const r=await post('/api/decide',{id,decision:'decline',note});return r.ok?load():out.innerHTML=`<div class="err">${esc(r.error)}</div>`;}
+  let ed=null; if(edits[id]){ed={};card.querySelectorAll('[data-e]').forEach(i=>ed[i.dataset.e]=i.value);}
+  const go=async ov=>{const r=await post('/api/decide',{id,decision:'approve',note,edits:ed,override:!!ov});if(r.ok)delete edits[id];warnBox(out,r,go);};
+  go(false);
+});
+
+function renderPortfolio(){
+  const P=S.portfolio;
+  $('positions').innerHTML=`<table><tr><th>Stock</th><th>Shares</th><th>Price</th><th>Value</th><th>Avg cost</th><th>Net cost</th><th>Gain</th><th>Lots</th><th>Calls out</th><th>Free to cover</th></tr>${P.positions.map(p=>`<tr><td><b>${esc(p.symbol)}</b></td><td>${(+p.shares).toLocaleString('en-US',{maximumFractionDigits:2})}</td><td>${p.price?'$'+p.price:'n/a'}</td><td>${money(p.value)}</td><td>$${p.avg_cost.toFixed(2)}</td><td title="average cost less call premium kept">$${p.net_cost.toFixed(2)}</td><td class="${cls(p.gain)}">${signed(p.gain)} <span class="mute">${pct(p.gain_pct)}</span></td><td>${p.lots}</td><td>${p.calls_out}</td><td>${p.free_to_cover}${p.kept_free?` <span class="mute">(+${p.kept_free} kept free)</span>`:''}</td></tr>`).join('')}<tr><td><b>Cash</b></td><td></td><td></td><td>${money(P.cash)}</td><td colspan="6"></td></tr></table>`;
+  const st=S.mode==='staging';
+  $('shorts').innerHTML=P.short_options.length?`<table><tr><th>Call</th><th>Contracts</th><th>Days left</th><th>Stock</th><th>Status</th><th>Cost to close</th>${st?'<th>Staging</th>':''}</tr>${P.short_options.map(o=>`<tr><td><b>${esc(o.symbol)} $${o.strike}</b> ${esc(o.expiry)}</td><td>${o.contracts}</td><td>${o.dte}</td><td>${o.price?'$'+o.price:'n/a'}</td><td class="${o.in_the_money?'neg':'pos'}">${o.in_the_money?'in the money':'out of the money'}</td><td>${money(o.cost_to_close)}${o.quoted?'':' <span class="mute">(no quote)</span>'}</td>${st?`<td><button class="small" data-x="expired" data-s="${esc(o.symbol)}" data-k="${o.strike}" data-e="${esc(o.expiry)}">Simulate: expires</button> <button class="small" data-x="assigned" data-s="${esc(o.symbol)}" data-k="${o.strike}" data-e="${esc(o.expiry)}">Simulate: called away</button></td>`:''}</tr>`).join('')}</table>`:'<div class="mute">None open.</div>';
+}
+$('shorts').addEventListener('click',async e=>{const b=e.target.closest('button[data-x]');if(!b)return;await post('/api/expiry',{symbol:b.dataset.s,strike:+b.dataset.k,expiry:b.dataset.e,outcome:b.dataset.x});load();});
+
+function legText(l){return `${esc(l.action)} ${l.contracts??l.shares??money(l.dollars)} ${esc(l.symbol)}${l.strike?` $${l.strike} ${esc(l.type)} ${esc(l.expiry)}`:''}${l.limit!=null?` at $${(+l.limit).toFixed(2)}`:''}`;}
+function renderOutbox(){
+  const st=S.mode==='staging',O=S.outbox;
+  $('outbox').innerHTML=O.length?`<div class="scroll"><table><tr><th>Order</th><th>From</th><th>Status</th><th class="l">Note</th><th></th></tr>${O.map(o=>`<tr><td class="l">${o.legs.map(legText).join('<br>')}${(o.overrides||[]).length?`<div class="flag">Override: ${o.overrides.map(esc).join(' ')}</div>`:''}</td><td>${o.source==='you'?'you':'engine'}</td><td><b>${esc(o.status)}</b></td><td class="l mute">${esc(o.send_note||'')}</td><td>${o.status==='queued'?`${st?`<button class="small" data-f="${o.order_id}">Simulate fill</button> `:''}<button class="small danger" data-c="${o.order_id}">Cancel</button>`:''}</td></tr>`).join('')}</table></div>`:'<div class="mute">Nothing waiting. Approved orders appear here before they go to your broker.</div>';
+}
+$('outbox').addEventListener('click',async e=>{const f=e.target.closest('button[data-f]'),c=e.target.closest('button[data-c]');if(f){const r=await post('/api/fill',{order_id:f.dataset.f});if(!r.ok)f.closest('td').insertAdjacentHTML('beforeend',`<div class="err">${esc(r.error)}</div>`);else load();}if(c){await post('/api/cancel',{order_id:c.dataset.c});load();}});
+
+function renderScore(){
+  const B=S.scoreboard;
+  $('score').innerHTML=`<div class="kv"><div><span>Premium collected </span><b>${money(B.premium_collected)}</b></div><div><span>Paid to buy calls back </span><b>${money(B.bought_back)}</b></div><div><span>Fees </span><b>${money(B.fees)}</b></div><div><span>Net option cash </span><b class="${cls(B.net_option_cash)}">${money(B.net_option_cash)}</b></div><div><span>Open calls would cost </span><b>${money(B.open_option_liability)}</b> <span>to close</span></div><div><span>Option profit if closed now </span><b class="${cls(B.option_profit_if_closed_now)}">${signed(B.option_profit_if_closed_now)}</b></div><div><span>Started at </span><b>${money(B.start_value)}</b></div><div><span>Account now </span><b>${money(B.account_value)}</b></div><div><span>Profit </span><b class="${cls(B.profit)}">${signed(B.profit)}</b></div><div><span>If you had just held </span><b>${money(B.just_held_value)}</b></div><div><span>Versus just holding </span><b class="${cls(B.vs_just_held)}">${signed(B.vs_just_held)}</b></div><div><span>Times called away </span><b>${B.call_aways}</b></div></div>`;
+  $('weeks').innerHTML=B.weeks.length?`<table><tr><th>Week</th><th>Premium collected</th><th>Net option cash</th></tr>${B.weeks.map(w=>`<tr><td>${esc(w.week)}</td><td>${money(w.premium)}</td><td class="${cls(w.net)}">${money(w.net)}</td></tr>`).join('')}</table>`:'<div class="mute">No fills yet.</div>';
+}
+function renderChart(){
+  const H=S.history; if(H.length<2){$('chart').innerHTML='<div class="mute">The chart starts after the second engine run.</div>';return;}
+  const W=600,Ht=150,p=8,v=H.map(h=>h.account_value),l=H.map(h=>h.calls_out),mn=Math.min(...v),mx=Math.max(...v),ml=Math.max(1,...l,...H.map(h=>h.lots_total));
+  const x=i=>p+i*(W-2*p)/(H.length-1),y=q=>Ht-p-(mx===mn?.5:(q-mn)/(mx-mn))*(Ht-2*p),yl=q=>Ht-p-q/ml*(Ht-2*p);
+  const path=(a,f)=>a.map((q,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+f(q).toFixed(1)).join(' ');
+  $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${Ht}" preserveAspectRatio="none"><path d="${path(l,yl)}" fill="none" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="4 3"/><path d="${path(v,y)}" fill="none" stroke="var(--accent)" stroke-width="2.2"/></svg><div class="legend"><span><span class="sw" style="background:var(--accent)"></span>Account value ${money(mn,0)} to ${money(mx,0)}</span><span><span class="sw" style="background:var(--warn)"></span>Calls out (max ${ml})</span><span>${H.length} engine runs</span></div>`;
+}
+function renderSettings(){
+  const A=S.settings;
+  $('settings').innerHTML=A.adjustable.map(a=>{
+    let inp='';
+    if(a.kind==='bool')inp=`<select data-s="${a.name}" data-k="bool"><option value="true" ${a.value?'selected':''}>On</option><option value="false" ${a.value?'':'selected'}>Off</option></select>`;
+    else if(a.kind==='choice')inp=`<select data-s="${a.name}" data-k="choice">${a.low.map(o=>`<option ${o===a.value?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+    else inp=`<input type="number" data-s="${a.name}" data-k="${a.kind}" min="${a.low}" max="${a.high}" step="${a.kind==='int'?1:0.01}" value="${a.value}">`;
+    return `<div class="set"><div><div class="a">${esc(a.about)}</div><div class="n">${a.kind==='choice'?'':`allowed ${a.low} to ${a.high}; `}tested default ${esc(a.default)}${a.changed?' · <b>changed</b>':''}</div></div><div>${inp}</div></div>`;
+  }).join('')+S.portfolio.positions.filter(p=>p.lots>=1).map(p=>`<div class="set"><div><div class="a">${esc(p.symbol)}: lots kept free of calls</div><div class="n">you hold ${p.lots} lots</div></div><div><input type="number" data-u="${esc(p.symbol)}" min="0" max="${p.lots}" step="1" value="${A.uncovered_lots[p.symbol]??0}"></div></div>`).join('');
+  $('locked').innerHTML=A.locked.map(l=>`<div class="lock">🔒 ${esc(l.rule)}</div>`).join('');
+}
+function settingChanges(){
+  const rules={},unc={};
+  document.querySelectorAll('[data-s]').forEach(i=>{const k=i.dataset.k;rules[i.dataset.s]=k==='bool'?i.value==='true':k==='choice'?i.value:k==='int'?parseInt(i.value):parseFloat(i.value);});
+  document.querySelectorAll('[data-u]').forEach(i=>unc[i.dataset.u]=parseInt(i.value));
+  return {rules,uncovered_lots:unc};
+}
+$('s_preview').onclick=async()=>{const r=await post('/api/preview',{changes:settingChanges()});$('s_out').innerHTML=r.ok?`<div class="confirm"><b>${r.changed?'This changes what the engine proposes.':'No change to the proposals.'}</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px"><div><div class="mute">Now</div>${r.now.map(x=>`<div>${esc(x)}</div>`).join('')||'<div>nothing</div>'}</div><div><div class="mute">After</div>${r.after.map(x=>`<div>${esc(x)}</div>`).join('')||'<div>nothing</div>'}</div></div></div>`:`<div class="err">${esc(r.error)}</div>`;};
+$('s_save').onclick=async()=>{const r=await post('/api/settings',{changes:settingChanges(),note:$('s_note').value});if(r.ok){$('s_note').value='';$('s_out').innerHTML='<div class="okmsg">Saved and logged.</div>';load();}else $('s_out').innerHTML=`<div class="err">${esc(r.error)}</div>`;};
+
+function renderLog(){
+  const q=$('l_q').value.toLowerCase(),t=$('l_type').value;
+  const rows=S.log.filter(e=>(!t||e.event===t)&&(!q||(e.symbol+' '+e.text).toLowerCase().includes(q)));
+  $('log').innerHTML=rows.length?rows.map(e=>`<div class="logrow"><div class="w">${esc(e.at.replace('T',' ').slice(0,19))}</div><div><b>${esc(e.symbol)}</b></div><div>${e.detail.simulated?'<span class="chip sim">simulated</span>':''}${esc(e.text)}<details><summary>Full record</summary><pre>${esc(JSON.stringify(e.detail,null,1))}</pre></details></div></div>`).join(''):'<div class="mute">Nothing matches.</div>';
+}
+$('l_q').oninput=renderLog; $('l_type').onchange=renderLog;
+
+function manualLeg(){
+  const a=$('m_action').value,leg={action:a,symbol:$('m_symbol').value.trim().toUpperCase(),limit:parseFloat($('m_limit').value)};
+  if(a==='BUY'||a==='SELL')leg.shares=parseFloat($('m_shares').value);
+  else Object.assign(leg,{type:'call',strike:parseFloat($('m_strike').value),expiry:$('m_expiry').value,contracts:parseInt($('m_contracts').value)});
+  return leg;
+}
+function manualShape(){const stock=['BUY','SELL'].includes($('m_action').value);document.querySelectorAll('#manual .opt').forEach(x=>x.style.display=stock?'none':'');document.querySelectorAll('#manual .stk').forEach(x=>x.style.display=stock?'':'none');}
+$('m_action').onchange=manualShape; manualShape();
+$('m_go').onclick=()=>{const go=async ov=>{const r=await post('/api/manual',{leg:manualLeg(),note:$('m_note').value,override:!!ov});if(r.ok){$('m_out').innerHTML='<div class="okmsg">Queued. It is in "Orders waiting to be sent".</div>';return load();}warnBox($('m_out'),r,go);};go(false);};
+$('run').onclick=async()=>{await post('/api/rerun');load();};
+$('scenario').onchange=async e=>{if(!e.target.value)return;await post('/api/scenario',{name:e.target.value});edits={};load();};
+load(); setInterval(()=>{if(!document.querySelector('.confirm')&&!Object.keys(edits).length&&document.activeElement.tagName!=='INPUT')load();},20000);
+</script>
+</html>

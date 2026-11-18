@@ -1,0 +1,15 @@
+[Unit]
+Description=Agentic wheel kit: control panel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=__USER__
+WorkingDirectory=__DIR__
+Environment=WHEEL_MODE=live
+ExecStart=__DIR__/.venv/bin/python __DIR__/wheel/dashboard/server.py
+Restart=on-failure
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+numpy>=1.26
+yfinance>=0.2.40
+# Robinhood connection only (skip if you use Alpaca):
+mcp==2.3.0

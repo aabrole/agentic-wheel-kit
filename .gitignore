@@ -1,0 +1,15 @@
+.env
+state/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.bak
+research/options_farm/cache/bars/
+research/options_farm/cache/stock/
+research/options_farm/cache/contracts/
+research/options_farm/cache/snapshots_raw.parquet
+research/options_farm/cache/api_calls.json
+research/wheel_ladder/results/
+research/wheel_ladder/logs/
+research/news_catalyst_options/cache/

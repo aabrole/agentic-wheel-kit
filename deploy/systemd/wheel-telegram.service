@@ -1,0 +1,13 @@
+[Unit]
+Description=Agentic wheel kit: Telegram Approve / Decline buttons (optional)
+After=network-online.target
+
+[Service]
+User=__USER__
+WorkingDirectory=__DIR__
+ExecStart=__DIR__/.venv/bin/python -m wheel.agent telegram
+Restart=on-failure
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

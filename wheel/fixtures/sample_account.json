@@ -1,0 +1,173 @@
+{
+ "_note": "SAMPLE account. Holdings and cash are made up. The HOOD option quotes are real market quotes from 2026-11-17.",
+ "today": "2026-11-17",
+ "account": {
+  "cash": 2000.0,
+  "options_level": 2,
+  "approvals_on": true
+ },
+ "positions": [
+  {
+   "symbol": "HOOD",
+   "shares": 300,
+   "avg_cost": 82.0
+  },
+  {
+   "symbol": "MSFT",
+   "shares": 8.5,
+   "avg_cost": 530.0
+  },
+  {
+   "symbol": "AAPL",
+   "shares": 13,
+   "avg_cost": 300.0
+  }
+ ],
+ "short_options": [],
+ "quotes": {
+  "HOOD": 68.88,
+  "MSFT": 506.24,
+  "AAPL": 336.64
+ },
+ "earnings": {
+  "HOOD": "2027-02-09"
+ },
+ "ex_dividend": {},
+ "net_premium": {},
+ "chains": {
+  "HOOD": [
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 75,
+    "bid": 3.65,
+    "ask": 4.5,
+    "delta": 0.413523,
+    "open_interest": 44,
+    "id": "sample-2026-12-24-75",
+    "sell_floor_hint": 3.81
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 80,
+    "bid": 2.08,
+    "ask": 2.64,
+    "delta": 0.287665,
+    "open_interest": 249,
+    "id": "sample-2026-12-24-80",
+    "sell_floor_hint": 2.167
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 82,
+    "bid": 1.23,
+    "ask": 2.4,
+    "delta": 0.241597,
+    "open_interest": 21,
+    "id": "sample-2026-12-24-82",
+    "sell_floor_hint": 1.443
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 83,
+    "bid": 1.15,
+    "ask": 2.02,
+    "delta": 0.218553,
+    "open_interest": 178,
+    "id": "sample-2026-12-24-83",
+    "sell_floor_hint": 1.298
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 84,
+    "bid": 1.08,
+    "ask": 2.05,
+    "delta": 0.211281,
+    "open_interest": 91,
+    "id": "sample-2026-12-24-84",
+    "sell_floor_hint": 1.241
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 85,
+    "bid": 1.45,
+    "ask": 1.98,
+    "delta": 0.215948,
+    "open_interest": 145,
+    "id": "sample-2026-12-24-85",
+    "sell_floor_hint": 1.556
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 86,
+    "bid": 0.91,
+    "ask": 1.74,
+    "delta": 0.183594,
+    "open_interest": 108,
+    "id": "sample-2026-12-24-86",
+    "sell_floor_hint": 1.053
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 88,
+    "bid": 0.96,
+    "ask": 1.53,
+    "delta": 0.169077,
+    "open_interest": 86,
+    "id": "sample-2026-12-24-88",
+    "sell_floor_hint": 1.072
+   },
+   {
+    "type": "call",
+    "expiry": "2026-12-24",
+    "strike": 90,
+    "bid": 0.79,
+    "ask": 0.94,
+    "delta": 0.130869,
+    "open_interest": 278,
+    "id": "sample-2026-12-24-90",
+    "sell_floor_hint": 0.819
+   },
+   {
+    "type": "call",
+    "expiry": "2026-11-27",
+    "strike": 75,
+    "bid": 1.26,
+    "ask": 1.35,
+    "delta": 0.276758,
+    "open_interest": 483,
+    "id": "sample-2026-11-27-75",
+    "sell_floor_hint": 1.285
+   },
+   {
+    "type": "call",
+    "expiry": "2026-11-27",
+    "strike": 82,
+    "bid": 0.26,
+    "ask": 0.44,
+    "delta": 0.094077,
+    "open_interest": 626,
+    "id": "sample-2026-11-27-82",
+    "sell_floor_hint": 0.304
+   },
+   {
+    "type": "call",
+    "expiry": "2026-11-27",
+    "strike": 90,
+    "bid": 0.05,
+    "ask": 0.09,
+    "delta": 0.022533,
+    "open_interest": 1529,
+    "id": "sample-2026-11-27-90",
+    "sell_floor_hint": 0.061
+   }
+  ]
+ }
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Agentic wheel kit: read the account, check fills, notify, send approved orders
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__DIR__
+ExecStart=__DIR__/.venv/bin/python -m wheel.agent cycle
+UMask=0077
