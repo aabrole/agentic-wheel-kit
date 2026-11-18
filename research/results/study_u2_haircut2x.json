@@ -1,0 +1,3103 @@
+{
+ "names_used": 198,
+ "no_earnings_dates": [
+  "ARM",
+  "BIDU",
+  "CCJ",
+  "ERIC",
+  "GRAB",
+  "JD",
+  "LI",
+  "NNE",
+  "NOK",
+  "NU",
+  "PBR",
+  "PDD",
+  "SE",
+  "TSM",
+  "VALE",
+  "XPEV"
+ ],
+ "ALL": {
+  "haircut_mult": 2.0,
+  "cases": 5232,
+  "names": 197,
+  "starts": 27,
+  "HOLD": {
+   "mean_log": 0.0861,
+   "mean_ret": 0.1863,
+   "p10_ret": -0.2277,
+   "mean_dd": -0.2547,
+   "share_up_more_than_10pct": 0.438
+  },
+  "rules": {
+   "BASE|AT": {
+    "mean_log": 0.0667,
+    "mean_ret": 0.1039,
+    "log_diff_vs_hold": -0.0195,
+    "diff_90pct": [
+     -0.0352,
+     -0.0046
+    ],
+    "beats_hold_share": 0.524,
+    "p10_ret": -0.1471,
+    "mean_dd": -0.1742,
+    "premium_yield": 0.0318,
+    "called_away_share": 0.726,
+    "called_below_cost_share": 0.096,
+    "open_at_end_share": 0.156,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0585,
+    "minus_hold_when_stock_up_more": -0.2629,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0828,
+     "middle_third": 0.0078,
+     "upper_third": -0.3378
+    }
+   },
+   "BASE|UNDER": {
+    "mean_log": 0.0789,
+    "mean_ret": 0.1268,
+    "log_diff_vs_hold": -0.0072,
+    "diff_90pct": [
+     -0.0179,
+     0.0032
+    ],
+    "beats_hold_share": 0.574,
+    "p10_ret": -0.2045,
+    "mean_dd": -0.2144,
+    "premium_yield": 0.0223,
+    "called_away_share": 0.315,
+    "called_below_cost_share": 0.041,
+    "open_at_end_share": 0.223,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0326,
+    "minus_hold_when_stock_up_more": -0.1774,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0364,
+     "middle_third": 0.0284,
+     "upper_third": -0.2432
+    }
+   },
+   "BASE+NEWS|AT": {
+    "mean_log": 0.0664,
+    "mean_ret": 0.1041,
+    "log_diff_vs_hold": -0.0197,
+    "diff_90pct": [
+     -0.0357,
+     -0.0049
+    ],
+    "beats_hold_share": 0.527,
+    "p10_ret": -0.1483,
+    "mean_dd": -0.1747,
+    "premium_yield": 0.0325,
+    "called_away_share": 0.721,
+    "called_below_cost_share": 0.095,
+    "open_at_end_share": 0.159,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0581,
+    "minus_hold_when_stock_up_more": -0.2619,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0818,
+     "middle_third": 0.0084,
+     "upper_third": -0.3367
+    }
+   },
+   "BASE+NEWS|UNDER": {
+    "mean_log": 0.0794,
+    "mean_ret": 0.128,
+    "log_diff_vs_hold": -0.0068,
+    "diff_90pct": [
+     -0.0178,
+     0.004
+    ],
+    "beats_hold_share": 0.571,
+    "p10_ret": -0.2045,
+    "mean_dd": -0.2146,
+    "premium_yield": 0.023,
+    "called_away_share": 0.314,
+    "called_below_cost_share": 0.04,
+    "open_at_end_share": 0.221,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0327,
+    "minus_hold_when_stock_up_more": -0.1748,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0366,
+     "middle_third": 0.0283,
+     "upper_third": -0.2397
+    }
+   },
+   "IV|AT": {
+    "mean_log": 0.0729,
+    "mean_ret": 0.1182,
+    "log_diff_vs_hold": -0.0132,
+    "diff_90pct": [
+     -0.0262,
+     -0.0009
+    ],
+    "beats_hold_share": 0.575,
+    "p10_ret": -0.1687,
+    "mean_dd": -0.1872,
+    "premium_yield": 0.0303,
+    "called_away_share": 0.631,
+    "called_below_cost_share": 0.063,
+    "open_at_end_share": 0.157,
+    "minus_hold_when_stock_up_10pct_or_less": 0.05,
+    "minus_hold_when_stock_up_more": -0.2192,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0674,
+     "middle_third": 0.0129,
+     "upper_third": -0.2844
+    }
+   },
+   "IV|UNDER": {
+    "mean_log": 0.0829,
+    "mean_ret": 0.1378,
+    "log_diff_vs_hold": -0.0032,
+    "diff_90pct": [
+     -0.0115,
+     0.0043
+    ],
+    "beats_hold_share": 0.567,
+    "p10_ret": -0.2076,
+    "mean_dd": -0.2215,
+    "premium_yield": 0.0208,
+    "called_away_share": 0.264,
+    "called_below_cost_share": 0.024,
+    "open_at_end_share": 0.177,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0269,
+    "minus_hold_when_stock_up_more": -0.145,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0287,
+     "middle_third": 0.0258,
+     "upper_third": -0.1998
+    }
+   },
+   "MANAGED|AT": {
+    "mean_log": 0.0728,
+    "mean_ret": 0.1187,
+    "log_diff_vs_hold": -0.0133,
+    "diff_90pct": [
+     -0.0258,
+     -0.0015
+    ],
+    "beats_hold_share": 0.588,
+    "p10_ret": -0.1719,
+    "mean_dd": -0.1903,
+    "premium_yield": 0.0311,
+    "called_away_share": 0.585,
+    "called_below_cost_share": 0.052,
+    "open_at_end_share": 0.193,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0476,
+    "minus_hold_when_stock_up_more": -0.2151,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0635,
+     "middle_third": 0.0135,
+     "upper_third": -0.2798
+    }
+   },
+   "MANAGED|UNDER": {
+    "mean_log": 0.0822,
+    "mean_ret": 0.1376,
+    "log_diff_vs_hold": -0.0039,
+    "diff_90pct": [
+     -0.0119,
+     0.0036
+    ],
+    "beats_hold_share": 0.571,
+    "p10_ret": -0.21,
+    "mean_dd": -0.2234,
+    "premium_yield": 0.0213,
+    "called_away_share": 0.236,
+    "called_below_cost_share": 0.021,
+    "open_at_end_share": 0.2,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0243,
+    "minus_hold_when_stock_up_more": -0.1423,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0264,
+     "middle_third": 0.0232,
+     "upper_third": -0.1957
+    }
+   },
+   "MANAGED+NEWS|AT": {
+    "mean_log": 0.0727,
+    "mean_ret": 0.1193,
+    "log_diff_vs_hold": -0.0135,
+    "diff_90pct": [
+     -0.0262,
+     -0.0019
+    ],
+    "beats_hold_share": 0.588,
+    "p10_ret": -0.1719,
+    "mean_dd": -0.191,
+    "premium_yield": 0.0317,
+    "called_away_share": 0.583,
+    "called_below_cost_share": 0.052,
+    "open_at_end_share": 0.188,
+    "minus_hold_when_stock_up_10pct_or_less": 0.047,
+    "minus_hold_when_stock_up_more": -0.213,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0623,
+     "middle_third": 0.0138,
+     "upper_third": -0.2771
+    }
+   },
+   "MANAGED+NEWS|UNDER": {
+    "mean_log": 0.0829,
+    "mean_ret": 0.1395,
+    "log_diff_vs_hold": -0.0032,
+    "diff_90pct": [
+     -0.0112,
+     0.0039
+    ],
+    "beats_hold_share": 0.567,
+    "p10_ret": -0.2095,
+    "mean_dd": -0.2235,
+    "premium_yield": 0.022,
+    "called_away_share": 0.237,
+    "called_below_cost_share": 0.021,
+    "open_at_end_share": 0.192,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0243,
+    "minus_hold_when_stock_up_more": -0.1379,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0264,
+     "middle_third": 0.0231,
+     "upper_third": -0.1899
+    }
+   },
+   "ROLL|AT": {
+    "mean_log": 0.0684,
+    "mean_ret": 0.1066,
+    "log_diff_vs_hold": -0.0177,
+    "diff_90pct": [
+     -0.0329,
+     -0.0031
+    ],
+    "beats_hold_share": 0.544,
+    "p10_ret": -0.1502,
+    "mean_dd": -0.1779,
+    "premium_yield": 0.0331,
+    "called_away_share": 0.67,
+    "called_below_cost_share": 0.076,
+    "open_at_end_share": 0.205,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0569,
+    "minus_hold_when_stock_up_more": -0.2546,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0792,
+     "middle_third": 0.0107,
+     "upper_third": -0.329
+    }
+   },
+   "ROLL|UNDER": {
+    "mean_log": 0.0793,
+    "mean_ret": 0.1279,
+    "log_diff_vs_hold": -0.0069,
+    "diff_90pct": [
+     -0.0178,
+     0.0033
+    ],
+    "beats_hold_share": 0.581,
+    "p10_ret": -0.2051,
+    "mean_dd": -0.2163,
+    "premium_yield": 0.023,
+    "called_away_share": 0.28,
+    "called_below_cost_share": 0.035,
+    "open_at_end_share": 0.255,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0306,
+    "minus_hold_when_stock_up_more": -0.1722,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0344,
+     "middle_third": 0.0266,
+     "upper_third": -0.2361
+    }
+   }
+  },
+  "vs_base": {
+   "ROLL|AT": {
+    "log_diff_vs_base": 0.0018,
+    "diff_90pct": [
+     0.0008,
+     0.0028
+    ],
+    "beats_base_share": 0.138,
+    "same_as_base_share": 0.793
+   },
+   "IV|AT": {
+    "log_diff_vs_base": 0.0063,
+    "diff_90pct": [
+     0.003,
+     0.0103
+    ],
+    "beats_base_share": 0.322,
+    "same_as_base_share": 0.282
+   },
+   "MANAGED|AT": {
+    "log_diff_vs_base": 0.0062,
+    "diff_90pct": [
+     0.0022,
+     0.0108
+    ],
+    "beats_base_share": 0.368,
+    "same_as_base_share": 0.228
+   },
+   "ROLL|UNDER": {
+    "log_diff_vs_base": 0.0004,
+    "diff_90pct": [
+     -0.0005,
+     0.0013
+    ],
+    "beats_base_share": 0.057,
+    "same_as_base_share": 0.9
+   },
+   "IV|UNDER": {
+    "log_diff_vs_base": 0.004,
+    "diff_90pct": [
+     0.0004,
+     0.0083
+    ],
+    "beats_base_share": 0.226,
+    "same_as_base_share": 0.436
+   },
+   "MANAGED|UNDER": {
+    "log_diff_vs_base": 0.0033,
+    "diff_90pct": [
+     -0.0006,
+     0.0079
+    ],
+    "beats_base_share": 0.241,
+    "same_as_base_share": 0.408
+   }
+  },
+  "news_guardrail": {
+   "BASE|AT": {
+    "news_minus_plain_log": -0.0003,
+    "diff_90pct": [
+     -0.0008,
+     0.0003
+    ],
+    "better_share": 0.16,
+    "same_share": 0.665
+   },
+   "MANAGED|AT": {
+    "news_minus_plain_log": -0.0002,
+    "diff_90pct": [
+     -0.0008,
+     0.0003
+    ],
+    "better_share": 0.156,
+    "same_share": 0.654
+   },
+   "BASE|UNDER": {
+    "news_minus_plain_log": 0.0005,
+    "diff_90pct": [
+     0.0001,
+     0.0008
+    ],
+    "better_share": 0.134,
+    "same_share": 0.726
+   },
+   "MANAGED|UNDER": {
+    "news_minus_plain_log": 0.0007,
+    "diff_90pct": [
+     0.0003,
+     0.0012
+    ],
+    "better_share": 0.102,
+    "same_share": 0.766
+   }
+  }
+ },
+ "NEW": {
+  "haircut_mult": 2.0,
+  "cases": 4368,
+  "names": 165,
+  "starts": 27,
+  "HOLD": {
+   "mean_log": 0.0838,
+   "mean_ret": 0.1906,
+   "p10_ret": -0.2331,
+   "mean_dd": -0.2533,
+   "share_up_more_than_10pct": 0.434
+  },
+  "rules": {
+   "BASE|AT": {
+    "mean_log": 0.0649,
+    "mean_ret": 0.1052,
+    "log_diff_vs_hold": -0.0189,
+    "diff_90pct": [
+     -0.035,
+     -0.0037
+    ],
+    "beats_hold_share": 0.529,
+    "p10_ret": -0.1572,
+    "mean_dd": -0.1752,
+    "premium_yield": 0.0324,
+    "called_away_share": 0.714,
+    "called_below_cost_share": 0.091,
+    "open_at_end_share": 0.16,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0564,
+    "minus_hold_when_stock_up_more": -0.2702,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0804,
+     "middle_third": 0.008,
+     "upper_third": -0.3446
+    }
+   },
+   "BASE|UNDER": {
+    "mean_log": 0.0777,
+    "mean_ret": 0.1289,
+    "log_diff_vs_hold": -0.0061,
+    "diff_90pct": [
+     -0.0173,
+     0.005
+    ],
+    "beats_hold_share": 0.566,
+    "p10_ret": -0.208,
+    "mean_dd": -0.2138,
+    "premium_yield": 0.0228,
+    "called_away_share": 0.307,
+    "called_below_cost_share": 0.038,
+    "open_at_end_share": 0.216,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0316,
+    "minus_hold_when_stock_up_more": -0.1833,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0359,
+     "middle_third": 0.0273,
+     "upper_third": -0.2483
+    }
+   },
+   "BASE+NEWS|AT": {
+    "mean_log": 0.0646,
+    "mean_ret": 0.1054,
+    "log_diff_vs_hold": -0.0192,
+    "diff_90pct": [
+     -0.0356,
+     -0.0041
+    ],
+    "beats_hold_share": 0.532,
+    "p10_ret": -0.156,
+    "mean_dd": -0.1758,
+    "premium_yield": 0.0333,
+    "called_away_share": 0.709,
+    "called_below_cost_share": 0.09,
+    "open_at_end_share": 0.163,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0559,
+    "minus_hold_when_stock_up_more": -0.2691,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0792,
+     "middle_third": 0.0087,
+     "upper_third": -0.3434
+    }
+   },
+   "BASE+NEWS|UNDER": {
+    "mean_log": 0.0783,
+    "mean_ret": 0.1303,
+    "log_diff_vs_hold": -0.0056,
+    "diff_90pct": [
+     -0.0172,
+     0.0059
+    ],
+    "beats_hold_share": 0.563,
+    "p10_ret": -0.2078,
+    "mean_dd": -0.214,
+    "premium_yield": 0.0237,
+    "called_away_share": 0.304,
+    "called_below_cost_share": 0.036,
+    "open_at_end_share": 0.213,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0316,
+    "minus_hold_when_stock_up_more": -0.1801,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.036,
+     "middle_third": 0.0273,
+     "upper_third": -0.2442
+    }
+   },
+   "IV|AT": {
+    "mean_log": 0.0713,
+    "mean_ret": 0.1202,
+    "log_diff_vs_hold": -0.0125,
+    "diff_90pct": [
+     -0.0262,
+     -0.0002
+    ],
+    "beats_hold_share": 0.57,
+    "p10_ret": -0.1722,
+    "mean_dd": -0.1871,
+    "premium_yield": 0.0309,
+    "called_away_share": 0.628,
+    "called_below_cost_share": 0.061,
+    "open_at_end_share": 0.155,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0483,
+    "minus_hold_when_stock_up_more": -0.2251,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0659,
+     "middle_third": 0.0124,
+     "upper_third": -0.2895
+    }
+   },
+   "IV|UNDER": {
+    "mean_log": 0.0823,
+    "mean_ret": 0.141,
+    "log_diff_vs_hold": -0.0016,
+    "diff_90pct": [
+     -0.0108,
+     0.0065
+    ],
+    "beats_hold_share": 0.56,
+    "p10_ret": -0.2139,
+    "mean_dd": -0.2204,
+    "premium_yield": 0.0213,
+    "called_away_share": 0.258,
+    "called_below_cost_share": 0.023,
+    "open_at_end_share": 0.171,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0264,
+    "minus_hold_when_stock_up_more": -0.1488,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0286,
+     "middle_third": 0.0255,
+     "upper_third": -0.2029
+    }
+   },
+   "MANAGED|AT": {
+    "mean_log": 0.0713,
+    "mean_ret": 0.1208,
+    "log_diff_vs_hold": -0.0125,
+    "diff_90pct": [
+     -0.0257,
+     -0.0007
+    ],
+    "beats_hold_share": 0.583,
+    "p10_ret": -0.1774,
+    "mean_dd": -0.1902,
+    "premium_yield": 0.0317,
+    "called_away_share": 0.586,
+    "called_below_cost_share": 0.051,
+    "open_at_end_share": 0.186,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0459,
+    "minus_hold_when_stock_up_more": -0.2207,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0623,
+     "middle_third": 0.0125,
+     "upper_third": -0.2842
+    }
+   },
+   "MANAGED|UNDER": {
+    "mean_log": 0.0814,
+    "mean_ret": 0.1406,
+    "log_diff_vs_hold": -0.0024,
+    "diff_90pct": [
+     -0.0111,
+     0.0054
+    ],
+    "beats_hold_share": 0.565,
+    "p10_ret": -0.215,
+    "mean_dd": -0.2226,
+    "premium_yield": 0.0219,
+    "called_away_share": 0.228,
+    "called_below_cost_share": 0.021,
+    "open_at_end_share": 0.195,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0236,
+    "minus_hold_when_stock_up_more": -0.1458,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.026,
+     "middle_third": 0.0226,
+     "upper_third": -0.1985
+    }
+   },
+   "MANAGED+NEWS|AT": {
+    "mean_log": 0.0712,
+    "mean_ret": 0.1216,
+    "log_diff_vs_hold": -0.0126,
+    "diff_90pct": [
+     -0.0262,
+     -0.0008
+    ],
+    "beats_hold_share": 0.583,
+    "p10_ret": -0.1779,
+    "mean_dd": -0.1909,
+    "premium_yield": 0.0325,
+    "called_away_share": 0.584,
+    "called_below_cost_share": 0.05,
+    "open_at_end_share": 0.182,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0453,
+    "minus_hold_when_stock_up_more": -0.218,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0612,
+     "middle_third": 0.0129,
+     "upper_third": -0.2811
+    }
+   },
+   "MANAGED+NEWS|UNDER": {
+    "mean_log": 0.0823,
+    "mean_ret": 0.1428,
+    "log_diff_vs_hold": -0.0016,
+    "diff_90pct": [
+     -0.0102,
+     0.0061
+    ],
+    "beats_hold_share": 0.56,
+    "p10_ret": -0.2158,
+    "mean_dd": -0.2227,
+    "premium_yield": 0.0228,
+    "called_away_share": 0.229,
+    "called_below_cost_share": 0.021,
+    "open_at_end_share": 0.187,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0237,
+    "minus_hold_when_stock_up_more": -0.1408,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0263,
+     "middle_third": 0.0225,
+     "upper_third": -0.192
+    }
+   },
+   "ROLL|AT": {
+    "mean_log": 0.0666,
+    "mean_ret": 0.1078,
+    "log_diff_vs_hold": -0.0173,
+    "diff_90pct": [
+     -0.0326,
+     -0.0025
+    ],
+    "beats_hold_share": 0.546,
+    "p10_ret": -0.1593,
+    "mean_dd": -0.1789,
+    "premium_yield": 0.0337,
+    "called_away_share": 0.663,
+    "called_below_cost_share": 0.075,
+    "open_at_end_share": 0.204,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0547,
+    "minus_hold_when_stock_up_more": -0.2619,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.077,
+     "middle_third": 0.0101,
+     "upper_third": -0.3353
+    }
+   },
+   "ROLL|UNDER": {
+    "mean_log": 0.078,
+    "mean_ret": 0.1299,
+    "log_diff_vs_hold": -0.0059,
+    "diff_90pct": [
+     -0.0175,
+     0.005
+    ],
+    "beats_hold_share": 0.573,
+    "p10_ret": -0.2101,
+    "mean_dd": -0.216,
+    "premium_yield": 0.0236,
+    "called_away_share": 0.269,
+    "called_below_cost_share": 0.033,
+    "open_at_end_share": 0.25,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0293,
+    "minus_hold_when_stock_up_more": -0.1778,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0337,
+     "middle_third": 0.0252,
+     "upper_third": -0.2408
+    }
+   }
+  },
+  "vs_base": {
+   "ROLL|AT": {
+    "log_diff_vs_base": 0.0016,
+    "diff_90pct": [
+     0.0007,
+     0.0026
+    ],
+    "beats_base_share": 0.132,
+    "same_as_base_share": 0.801
+   },
+   "IV|AT": {
+    "log_diff_vs_base": 0.0064,
+    "diff_90pct": [
+     0.003,
+     0.0105
+    ],
+    "beats_base_share": 0.318,
+    "same_as_base_share": 0.281
+   },
+   "MANAGED|AT": {
+    "log_diff_vs_base": 0.0063,
+    "diff_90pct": [
+     0.0022,
+     0.0109
+    ],
+    "beats_base_share": 0.361,
+    "same_as_base_share": 0.231
+   },
+   "ROLL|UNDER": {
+    "log_diff_vs_base": 0.0002,
+    "diff_90pct": [
+     -0.0007,
+     0.0013
+    ],
+    "beats_base_share": 0.057,
+    "same_as_base_share": 0.899
+   },
+   "IV|UNDER": {
+    "log_diff_vs_base": 0.0045,
+    "diff_90pct": [
+     0.0005,
+     0.0091
+    ],
+    "beats_base_share": 0.22,
+    "same_as_base_share": 0.452
+   },
+   "MANAGED|UNDER": {
+    "log_diff_vs_base": 0.0037,
+    "diff_90pct": [
+     -0.0007,
+     0.0086
+    ],
+    "beats_base_share": 0.236,
+    "same_as_base_share": 0.422
+   }
+  },
+  "news_guardrail": {
+   "BASE|AT": {
+    "news_minus_plain_log": -0.0003,
+    "diff_90pct": [
+     -0.001,
+     0.0003
+    ],
+    "better_share": 0.174,
+    "same_share": 0.638
+   },
+   "MANAGED|AT": {
+    "news_minus_plain_log": -0.0001,
+    "diff_90pct": [
+     -0.0008,
+     0.0006
+    ],
+    "better_share": 0.166,
+    "same_share": 0.636
+   },
+   "BASE|UNDER": {
+    "news_minus_plain_log": 0.0005,
+    "diff_90pct": [
+     0.0001,
+     0.0009
+    ],
+    "better_share": 0.138,
+    "same_share": 0.722
+   },
+   "MANAGED|UNDER": {
+    "news_minus_plain_log": 0.0008,
+    "diff_90pct": [
+     0.0003,
+     0.0015
+    ],
+    "better_share": 0.104,
+    "same_share": 0.759
+   }
+  }
+ },
+ "ORIG": {
+  "haircut_mult": 2.0,
+  "cases": 864,
+  "names": 32,
+  "starts": 27,
+  "HOLD": {
+   "mean_log": 0.0976,
+   "mean_ret": 0.1645,
+   "p10_ret": -0.2099,
+   "mean_dd": -0.2614,
+   "share_up_more_than_10pct": 0.461
+  },
+  "rules": {
+   "BASE|AT": {
+    "mean_log": 0.0753,
+    "mean_ret": 0.0971,
+    "log_diff_vs_hold": -0.0223,
+    "diff_90pct": [
+     -0.0434,
+     -0.0042
+    ],
+    "beats_hold_share": 0.502,
+    "p10_ret": -0.1072,
+    "mean_dd": -0.169,
+    "premium_yield": 0.0287,
+    "called_away_share": 0.786,
+    "called_below_cost_share": 0.118,
+    "open_at_end_share": 0.137,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0697,
+    "minus_hold_when_stock_up_more": -0.2279,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0948,
+     "middle_third": 0.0075,
+     "upper_third": -0.3046
+    }
+   },
+   "BASE|UNDER": {
+    "mean_log": 0.0848,
+    "mean_ret": 0.1163,
+    "log_diff_vs_hold": -0.0129,
+    "diff_90pct": [
+     -0.0265,
+     -0.0001
+    ],
+    "beats_hold_share": 0.613,
+    "p10_ret": -0.1853,
+    "mean_dd": -0.2173,
+    "premium_yield": 0.0198,
+    "called_away_share": 0.36,
+    "called_below_cost_share": 0.058,
+    "open_at_end_share": 0.259,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0384,
+    "minus_hold_when_stock_up_more": -0.1495,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0394,
+     "middle_third": 0.0349,
+     "upper_third": -0.2188
+    }
+   },
+   "BASE+NEWS|AT": {
+    "mean_log": 0.0755,
+    "mean_ret": 0.0974,
+    "log_diff_vs_hold": -0.0221,
+    "diff_90pct": [
+     -0.0427,
+     -0.0047
+    ],
+    "beats_hold_share": 0.502,
+    "p10_ret": -0.1103,
+    "mean_dd": -0.1692,
+    "premium_yield": 0.0284,
+    "called_away_share": 0.784,
+    "called_below_cost_share": 0.119,
+    "open_at_end_share": 0.137,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0697,
+    "minus_hold_when_stock_up_more": -0.2274,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0949,
+     "middle_third": 0.0077,
+     "upper_third": -0.3039
+    }
+   },
+   "BASE+NEWS|UNDER": {
+    "mean_log": 0.0849,
+    "mean_ret": 0.1165,
+    "log_diff_vs_hold": -0.0127,
+    "diff_90pct": [
+     -0.0256,
+     -0.0001
+    ],
+    "beats_hold_share": 0.606,
+    "p10_ret": -0.1853,
+    "mean_dd": -0.2172,
+    "premium_yield": 0.0195,
+    "called_away_share": 0.361,
+    "called_below_cost_share": 0.06,
+    "open_at_end_share": 0.257,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0386,
+    "minus_hold_when_stock_up_more": -0.1494,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.04,
+     "middle_third": 0.0344,
+     "upper_third": -0.2185
+    }
+   },
+   "IV|AT": {
+    "mean_log": 0.081,
+    "mean_ret": 0.1083,
+    "log_diff_vs_hold": -0.0166,
+    "diff_90pct": [
+     -0.0353,
+     0.0003
+    ],
+    "beats_hold_share": 0.598,
+    "p10_ret": -0.1363,
+    "mean_dd": -0.1875,
+    "premium_yield": 0.0275,
+    "called_away_share": 0.649,
+    "called_below_cost_share": 0.075,
+    "open_at_end_share": 0.167,
+    "minus_hold_when_stock_up_10pct_or_less": 0.059,
+    "minus_hold_when_stock_up_more": -0.1911,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0751,
+     "middle_third": 0.0159,
+     "upper_third": -0.2595
+    }
+   },
+   "IV|UNDER": {
+    "mean_log": 0.0861,
+    "mean_ret": 0.1219,
+    "log_diff_vs_hold": -0.0115,
+    "diff_90pct": [
+     -0.0218,
+     -0.0015
+    ],
+    "beats_hold_share": 0.603,
+    "p10_ret": -0.192,
+    "mean_dd": -0.2268,
+    "premium_yield": 0.018,
+    "called_away_share": 0.296,
+    "called_below_cost_share": 0.028,
+    "open_at_end_share": 0.204,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0293,
+    "minus_hold_when_stock_up_more": -0.1268,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0291,
+     "middle_third": 0.0282,
+     "upper_third": -0.1852
+    }
+   },
+   "MANAGED|AT": {
+    "mean_log": 0.0806,
+    "mean_ret": 0.1082,
+    "log_diff_vs_hold": -0.017,
+    "diff_90pct": [
+     -0.0338,
+     -0.0009
+    ],
+    "beats_hold_share": 0.611,
+    "p10_ret": -0.1441,
+    "mean_dd": -0.1911,
+    "premium_yield": 0.0281,
+    "called_away_share": 0.581,
+    "called_below_cost_share": 0.059,
+    "open_at_end_share": 0.228,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0565,
+    "minus_hold_when_stock_up_more": -0.1884,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0702,
+     "middle_third": 0.0186,
+     "upper_third": -0.2578
+    }
+   },
+   "MANAGED|UNDER": {
+    "mean_log": 0.0861,
+    "mean_ret": 0.1221,
+    "log_diff_vs_hold": -0.0115,
+    "diff_90pct": [
+     -0.0218,
+     -0.0019
+    ],
+    "beats_hold_share": 0.605,
+    "p10_ret": -0.192,
+    "mean_dd": -0.2274,
+    "premium_yield": 0.0183,
+    "called_away_share": 0.277,
+    "called_below_cost_share": 0.023,
+    "open_at_end_share": 0.222,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0283,
+    "minus_hold_when_stock_up_more": -0.1253,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0284,
+     "middle_third": 0.0272,
+     "upper_third": -0.1828
+    }
+   },
+   "MANAGED+NEWS|AT": {
+    "mean_log": 0.08,
+    "mean_ret": 0.1076,
+    "log_diff_vs_hold": -0.0176,
+    "diff_90pct": [
+     -0.0336,
+     -0.0029
+    ],
+    "beats_hold_share": 0.61,
+    "p10_ret": -0.1409,
+    "mean_dd": -0.1919,
+    "premium_yield": 0.0277,
+    "called_away_share": 0.58,
+    "called_below_cost_share": 0.059,
+    "open_at_end_share": 0.222,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0558,
+    "minus_hold_when_stock_up_more": -0.1889,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0682,
+     "middle_third": 0.0191,
+     "upper_third": -0.2581
+    }
+   },
+   "MANAGED+NEWS|UNDER": {
+    "mean_log": 0.0861,
+    "mean_ret": 0.1223,
+    "log_diff_vs_hold": -0.0115,
+    "diff_90pct": [
+     -0.0216,
+     -0.0016
+    ],
+    "beats_hold_share": 0.605,
+    "p10_ret": -0.1927,
+    "mean_dd": -0.2275,
+    "premium_yield": 0.0179,
+    "called_away_share": 0.273,
+    "called_below_cost_share": 0.019,
+    "open_at_end_share": 0.218,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0278,
+    "minus_hold_when_stock_up_more": -0.1241,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0272,
+     "middle_third": 0.0272,
+     "upper_third": -0.1809
+    }
+   },
+   "ROLL|AT": {
+    "mean_log": 0.0778,
+    "mean_ret": 0.1003,
+    "log_diff_vs_hold": -0.0198,
+    "diff_90pct": [
+     -0.0396,
+     -0.0024
+    ],
+    "beats_hold_share": 0.532,
+    "p10_ret": -0.1122,
+    "mean_dd": -0.1731,
+    "premium_yield": 0.0296,
+    "called_away_share": 0.705,
+    "called_below_cost_share": 0.084,
+    "open_at_end_share": 0.214,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0686,
+    "minus_hold_when_stock_up_more": -0.2198,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0909,
+     "middle_third": 0.0151,
+     "upper_third": -0.2987
+    }
+   },
+   "ROLL|UNDER": {
+    "mean_log": 0.0857,
+    "mean_ret": 0.1178,
+    "log_diff_vs_hold": -0.0119,
+    "diff_90pct": [
+     -0.0249,
+     -0.0001
+    ],
+    "beats_hold_share": 0.622,
+    "p10_ret": -0.1853,
+    "mean_dd": -0.2179,
+    "premium_yield": 0.02,
+    "called_away_share": 0.334,
+    "called_below_cost_share": 0.046,
+    "open_at_end_share": 0.284,
+    "minus_hold_when_stock_up_10pct_or_less": 0.0376,
+    "minus_hold_when_stock_up_more": -0.1454,
+    "minus_hold_by_third_of_stock_return": {
+     "lower_third": 0.0386,
+     "middle_third": 0.035,
+     "upper_third": -0.2137
+    }
+   }
+  },
+  "vs_base": {
+   "ROLL|AT": {
+    "log_diff_vs_base": 0.0025,
+    "diff_90pct": [
+     0.0008,
+     0.0042
+    ],
+    "beats_base_share": 0.168,
+    "same_as_base_share": 0.753
+   },
+   "IV|AT": {
+    "log_diff_vs_base": 0.0057,
+    "diff_90pct": [
+     0.0019,
+     0.0101
+    ],
+    "beats_base_share": 0.344,
+    "same_as_base_share": 0.287
+   },
+   "MANAGED|AT": {
+    "log_diff_vs_base": 0.0053,
+    "diff_90pct": [
+     0.0005,
+     0.0108
+    ],
+    "beats_base_share": 0.405,
+    "same_as_base_share": 0.214
+   },
+   "ROLL|UNDER": {
+    "log_diff_vs_base": 0.0009,
+    "diff_90pct": [
+     0.0003,
+     0.0016
+    ],
+    "beats_base_share": 0.054,
+    "same_as_base_share": 0.906
+   },
+   "IV|UNDER": {
+    "log_diff_vs_base": 0.0013,
+    "diff_90pct": [
+     -0.0019,
+     0.005
+    ],
+    "beats_base_share": 0.256,
+    "same_as_base_share": 0.354
+   },
+   "MANAGED|UNDER": {
+    "log_diff_vs_base": 0.0013,
+    "diff_90pct": [
+     -0.0021,
+     0.0052
+    ],
+    "beats_base_share": 0.267,
+    "same_as_base_share": 0.334
+   }
+  },
+  "news_guardrail": {
+   "BASE|AT": {
+    "news_minus_plain_log": 0.0002,
+    "diff_90pct": [
+     -0.0002,
+     0.0006
+    ],
+    "better_share": 0.087,
+    "same_share": 0.802
+   },
+   "MANAGED|AT": {
+    "news_minus_plain_log": -0.0006,
+    "diff_90pct": [
+     -0.0023,
+     0.001
+    ],
+    "better_share": 0.11,
+    "same_share": 0.743
+   },
+   "BASE|UNDER": {
+    "news_minus_plain_log": 0.0001,
+    "diff_90pct": [
+     -0.0003,
+     0.0005
+    ],
+    "better_share": 0.112,
+    "same_share": 0.748
+   },
+   "MANAGED|UNDER": {
+    "news_minus_plain_log": 0.0,
+    "diff_90pct": [
+     -0.0013,
+     0.0014
+    ],
+    "better_share": 0.093,
+    "same_share": 0.803
+   }
+  }
+ },
+ "by_group": {
+  "active": {
+   "haircut_mult": 2.0,
+   "cases": 1552,
+   "names": 58,
+   "starts": 27,
+   "HOLD": {
+    "mean_log": 0.1022,
+    "mean_ret": 0.2574,
+    "p10_ret": -0.3499,
+    "mean_dd": -0.3522,
+    "share_up_more_than_10pct": 0.463
+   },
+   "rules": {
+    "BASE|AT": {
+     "mean_log": 0.0777,
+     "mean_ret": 0.1364,
+     "log_diff_vs_hold": -0.0245,
+     "diff_90pct": [
+      -0.0521,
+      0.0018
+     ],
+     "beats_hold_share": 0.572,
+     "p10_ret": -0.2641,
+     "mean_dd": -0.2474,
+     "premium_yield": 0.0463,
+     "called_away_share": 0.671,
+     "called_below_cost_share": 0.083,
+     "open_at_end_share": 0.171,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0834,
+     "minus_hold_when_stock_up_more": -0.3578,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0975,
+      "middle_third": 0.0299,
+      "upper_third": -0.4897
+     }
+    },
+    "BASE|UNDER": {
+     "mean_log": 0.0907,
+     "mean_ret": 0.1652,
+     "log_diff_vs_hold": -0.0115,
+     "diff_90pct": [
+      -0.0328,
+      0.009
+     ],
+     "beats_hold_share": 0.634,
+     "p10_ret": -0.3135,
+     "mean_dd": -0.2829,
+     "premium_yield": 0.0373,
+     "called_away_share": 0.441,
+     "called_below_cost_share": 0.056,
+     "open_at_end_share": 0.211,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0593,
+     "minus_hold_when_stock_up_more": -0.2677,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0557,
+      "middle_third": 0.0598,
+      "upper_third": -0.3917
+     }
+    },
+    "BASE+NEWS|AT": {
+     "mean_log": 0.0776,
+     "mean_ret": 0.1383,
+     "log_diff_vs_hold": -0.0246,
+     "diff_90pct": [
+      -0.0526,
+      0.0026
+     ],
+     "beats_hold_share": 0.575,
+     "p10_ret": -0.2642,
+     "mean_dd": -0.2485,
+     "premium_yield": 0.0486,
+     "called_away_share": 0.668,
+     "called_below_cost_share": 0.084,
+     "open_at_end_share": 0.173,
+     "minus_hold_when_stock_up_10pct_or_less": 0.083,
+     "minus_hold_when_stock_up_more": -0.3532,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0961,
+      "middle_third": 0.0298,
+      "upper_third": -0.4825
+     }
+    },
+    "BASE+NEWS|UNDER": {
+     "mean_log": 0.092,
+     "mean_ret": 0.1689,
+     "log_diff_vs_hold": -0.0102,
+     "diff_90pct": [
+      -0.0315,
+      0.0113
+     ],
+     "beats_hold_share": 0.631,
+     "p10_ret": -0.314,
+     "mean_dd": -0.2833,
+     "premium_yield": 0.0397,
+     "called_away_share": 0.438,
+     "called_below_cost_share": 0.054,
+     "open_at_end_share": 0.207,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0593,
+     "minus_hold_when_stock_up_more": -0.2598,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0553,
+      "middle_third": 0.061,
+      "upper_third": -0.3813
+     }
+    },
+    "IV|AT": {
+     "mean_log": 0.0891,
+     "mean_ret": 0.1625,
+     "log_diff_vs_hold": -0.0131,
+     "diff_90pct": [
+      -0.0372,
+      0.0094
+     ],
+     "beats_hold_share": 0.609,
+     "p10_ret": -0.2953,
+     "mean_dd": -0.2642,
+     "premium_yield": 0.0446,
+     "called_away_share": 0.583,
+     "called_below_cost_share": 0.046,
+     "open_at_end_share": 0.158,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0722,
+     "minus_hold_when_stock_up_more": -0.2884,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0802,
+      "middle_third": 0.0359,
+      "upper_third": -0.4
+     }
+    },
+    "IV|UNDER": {
+     "mean_log": 0.0989,
+     "mean_ret": 0.1863,
+     "log_diff_vs_hold": -0.0033,
+     "diff_90pct": [
+      -0.0207,
+      0.0113
+     ],
+     "beats_hold_share": 0.644,
+     "p10_ret": -0.3204,
+     "mean_dd": -0.2948,
+     "premium_yield": 0.035,
+     "called_away_share": 0.368,
+     "called_below_cost_share": 0.029,
+     "open_at_end_share": 0.173,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0503,
+     "minus_hold_when_stock_up_more": -0.2118,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0456,
+      "middle_third": 0.0559,
+      "upper_third": -0.3144
+     }
+    },
+    "MANAGED|AT": {
+     "mean_log": 0.087,
+     "mean_ret": 0.1613,
+     "log_diff_vs_hold": -0.0152,
+     "diff_90pct": [
+      -0.038,
+      0.0058
+     ],
+     "beats_hold_share": 0.614,
+     "p10_ret": -0.3023,
+     "mean_dd": -0.2677,
+     "premium_yield": 0.0459,
+     "called_away_share": 0.556,
+     "called_below_cost_share": 0.039,
+     "open_at_end_share": 0.174,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0677,
+     "minus_hold_when_stock_up_more": -0.2859,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0745,
+      "middle_third": 0.0338,
+      "upper_third": -0.396
+     }
+    },
+    "MANAGED|UNDER": {
+     "mean_log": 0.0971,
+     "mean_ret": 0.1854,
+     "log_diff_vs_hold": -0.0051,
+     "diff_90pct": [
+      -0.0218,
+      0.0095
+     ],
+     "beats_hold_share": 0.646,
+     "p10_ret": -0.3204,
+     "mean_dd": -0.2981,
+     "premium_yield": 0.036,
+     "called_away_share": 0.34,
+     "called_below_cost_share": 0.028,
+     "open_at_end_share": 0.191,
+     "minus_hold_when_stock_up_10pct_or_less": 0.045,
+     "minus_hold_when_stock_up_more": -0.2074,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0401,
+      "middle_third": 0.052,
+      "upper_third": -0.3074
+     }
+    },
+    "MANAGED+NEWS|AT": {
+     "mean_log": 0.0871,
+     "mean_ret": 0.1634,
+     "log_diff_vs_hold": -0.0151,
+     "diff_90pct": [
+      -0.0375,
+      0.0057
+     ],
+     "beats_hold_share": 0.622,
+     "p10_ret": -0.3028,
+     "mean_dd": -0.269,
+     "premium_yield": 0.0473,
+     "called_away_share": 0.551,
+     "called_below_cost_share": 0.039,
+     "open_at_end_share": 0.172,
+     "minus_hold_when_stock_up_10pct_or_less": 0.067,
+     "minus_hold_when_stock_up_more": -0.2804,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.073,
+      "middle_third": 0.0348,
+      "upper_third": -0.3891
+     }
+    },
+    "MANAGED+NEWS|UNDER": {
+     "mean_log": 0.0992,
+     "mean_ret": 0.1911,
+     "log_diff_vs_hold": -0.003,
+     "diff_90pct": [
+      -0.0188,
+      0.0107
+     ],
+     "beats_hold_share": 0.644,
+     "p10_ret": -0.3208,
+     "mean_dd": -0.2985,
+     "premium_yield": 0.0381,
+     "called_away_share": 0.34,
+     "called_below_cost_share": 0.028,
+     "open_at_end_share": 0.182,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0449,
+     "minus_hold_when_stock_up_more": -0.1952,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0404,
+      "middle_third": 0.0516,
+      "upper_third": -0.2905
+     }
+    },
+    "ROLL|AT": {
+     "mean_log": 0.0788,
+     "mean_ret": 0.1387,
+     "log_diff_vs_hold": -0.0234,
+     "diff_90pct": [
+      -0.0499,
+      0.0032
+     ],
+     "beats_hold_share": 0.582,
+     "p10_ret": -0.2682,
+     "mean_dd": -0.251,
+     "premium_yield": 0.0478,
+     "called_away_share": 0.639,
+     "called_below_cost_share": 0.072,
+     "open_at_end_share": 0.197,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0816,
+     "minus_hold_when_stock_up_more": -0.3508,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0942,
+      "middle_third": 0.0328,
+      "upper_third": -0.4824
+     }
+    },
+    "ROLL|UNDER": {
+     "mean_log": 0.091,
+     "mean_ret": 0.1664,
+     "log_diff_vs_hold": -0.0112,
+     "diff_90pct": [
+      -0.0329,
+      0.009
+     ],
+     "beats_hold_share": 0.642,
+     "p10_ret": -0.3137,
+     "mean_dd": -0.2853,
+     "premium_yield": 0.0382,
+     "called_away_share": 0.411,
+     "called_below_cost_share": 0.05,
+     "open_at_end_share": 0.236,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0565,
+     "minus_hold_when_stock_up_more": -0.2618,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0533,
+      "middle_third": 0.0585,
+      "upper_third": -0.3842
+     }
+    }
+   },
+   "vs_base": {
+    "ROLL|AT": {
+     "log_diff_vs_base": 0.0011,
+     "diff_90pct": [
+      -0.0004,
+      0.0024
+     ],
+     "beats_base_share": 0.093,
+     "same_as_base_share": 0.859
+    },
+    "IV|AT": {
+     "log_diff_vs_base": 0.0114,
+     "diff_90pct": [
+      0.0054,
+      0.0185
+     ],
+     "beats_base_share": 0.331,
+     "same_as_base_share": 0.243
+    },
+    "MANAGED|AT": {
+     "log_diff_vs_base": 0.0093,
+     "diff_90pct": [
+      0.0017,
+      0.017
+     ],
+     "beats_base_share": 0.347,
+     "same_as_base_share": 0.218
+    },
+    "ROLL|UNDER": {
+     "log_diff_vs_base": 0.0003,
+     "diff_90pct": [
+      -0.0012,
+      0.0019
+     ],
+     "beats_base_share": 0.057,
+     "same_as_base_share": 0.907
+    },
+    "IV|UNDER": {
+     "log_diff_vs_base": 0.0082,
+     "diff_90pct": [
+      0.0008,
+      0.0163
+     ],
+     "beats_base_share": 0.305,
+     "same_as_base_share": 0.274
+    },
+    "MANAGED|UNDER": {
+     "log_diff_vs_base": 0.0064,
+     "diff_90pct": [
+      -0.0014,
+      0.0147
+     ],
+     "beats_base_share": 0.312,
+     "same_as_base_share": 0.255
+    }
+   },
+   "news_guardrail": {
+    "BASE|AT": {
+     "news_minus_plain_log": -0.0,
+     "diff_90pct": [
+      -0.0009,
+      0.0008
+     ],
+     "better_share": 0.169,
+     "same_share": 0.635
+    },
+    "MANAGED|AT": {
+     "news_minus_plain_log": 0.0001,
+     "diff_90pct": [
+      -0.0012,
+      0.0016
+     ],
+     "better_share": 0.144,
+     "same_share": 0.671
+    },
+    "BASE|UNDER": {
+     "news_minus_plain_log": 0.0013,
+     "diff_90pct": [
+      0.0008,
+      0.0019
+     ],
+     "better_share": 0.189,
+     "same_share": 0.624
+    },
+    "MANAGED|UNDER": {
+     "news_minus_plain_log": 0.0021,
+     "diff_90pct": [
+      0.0007,
+      0.0036
+     ],
+     "better_share": 0.135,
+     "same_share": 0.687
+    }
+   }
+  },
+  "etf": {
+   "haircut_mult": 2.0,
+   "cases": 565,
+   "names": 21,
+   "starts": 27,
+   "HOLD": {
+    "mean_log": 0.0987,
+    "mean_ret": 0.1173,
+    "p10_ret": -0.0532,
+    "mean_dd": -0.1328,
+    "share_up_more_than_10pct": 0.43
+   },
+   "rules": {
+    "BASE|AT": {
+     "mean_log": 0.0659,
+     "mean_ret": 0.0717,
+     "log_diff_vs_hold": -0.0328,
+     "diff_90pct": [
+      -0.0496,
+      -0.0168
+     ],
+     "beats_hold_share": 0.395,
+     "p10_ret": -0.0196,
+     "mean_dd": -0.0838,
+     "premium_yield": 0.0188,
+     "called_away_share": 0.788,
+     "called_below_cost_share": 0.09,
+     "open_at_end_share": 0.152,
+     "minus_hold_when_stock_up_10pct_or_less": 0.015,
+     "minus_hold_when_stock_up_more": -0.126,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0332,
+      "middle_third": -0.0176,
+      "upper_third": -0.1521
+     }
+    },
+    "BASE|UNDER": {
+     "mean_log": 0.0904,
+     "mean_ret": 0.1021,
+     "log_diff_vs_hold": -0.0083,
+     "diff_90pct": [
+      -0.0186,
+      0.0012
+     ],
+     "beats_hold_share": 0.441,
+     "p10_ret": -0.0487,
+     "mean_dd": -0.1155,
+     "premium_yield": 0.0088,
+     "called_away_share": 0.204,
+     "called_below_cost_share": 0.032,
+     "open_at_end_share": 0.223,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0079,
+     "minus_hold_when_stock_up_more": -0.0459,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0076,
+      "middle_third": 0.0086,
+      "upper_third": -0.0616
+     }
+    },
+    "BASE+NEWS|AT": {
+     "mean_log": 0.0657,
+     "mean_ret": 0.0714,
+     "log_diff_vs_hold": -0.033,
+     "diff_90pct": [
+      -0.05,
+      -0.0172
+     ],
+     "beats_hold_share": 0.4,
+     "p10_ret": -0.0179,
+     "mean_dd": -0.0838,
+     "premium_yield": 0.0189,
+     "called_away_share": 0.796,
+     "called_below_cost_share": 0.097,
+     "open_at_end_share": 0.143,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0154,
+     "minus_hold_when_stock_up_more": -0.1271,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0332,
+      "middle_third": -0.0168,
+      "upper_third": -0.1536
+     }
+    },
+    "BASE+NEWS|UNDER": {
+     "mean_log": 0.0904,
+     "mean_ret": 0.1022,
+     "log_diff_vs_hold": -0.0083,
+     "diff_90pct": [
+      -0.0185,
+      0.0014
+     ],
+     "beats_hold_share": 0.432,
+     "p10_ret": -0.0487,
+     "mean_dd": -0.1156,
+     "premium_yield": 0.009,
+     "called_away_share": 0.198,
+     "called_below_cost_share": 0.027,
+     "open_at_end_share": 0.225,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0077,
+     "minus_hold_when_stock_up_more": -0.0455,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0076,
+      "middle_third": 0.0082,
+      "upper_third": -0.061
+     }
+    },
+    "IV|AT": {
+     "mean_log": 0.0708,
+     "mean_ret": 0.0778,
+     "log_diff_vs_hold": -0.0279,
+     "diff_90pct": [
+      -0.0436,
+      -0.0129
+     ],
+     "beats_hold_share": 0.464,
+     "p10_ret": -0.0214,
+     "mean_dd": -0.09,
+     "premium_yield": 0.0181,
+     "called_away_share": 0.687,
+     "called_below_cost_share": 0.065,
+     "open_at_end_share": 0.182,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0141,
+     "minus_hold_when_stock_up_more": -0.1107,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0296,
+      "middle_third": -0.0139,
+      "upper_third": -0.1339
+     }
+    },
+    "IV|UNDER": {
+     "mean_log": 0.0916,
+     "mean_ret": 0.1039,
+     "log_diff_vs_hold": -0.0071,
+     "diff_90pct": [
+      -0.0164,
+      0.0014
+     ],
+     "beats_hold_share": 0.435,
+     "p10_ret": -0.0495,
+     "mean_dd": -0.1169,
+     "premium_yield": 0.0082,
+     "called_away_share": 0.175,
+     "called_below_cost_share": 0.025,
+     "open_at_end_share": 0.179,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0074,
+     "minus_hold_when_stock_up_more": -0.041,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.007,
+      "middle_third": 0.0076,
+      "upper_third": -0.0546
+     }
+    },
+    "MANAGED|AT": {
+     "mean_log": 0.0771,
+     "mean_ret": 0.0853,
+     "log_diff_vs_hold": -0.0217,
+     "diff_90pct": [
+      -0.0356,
+      -0.0079
+     ],
+     "beats_hold_share": 0.51,
+     "p10_ret": -0.0296,
+     "mean_dd": -0.0963,
+     "premium_yield": 0.0197,
+     "called_away_share": 0.545,
+     "called_below_cost_share": 0.028,
+     "open_at_end_share": 0.296,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0147,
+     "minus_hold_when_stock_up_more": -0.094,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0259,
+      "middle_third": -0.0062,
+      "upper_third": -0.1154
+     }
+    },
+    "MANAGED|UNDER": {
+     "mean_log": 0.0925,
+     "mean_ret": 0.1054,
+     "log_diff_vs_hold": -0.0063,
+     "diff_90pct": [
+      -0.0146,
+      0.0013
+     ],
+     "beats_hold_share": 0.455,
+     "p10_ret": -0.0512,
+     "mean_dd": -0.1202,
+     "premium_yield": 0.0088,
+     "called_away_share": 0.099,
+     "called_below_cost_share": 0.014,
+     "open_at_end_share": 0.242,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0048,
+     "minus_hold_when_stock_up_more": -0.034,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0046,
+      "middle_third": 0.0052,
+      "upper_third": -0.0454
+     }
+    },
+    "MANAGED+NEWS|AT": {
+     "mean_log": 0.0758,
+     "mean_ret": 0.0839,
+     "log_diff_vs_hold": -0.0229,
+     "diff_90pct": [
+      -0.0373,
+      -0.0091
+     ],
+     "beats_hold_share": 0.488,
+     "p10_ret": -0.0298,
+     "mean_dd": -0.0957,
+     "premium_yield": 0.0192,
+     "called_away_share": 0.57,
+     "called_below_cost_share": 0.035,
+     "open_at_end_share": 0.269,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0143,
+     "minus_hold_when_stock_up_more": -0.0966,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0263,
+      "middle_third": -0.008,
+      "upper_third": -0.1181
+     }
+    },
+    "MANAGED+NEWS|UNDER": {
+     "mean_log": 0.0919,
+     "mean_ret": 0.1047,
+     "log_diff_vs_hold": -0.0068,
+     "diff_90pct": [
+      -0.0153,
+      0.0009
+     ],
+     "beats_hold_share": 0.43,
+     "p10_ret": -0.0512,
+     "mean_dd": -0.1198,
+     "premium_yield": 0.0083,
+     "called_away_share": 0.119,
+     "called_below_cost_share": 0.014,
+     "open_at_end_share": 0.221,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0047,
+     "minus_hold_when_stock_up_more": -0.0355,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0045,
+      "middle_third": 0.0051,
+      "upper_third": -0.0472
+     }
+    },
+    "ROLL|AT": {
+     "mean_log": 0.0739,
+     "mean_ret": 0.0811,
+     "log_diff_vs_hold": -0.0248,
+     "diff_90pct": [
+      -0.041,
+      -0.0099
+     ],
+     "beats_hold_share": 0.453,
+     "p10_ret": -0.0231,
+     "mean_dd": -0.0912,
+     "premium_yield": 0.0217,
+     "called_away_share": 0.641,
+     "called_below_cost_share": 0.058,
+     "open_at_end_share": 0.288,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0166,
+     "minus_hold_when_stock_up_more": -0.1062,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0302,
+      "middle_third": -0.0077,
+      "upper_third": -0.1305
+     }
+    },
+    "ROLL|UNDER": {
+     "mean_log": 0.0915,
+     "mean_ret": 0.1039,
+     "log_diff_vs_hold": -0.0072,
+     "diff_90pct": [
+      -0.0161,
+      0.0007
+     ],
+     "beats_hold_share": 0.457,
+     "p10_ret": -0.0495,
+     "mean_dd": -0.1192,
+     "premium_yield": 0.0098,
+     "called_away_share": 0.122,
+     "called_below_cost_share": 0.019,
+     "open_at_end_share": 0.299,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0052,
+     "minus_hold_when_stock_up_more": -0.0381,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0051,
+      "middle_third": 0.0061,
+      "upper_third": -0.0513
+     }
+    }
+   },
+   "vs_base": {
+    "ROLL|AT": {
+     "log_diff_vs_base": 0.008,
+     "diff_90pct": [
+      0.0063,
+      0.0094
+     ],
+     "beats_base_share": 0.354,
+     "same_as_base_share": 0.522
+    },
+    "IV|AT": {
+     "log_diff_vs_base": 0.0049,
+     "diff_90pct": [
+      0.0023,
+      0.0079
+     ],
+     "beats_base_share": 0.338,
+     "same_as_base_share": 0.354
+    },
+    "MANAGED|AT": {
+     "log_diff_vs_base": 0.0111,
+     "diff_90pct": [
+      0.0077,
+      0.0149
+     ],
+     "beats_base_share": 0.504,
+     "same_as_base_share": 0.184
+    },
+    "ROLL|UNDER": {
+     "log_diff_vs_base": 0.0011,
+     "diff_90pct": [
+      -0.001,
+      0.0033
+     ],
+     "beats_base_share": 0.101,
+     "same_as_base_share": 0.827
+    },
+    "IV|UNDER": {
+     "log_diff_vs_base": 0.0012,
+     "diff_90pct": [
+      0.0001,
+      0.0025
+     ],
+     "beats_base_share": 0.127,
+     "same_as_base_share": 0.701
+    },
+    "MANAGED|UNDER": {
+     "log_diff_vs_base": 0.0021,
+     "diff_90pct": [
+      -0.0009,
+      0.0052
+     ],
+     "beats_base_share": 0.191,
+     "same_as_base_share": 0.604
+    }
+   },
+   "news_guardrail": {
+    "BASE|AT": {
+     "news_minus_plain_log": -0.0002,
+     "diff_90pct": [
+      -0.0008,
+      0.0004
+     ],
+     "better_share": 0.193,
+     "same_share": 0.646
+    },
+    "MANAGED|AT": {
+     "news_minus_plain_log": -0.0012,
+     "diff_90pct": [
+      -0.0026,
+      0.0
+     ],
+     "better_share": 0.228,
+     "same_share": 0.531
+    },
+    "BASE|UNDER": {
+     "news_minus_plain_log": 0.0,
+     "diff_90pct": [
+      -0.0004,
+      0.0004
+     ],
+     "better_share": 0.106,
+     "same_share": 0.779
+    },
+    "MANAGED|UNDER": {
+     "news_minus_plain_log": -0.0005,
+     "diff_90pct": [
+      -0.0009,
+      -0.0002
+     ],
+     "better_share": 0.083,
+     "same_share": 0.791
+    }
+   }
+  },
+  "orig33": {
+   "haircut_mult": 2.0,
+   "cases": 864,
+   "names": 32,
+   "starts": 27,
+   "HOLD": {
+    "mean_log": 0.0976,
+    "mean_ret": 0.1645,
+    "p10_ret": -0.2099,
+    "mean_dd": -0.2614,
+    "share_up_more_than_10pct": 0.461
+   },
+   "rules": {
+    "BASE|AT": {
+     "mean_log": 0.0753,
+     "mean_ret": 0.0971,
+     "log_diff_vs_hold": -0.0223,
+     "diff_90pct": [
+      -0.0434,
+      -0.0042
+     ],
+     "beats_hold_share": 0.502,
+     "p10_ret": -0.1072,
+     "mean_dd": -0.169,
+     "premium_yield": 0.0287,
+     "called_away_share": 0.786,
+     "called_below_cost_share": 0.118,
+     "open_at_end_share": 0.137,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0697,
+     "minus_hold_when_stock_up_more": -0.2279,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0948,
+      "middle_third": 0.0075,
+      "upper_third": -0.3046
+     }
+    },
+    "BASE|UNDER": {
+     "mean_log": 0.0848,
+     "mean_ret": 0.1163,
+     "log_diff_vs_hold": -0.0129,
+     "diff_90pct": [
+      -0.0265,
+      -0.0001
+     ],
+     "beats_hold_share": 0.613,
+     "p10_ret": -0.1853,
+     "mean_dd": -0.2173,
+     "premium_yield": 0.0198,
+     "called_away_share": 0.36,
+     "called_below_cost_share": 0.058,
+     "open_at_end_share": 0.259,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0384,
+     "minus_hold_when_stock_up_more": -0.1495,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0394,
+      "middle_third": 0.0349,
+      "upper_third": -0.2188
+     }
+    },
+    "BASE+NEWS|AT": {
+     "mean_log": 0.0755,
+     "mean_ret": 0.0974,
+     "log_diff_vs_hold": -0.0221,
+     "diff_90pct": [
+      -0.0427,
+      -0.0047
+     ],
+     "beats_hold_share": 0.502,
+     "p10_ret": -0.1103,
+     "mean_dd": -0.1692,
+     "premium_yield": 0.0284,
+     "called_away_share": 0.784,
+     "called_below_cost_share": 0.119,
+     "open_at_end_share": 0.137,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0697,
+     "minus_hold_when_stock_up_more": -0.2274,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0949,
+      "middle_third": 0.0077,
+      "upper_third": -0.3039
+     }
+    },
+    "BASE+NEWS|UNDER": {
+     "mean_log": 0.0849,
+     "mean_ret": 0.1165,
+     "log_diff_vs_hold": -0.0127,
+     "diff_90pct": [
+      -0.0256,
+      -0.0001
+     ],
+     "beats_hold_share": 0.606,
+     "p10_ret": -0.1853,
+     "mean_dd": -0.2172,
+     "premium_yield": 0.0195,
+     "called_away_share": 0.361,
+     "called_below_cost_share": 0.06,
+     "open_at_end_share": 0.257,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0386,
+     "minus_hold_when_stock_up_more": -0.1494,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.04,
+      "middle_third": 0.0344,
+      "upper_third": -0.2185
+     }
+    },
+    "IV|AT": {
+     "mean_log": 0.081,
+     "mean_ret": 0.1083,
+     "log_diff_vs_hold": -0.0166,
+     "diff_90pct": [
+      -0.0353,
+      0.0003
+     ],
+     "beats_hold_share": 0.598,
+     "p10_ret": -0.1363,
+     "mean_dd": -0.1875,
+     "premium_yield": 0.0275,
+     "called_away_share": 0.649,
+     "called_below_cost_share": 0.075,
+     "open_at_end_share": 0.167,
+     "minus_hold_when_stock_up_10pct_or_less": 0.059,
+     "minus_hold_when_stock_up_more": -0.1911,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0751,
+      "middle_third": 0.0159,
+      "upper_third": -0.2595
+     }
+    },
+    "IV|UNDER": {
+     "mean_log": 0.0861,
+     "mean_ret": 0.1219,
+     "log_diff_vs_hold": -0.0115,
+     "diff_90pct": [
+      -0.0218,
+      -0.0015
+     ],
+     "beats_hold_share": 0.603,
+     "p10_ret": -0.192,
+     "mean_dd": -0.2268,
+     "premium_yield": 0.018,
+     "called_away_share": 0.296,
+     "called_below_cost_share": 0.028,
+     "open_at_end_share": 0.204,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0293,
+     "minus_hold_when_stock_up_more": -0.1268,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0291,
+      "middle_third": 0.0282,
+      "upper_third": -0.1852
+     }
+    },
+    "MANAGED|AT": {
+     "mean_log": 0.0806,
+     "mean_ret": 0.1082,
+     "log_diff_vs_hold": -0.017,
+     "diff_90pct": [
+      -0.0338,
+      -0.0009
+     ],
+     "beats_hold_share": 0.611,
+     "p10_ret": -0.1441,
+     "mean_dd": -0.1911,
+     "premium_yield": 0.0281,
+     "called_away_share": 0.581,
+     "called_below_cost_share": 0.059,
+     "open_at_end_share": 0.228,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0565,
+     "minus_hold_when_stock_up_more": -0.1884,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0702,
+      "middle_third": 0.0186,
+      "upper_third": -0.2578
+     }
+    },
+    "MANAGED|UNDER": {
+     "mean_log": 0.0861,
+     "mean_ret": 0.1221,
+     "log_diff_vs_hold": -0.0115,
+     "diff_90pct": [
+      -0.0218,
+      -0.0019
+     ],
+     "beats_hold_share": 0.605,
+     "p10_ret": -0.192,
+     "mean_dd": -0.2274,
+     "premium_yield": 0.0183,
+     "called_away_share": 0.277,
+     "called_below_cost_share": 0.023,
+     "open_at_end_share": 0.222,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0283,
+     "minus_hold_when_stock_up_more": -0.1253,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0284,
+      "middle_third": 0.0272,
+      "upper_third": -0.1828
+     }
+    },
+    "MANAGED+NEWS|AT": {
+     "mean_log": 0.08,
+     "mean_ret": 0.1076,
+     "log_diff_vs_hold": -0.0176,
+     "diff_90pct": [
+      -0.0336,
+      -0.0029
+     ],
+     "beats_hold_share": 0.61,
+     "p10_ret": -0.1409,
+     "mean_dd": -0.1919,
+     "premium_yield": 0.0277,
+     "called_away_share": 0.58,
+     "called_below_cost_share": 0.059,
+     "open_at_end_share": 0.222,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0558,
+     "minus_hold_when_stock_up_more": -0.1889,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0682,
+      "middle_third": 0.0191,
+      "upper_third": -0.2581
+     }
+    },
+    "MANAGED+NEWS|UNDER": {
+     "mean_log": 0.0861,
+     "mean_ret": 0.1223,
+     "log_diff_vs_hold": -0.0115,
+     "diff_90pct": [
+      -0.0216,
+      -0.0016
+     ],
+     "beats_hold_share": 0.605,
+     "p10_ret": -0.1927,
+     "mean_dd": -0.2275,
+     "premium_yield": 0.0179,
+     "called_away_share": 0.273,
+     "called_below_cost_share": 0.019,
+     "open_at_end_share": 0.218,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0278,
+     "minus_hold_when_stock_up_more": -0.1241,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0272,
+      "middle_third": 0.0272,
+      "upper_third": -0.1809
+     }
+    },
+    "ROLL|AT": {
+     "mean_log": 0.0778,
+     "mean_ret": 0.1003,
+     "log_diff_vs_hold": -0.0198,
+     "diff_90pct": [
+      -0.0396,
+      -0.0024
+     ],
+     "beats_hold_share": 0.532,
+     "p10_ret": -0.1122,
+     "mean_dd": -0.1731,
+     "premium_yield": 0.0296,
+     "called_away_share": 0.705,
+     "called_below_cost_share": 0.084,
+     "open_at_end_share": 0.214,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0686,
+     "minus_hold_when_stock_up_more": -0.2198,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0909,
+      "middle_third": 0.0151,
+      "upper_third": -0.2987
+     }
+    },
+    "ROLL|UNDER": {
+     "mean_log": 0.0857,
+     "mean_ret": 0.1178,
+     "log_diff_vs_hold": -0.0119,
+     "diff_90pct": [
+      -0.0249,
+      -0.0001
+     ],
+     "beats_hold_share": 0.622,
+     "p10_ret": -0.1853,
+     "mean_dd": -0.2179,
+     "premium_yield": 0.02,
+     "called_away_share": 0.334,
+     "called_below_cost_share": 0.046,
+     "open_at_end_share": 0.284,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0376,
+     "minus_hold_when_stock_up_more": -0.1454,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0386,
+      "middle_third": 0.035,
+      "upper_third": -0.2137
+     }
+    }
+   },
+   "vs_base": {
+    "ROLL|AT": {
+     "log_diff_vs_base": 0.0025,
+     "diff_90pct": [
+      0.0008,
+      0.0042
+     ],
+     "beats_base_share": 0.168,
+     "same_as_base_share": 0.753
+    },
+    "IV|AT": {
+     "log_diff_vs_base": 0.0057,
+     "diff_90pct": [
+      0.0019,
+      0.0101
+     ],
+     "beats_base_share": 0.344,
+     "same_as_base_share": 0.287
+    },
+    "MANAGED|AT": {
+     "log_diff_vs_base": 0.0053,
+     "diff_90pct": [
+      0.0005,
+      0.0108
+     ],
+     "beats_base_share": 0.405,
+     "same_as_base_share": 0.214
+    },
+    "ROLL|UNDER": {
+     "log_diff_vs_base": 0.0009,
+     "diff_90pct": [
+      0.0003,
+      0.0016
+     ],
+     "beats_base_share": 0.054,
+     "same_as_base_share": 0.906
+    },
+    "IV|UNDER": {
+     "log_diff_vs_base": 0.0013,
+     "diff_90pct": [
+      -0.0019,
+      0.005
+     ],
+     "beats_base_share": 0.256,
+     "same_as_base_share": 0.354
+    },
+    "MANAGED|UNDER": {
+     "log_diff_vs_base": 0.0013,
+     "diff_90pct": [
+      -0.0021,
+      0.0052
+     ],
+     "beats_base_share": 0.267,
+     "same_as_base_share": 0.334
+    }
+   },
+   "news_guardrail": {
+    "BASE|AT": {
+     "news_minus_plain_log": 0.0002,
+     "diff_90pct": [
+      -0.0002,
+      0.0006
+     ],
+     "better_share": 0.087,
+     "same_share": 0.802
+    },
+    "MANAGED|AT": {
+     "news_minus_plain_log": -0.0006,
+     "diff_90pct": [
+      -0.0023,
+      0.001
+     ],
+     "better_share": 0.11,
+     "same_share": 0.743
+    },
+    "BASE|UNDER": {
+     "news_minus_plain_log": 0.0001,
+     "diff_90pct": [
+      -0.0003,
+      0.0005
+     ],
+     "better_share": 0.112,
+     "same_share": 0.748
+    },
+    "MANAGED|UNDER": {
+     "news_minus_plain_log": 0.0,
+     "diff_90pct": [
+      -0.0013,
+      0.0014
+     ],
+     "better_share": 0.093,
+     "same_share": 0.803
+    }
+   }
+  },
+  "reddit": {
+   "haircut_mult": 2.0,
+   "cases": 346,
+   "names": 15,
+   "starts": 27,
+   "HOLD": {
+    "mean_log": 0.1767,
+    "mean_ret": 0.707,
+    "p10_ret": -0.3541,
+    "mean_dd": -0.4474,
+    "share_up_more_than_10pct": 0.462
+   },
+   "rules": {
+    "BASE|AT": {
+     "mean_log": 0.1583,
+     "mean_ret": 0.3537,
+     "log_diff_vs_hold": -0.0184,
+     "diff_90pct": [
+      -0.082,
+      0.0378
+     ],
+     "beats_hold_share": 0.613,
+     "p10_ret": -0.2853,
+     "mean_dd": -0.3236,
+     "premium_yield": 0.0677,
+     "called_away_share": 0.613,
+     "called_below_cost_share": 0.058,
+     "open_at_end_share": 0.249,
+     "minus_hold_when_stock_up_10pct_or_less": 0.1257,
+     "minus_hold_when_stock_up_more": -0.9101,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.1316,
+      "middle_third": 0.0835,
+      "upper_third": -1.2671
+     }
+    },
+    "BASE|UNDER": {
+     "mean_log": 0.1558,
+     "mean_ret": 0.3672,
+     "log_diff_vs_hold": -0.0209,
+     "diff_90pct": [
+      -0.0724,
+      0.0251
+     ],
+     "beats_hold_share": 0.653,
+     "p10_ret": -0.3292,
+     "mean_dd": -0.3553,
+     "premium_yield": 0.0614,
+     "called_away_share": 0.442,
+     "called_below_cost_share": 0.043,
+     "open_at_end_share": 0.286,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0924,
+     "minus_hold_when_stock_up_more": -0.8422,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0784,
+      "middle_third": 0.1037,
+      "upper_third": -1.194
+     }
+    },
+    "BASE+NEWS|AT": {
+     "mean_log": 0.1538,
+     "mean_ret": 0.3471,
+     "log_diff_vs_hold": -0.0229,
+     "diff_90pct": [
+      -0.0931,
+      0.0377
+     ],
+     "beats_hold_share": 0.61,
+     "p10_ret": -0.2941,
+     "mean_dd": -0.3244,
+     "premium_yield": 0.0677,
+     "called_away_share": 0.604,
+     "called_below_cost_share": 0.061,
+     "open_at_end_share": 0.246,
+     "minus_hold_when_stock_up_10pct_or_less": 0.1219,
+     "minus_hold_when_stock_up_more": -0.9199,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.1234,
+      "middle_third": 0.0853,
+      "upper_third": -1.2804
+     }
+    },
+    "BASE+NEWS|UNDER": {
+     "mean_log": 0.1557,
+     "mean_ret": 0.3668,
+     "log_diff_vs_hold": -0.021,
+     "diff_90pct": [
+      -0.0751,
+      0.0287
+     ],
+     "beats_hold_share": 0.653,
+     "p10_ret": -0.3257,
+     "mean_dd": -0.3553,
+     "premium_yield": 0.0615,
+     "called_away_share": 0.448,
+     "called_below_cost_share": 0.046,
+     "open_at_end_share": 0.277,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0936,
+     "minus_hold_when_stock_up_more": -0.8443,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0779,
+      "middle_third": 0.1078,
+      "upper_third": -1.1986
+     }
+    },
+    "IV|AT": {
+     "mean_log": 0.1783,
+     "mean_ret": 0.409,
+     "log_diff_vs_hold": 0.0016,
+     "diff_90pct": [
+      -0.0558,
+      0.0478
+     ],
+     "beats_hold_share": 0.688,
+     "p10_ret": -0.3041,
+     "mean_dd": -0.3469,
+     "premium_yield": 0.0662,
+     "called_away_share": 0.491,
+     "called_below_cost_share": 0.038,
+     "open_at_end_share": 0.197,
+     "minus_hold_when_stock_up_10pct_or_less": 0.102,
+     "minus_hold_when_stock_up_more": -0.763,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0972,
+      "middle_third": 0.1052,
+      "upper_third": -1.0896
+     }
+    },
+    "IV|UNDER": {
+     "mean_log": 0.1719,
+     "mean_ret": 0.4174,
+     "log_diff_vs_hold": -0.0048,
+     "diff_90pct": [
+      -0.0501,
+      0.0314
+     ],
+     "beats_hold_share": 0.668,
+     "p10_ret": -0.3393,
+     "mean_dd": -0.3719,
+     "premium_yield": 0.0617,
+     "called_away_share": 0.358,
+     "called_below_cost_share": 0.029,
+     "open_at_end_share": 0.188,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0713,
+     "minus_hold_when_stock_up_more": -0.7091,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0549,
+      "middle_third": 0.1042,
+      "upper_third": -1.0214
+     }
+    },
+    "MANAGED|AT": {
+     "mean_log": 0.1747,
+     "mean_ret": 0.4063,
+     "log_diff_vs_hold": -0.002,
+     "diff_90pct": [
+      -0.0601,
+      0.0454
+     ],
+     "beats_hold_share": 0.694,
+     "p10_ret": -0.3133,
+     "mean_dd": -0.3523,
+     "premium_yield": 0.0669,
+     "called_away_share": 0.46,
+     "called_below_cost_share": 0.035,
+     "open_at_end_share": 0.22,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0938,
+     "minus_hold_when_stock_up_more": -0.7593,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0914,
+      "middle_third": 0.0895,
+      "upper_third": -1.0763
+     }
+    },
+    "MANAGED|UNDER": {
+     "mean_log": 0.1695,
+     "mean_ret": 0.4159,
+     "log_diff_vs_hold": -0.0072,
+     "diff_90pct": [
+      -0.0531,
+      0.0313
+     ],
+     "beats_hold_share": 0.676,
+     "p10_ret": -0.3393,
+     "mean_dd": -0.3759,
+     "premium_yield": 0.0622,
+     "called_away_share": 0.335,
+     "called_below_cost_share": 0.032,
+     "open_at_end_share": 0.208,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0649,
+     "minus_hold_when_stock_up_more": -0.7048,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0514,
+      "middle_third": 0.089,
+      "upper_third": -1.0073
+     }
+    },
+    "MANAGED+NEWS|AT": {
+     "mean_log": 0.175,
+     "mean_ret": 0.409,
+     "log_diff_vs_hold": -0.0017,
+     "diff_90pct": [
+      -0.0686,
+      0.0521
+     ],
+     "beats_hold_share": 0.688,
+     "p10_ret": -0.3198,
+     "mean_dd": -0.3523,
+     "premium_yield": 0.0705,
+     "called_away_share": 0.454,
+     "called_below_cost_share": 0.032,
+     "open_at_end_share": 0.202,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0936,
+     "minus_hold_when_stock_up_more": -0.7532,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0879,
+      "middle_third": 0.0918,
+      "upper_third": -1.067
+     }
+    },
+    "MANAGED+NEWS|UNDER": {
+     "mean_log": 0.172,
+     "mean_ret": 0.4203,
+     "log_diff_vs_hold": -0.0047,
+     "diff_90pct": [
+      -0.056,
+      0.0366
+     ],
+     "beats_hold_share": 0.676,
+     "p10_ret": -0.3401,
+     "mean_dd": -0.3747,
+     "premium_yield": 0.0661,
+     "called_away_share": 0.344,
+     "called_below_cost_share": 0.04,
+     "open_at_end_share": 0.199,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0675,
+     "minus_hold_when_stock_up_more": -0.6983,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0535,
+      "middle_third": 0.0923,
+      "upper_third": -0.9994
+     }
+    },
+    "ROLL|AT": {
+     "mean_log": 0.1563,
+     "mean_ret": 0.355,
+     "log_diff_vs_hold": -0.0204,
+     "diff_90pct": [
+      -0.0843,
+      0.038
+     ],
+     "beats_hold_share": 0.63,
+     "p10_ret": -0.2954,
+     "mean_dd": -0.3306,
+     "premium_yield": 0.0693,
+     "called_away_share": 0.564,
+     "called_below_cost_share": 0.043,
+     "open_at_end_share": 0.286,
+     "minus_hold_when_stock_up_10pct_or_less": 0.1143,
+     "minus_hold_when_stock_up_more": -0.8939,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.1214,
+      "middle_third": 0.0715,
+      "upper_third": -1.241
+     }
+    },
+    "ROLL|UNDER": {
+     "mean_log": 0.1556,
+     "mean_ret": 0.3715,
+     "log_diff_vs_hold": -0.0211,
+     "diff_90pct": [
+      -0.0775,
+      0.0296
+     ],
+     "beats_hold_share": 0.676,
+     "p10_ret": -0.3319,
+     "mean_dd": -0.3616,
+     "premium_yield": 0.0642,
+     "called_away_share": 0.393,
+     "called_below_cost_share": 0.04,
+     "open_at_end_share": 0.321,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0833,
+     "minus_hold_when_stock_up_more": -0.8223,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0715,
+      "middle_third": 0.0898,
+      "upper_third": -1.1604
+     }
+    }
+   },
+   "vs_base": {
+    "ROLL|AT": {
+     "log_diff_vs_base": -0.0019,
+     "diff_90pct": [
+      -0.0092,
+      0.0046
+     ],
+     "beats_base_share": 0.098,
+     "same_as_base_share": 0.835
+    },
+    "IV|AT": {
+     "log_diff_vs_base": 0.02,
+     "diff_90pct": [
+      0.003,
+      0.0404
+     ],
+     "beats_base_share": 0.393,
+     "same_as_base_share": 0.185
+    },
+    "MANAGED|AT": {
+     "log_diff_vs_base": 0.0164,
+     "diff_90pct": [
+      -0.0017,
+      0.0379
+     ],
+     "beats_base_share": 0.396,
+     "same_as_base_share": 0.162
+    },
+    "ROLL|UNDER": {
+     "log_diff_vs_base": -0.0002,
+     "diff_90pct": [
+      -0.0079,
+      0.0064
+     ],
+     "beats_base_share": 0.084,
+     "same_as_base_share": 0.858
+    },
+    "IV|UNDER": {
+     "log_diff_vs_base": 0.0161,
+     "diff_90pct": [
+      0.0006,
+      0.0354
+     ],
+     "beats_base_share": 0.332,
+     "same_as_base_share": 0.199
+    },
+    "MANAGED|UNDER": {
+     "log_diff_vs_base": 0.0137,
+     "diff_90pct": [
+      -0.0025,
+      0.0338
+     ],
+     "beats_base_share": 0.344,
+     "same_as_base_share": 0.171
+    }
+   },
+   "news_guardrail": {
+    "BASE|AT": {
+     "news_minus_plain_log": -0.0045,
+     "diff_90pct": [
+      -0.01,
+      0.0002
+     ],
+     "better_share": 0.199,
+     "same_share": 0.581
+    },
+    "MANAGED|AT": {
+     "news_minus_plain_log": 0.0004,
+     "diff_90pct": [
+      -0.0088,
+      0.008
+     ],
+     "better_share": 0.159,
+     "same_share": 0.624
+    },
+    "BASE|UNDER": {
+     "news_minus_plain_log": -0.0,
+     "diff_90pct": [
+      -0.0033,
+      0.003
+     ],
+     "better_share": 0.22,
+     "same_share": 0.575
+    },
+    "MANAGED|UNDER": {
+     "news_minus_plain_log": 0.0025,
+     "diff_90pct": [
+      -0.0019,
+      0.0064
+     ],
+     "better_share": 0.197,
+     "same_share": 0.59
+    }
+   }
+  },
+  "sp100": {
+   "haircut_mult": 2.0,
+   "cases": 1905,
+   "names": 71,
+   "starts": 27,
+   "HOLD": {
+    "mean_log": 0.0476,
+    "mean_ret": 0.0641,
+    "p10_ret": -0.1549,
+    "mean_dd": -0.1733,
+    "share_up_more_than_10pct": 0.406
+   },
+   "rules": {
+    "BASE|AT": {
+     "mean_log": 0.0373,
+     "mean_ret": 0.0446,
+     "log_diff_vs_hold": -0.0103,
+     "diff_90pct": [
+      -0.0185,
+      -0.0016
+     ],
+     "beats_hold_share": 0.518,
+     "p10_ret": -0.0978,
+     "mean_dd": -0.1165,
+     "premium_yield": 0.0188,
+     "called_away_share": 0.744,
+     "called_below_cost_share": 0.104,
+     "open_at_end_share": 0.138,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0369,
+     "minus_hold_when_stock_up_more": -0.1018,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0564,
+      "middle_third": 0.0029,
+      "upper_third": -0.1177
+     }
+    },
+    "BASE|UNDER": {
+     "mean_log": 0.0493,
+     "mean_ret": 0.064,
+     "log_diff_vs_hold": 0.0017,
+     "diff_90pct": [
+      -0.0011,
+      0.0044
+     ],
+     "beats_hold_share": 0.531,
+     "p10_ret": -0.1523,
+     "mean_dd": -0.1609,
+     "premium_yield": 0.0081,
+     "called_away_share": 0.203,
+     "called_below_cost_share": 0.024,
+     "open_at_end_share": 0.206,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0079,
+     "minus_hold_when_stock_up_more": -0.0117,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0044,
+      "middle_third": 0.0132,
+      "upper_third": -0.0178
+     }
+    },
+    "BASE+NEWS|AT": {
+     "mean_log": 0.0374,
+     "mean_ret": 0.0448,
+     "log_diff_vs_hold": -0.0102,
+     "diff_90pct": [
+      -0.0186,
+      -0.0019
+     ],
+     "beats_hold_share": 0.522,
+     "p10_ret": -0.0977,
+     "mean_dd": -0.1168,
+     "premium_yield": 0.0189,
+     "called_away_share": 0.736,
+     "called_below_cost_share": 0.099,
+     "open_at_end_share": 0.145,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0366,
+     "minus_hold_when_stock_up_more": -0.1011,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0558,
+      "middle_third": 0.003,
+      "upper_third": -0.1167
+     }
+    },
+    "BASE+NEWS|UNDER": {
+     "mean_log": 0.0494,
+     "mean_ret": 0.0642,
+     "log_diff_vs_hold": 0.0018,
+     "diff_90pct": [
+      -0.0011,
+      0.0046
+     ],
+     "beats_hold_share": 0.531,
+     "p10_ret": -0.1523,
+     "mean_dd": -0.1611,
+     "premium_yield": 0.0081,
+     "called_away_share": 0.201,
+     "called_below_cost_share": 0.022,
+     "open_at_end_share": 0.204,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0078,
+     "minus_hold_when_stock_up_more": -0.0111,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0043,
+      "middle_third": 0.0131,
+      "upper_third": -0.017
+     }
+    },
+    "IV|AT": {
+     "mean_log": 0.0376,
+     "mean_ret": 0.0458,
+     "log_diff_vs_hold": -0.01,
+     "diff_90pct": [
+      -0.0168,
+      -0.0033
+     ],
+     "beats_hold_share": 0.549,
+     "p10_ret": -0.1104,
+     "mean_dd": -0.1241,
+     "premium_yield": 0.0171,
+     "called_away_share": 0.671,
+     "called_below_cost_share": 0.077,
+     "open_at_end_share": 0.137,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0316,
+     "minus_hold_when_stock_up_more": -0.0911,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0472,
+      "middle_third": 0.0035,
+      "upper_third": -0.1055
+     }
+    },
+    "IV|UNDER": {
+     "mean_log": 0.0496,
+     "mean_ret": 0.0648,
+     "log_diff_vs_hold": 0.002,
+     "diff_90pct": [
+      -0.0005,
+      0.0046
+     ],
+     "beats_hold_share": 0.51,
+     "p10_ret": -0.1533,
+     "mean_dd": -0.163,
+     "premium_yield": 0.0067,
+     "called_away_share": 0.174,
+     "called_below_cost_share": 0.016,
+     "open_at_end_share": 0.165,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0069,
+     "minus_hold_when_stock_up_more": -0.0083,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0042,
+      "middle_third": 0.0111,
+      "upper_third": -0.0131
+     }
+    },
+    "MANAGED|AT": {
+     "mean_log": 0.038,
+     "mean_ret": 0.0464,
+     "log_diff_vs_hold": -0.0096,
+     "diff_90pct": [
+      -0.0164,
+      -0.003
+     ],
+     "beats_hold_share": 0.559,
+     "p10_ret": -0.1114,
+     "mean_dd": -0.1255,
+     "premium_yield": 0.0174,
+     "called_away_share": 0.645,
+     "called_below_cost_share": 0.071,
+     "open_at_end_share": 0.158,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0309,
+     "minus_hold_when_stock_up_more": -0.0885,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0456,
+      "middle_third": 0.0045,
+      "upper_third": -0.1031
+     }
+    },
+    "MANAGED|UNDER": {
+     "mean_log": 0.0494,
+     "mean_ret": 0.0646,
+     "log_diff_vs_hold": 0.0018,
+     "diff_90pct": [
+      -0.0007,
+      0.0042
+     ],
+     "beats_hold_share": 0.511,
+     "p10_ret": -0.1533,
+     "mean_dd": -0.1637,
+     "premium_yield": 0.0069,
+     "called_away_share": 0.155,
+     "called_below_cost_share": 0.015,
+     "open_at_end_share": 0.182,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0064,
+     "minus_hold_when_stock_up_more": -0.0081,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0042,
+      "middle_third": 0.0101,
+      "upper_third": -0.0129
+     }
+    },
+    "MANAGED+NEWS|AT": {
+     "mean_log": 0.038,
+     "mean_ret": 0.0465,
+     "log_diff_vs_hold": -0.0096,
+     "diff_90pct": [
+      -0.0163,
+      -0.0028
+     ],
+     "beats_hold_share": 0.561,
+     "p10_ret": -0.1121,
+     "mean_dd": -0.1261,
+     "premium_yield": 0.0174,
+     "called_away_share": 0.638,
+     "called_below_cost_share": 0.067,
+     "open_at_end_share": 0.16,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0303,
+     "minus_hold_when_stock_up_more": -0.0876,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0448,
+      "middle_third": 0.0045,
+      "upper_third": -0.1021
+     }
+    },
+    "MANAGED+NEWS|UNDER": {
+     "mean_log": 0.0493,
+     "mean_ret": 0.0645,
+     "log_diff_vs_hold": 0.0017,
+     "diff_90pct": [
+      -0.0008,
+      0.0041
+     ],
+     "beats_hold_share": 0.508,
+     "p10_ret": -0.1533,
+     "mean_dd": -0.164,
+     "premium_yield": 0.0068,
+     "called_away_share": 0.152,
+     "called_below_cost_share": 0.014,
+     "open_at_end_share": 0.178,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0062,
+     "minus_hold_when_stock_up_more": -0.0081,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0042,
+      "middle_third": 0.0098,
+      "upper_third": -0.0128
+     }
+    },
+    "ROLL|AT": {
+     "mean_log": 0.0382,
+     "mean_ret": 0.0457,
+     "log_diff_vs_hold": -0.0094,
+     "diff_90pct": [
+      -0.0176,
+      -0.0009
+     ],
+     "beats_hold_share": 0.53,
+     "p10_ret": -0.1011,
+     "mean_dd": -0.1186,
+     "premium_yield": 0.0194,
+     "called_away_share": 0.708,
+     "called_below_cost_share": 0.087,
+     "open_at_end_share": 0.17,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0359,
+     "minus_hold_when_stock_up_more": -0.0977,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0542,
+      "middle_third": 0.0042,
+      "upper_third": -0.1135
+     }
+    },
+    "ROLL|UNDER": {
+     "mean_log": 0.0492,
+     "mean_ret": 0.0641,
+     "log_diff_vs_hold": 0.0016,
+     "diff_90pct": [
+      -0.0009,
+      0.004
+     ],
+     "beats_hold_share": 0.533,
+     "p10_ret": -0.1523,
+     "mean_dd": -0.1619,
+     "premium_yield": 0.0083,
+     "called_away_share": 0.174,
+     "called_below_cost_share": 0.021,
+     "open_at_end_share": 0.233,
+     "minus_hold_when_stock_up_10pct_or_less": 0.0072,
+     "minus_hold_when_stock_up_more": -0.0105,
+     "minus_hold_by_third_of_stock_return": {
+      "lower_third": 0.0044,
+      "middle_third": 0.0117,
+      "upper_third": -0.0161
+     }
+    }
+   },
+   "vs_base": {
+    "ROLL|AT": {
+     "log_diff_vs_base": 0.0008,
+     "diff_90pct": [
+      0.0005,
+      0.0012
+     ],
+     "beats_base_share": 0.103,
+     "same_as_base_share": 0.83
+    },
+    "IV|AT": {
+     "log_diff_vs_base": 0.0002,
+     "diff_90pct": [
+      -0.0022,
+      0.0026
+     ],
+     "beats_base_share": 0.288,
+     "same_as_base_share": 0.309
+    },
+    "MANAGED|AT": {
+     "log_diff_vs_base": 0.0007,
+     "diff_90pct": [
+      -0.0019,
+      0.003
+     ],
+     "beats_base_share": 0.322,
+     "same_as_base_share": 0.267
+    },
+    "ROLL|UNDER": {
+     "log_diff_vs_base": -0.0,
+     "diff_90pct": [
+      -0.0005,
+      0.0004
+     ],
+     "beats_base_share": 0.039,
+     "same_as_base_share": 0.922
+    },
+    "IV|UNDER": {
+     "log_diff_vs_base": 0.0004,
+     "diff_90pct": [
+      -0.0003,
+      0.001
+     ],
+     "beats_base_share": 0.157,
+     "same_as_base_share": 0.57
+    },
+    "MANAGED|UNDER": {
+     "log_diff_vs_base": 0.0001,
+     "diff_90pct": [
+      -0.0005,
+      0.0008
+     ],
+     "beats_base_share": 0.169,
+     "same_as_base_share": 0.551
+    }
+   },
+   "news_guardrail": {
+    "BASE|AT": {
+     "news_minus_plain_log": 0.0001,
+     "diff_90pct": [
+      -0.0002,
+      0.0005
+     ],
+     "better_share": 0.168,
+     "same_share": 0.648
+    },
+    "MANAGED|AT": {
+     "news_minus_plain_log": 0.0,
+     "diff_90pct": [
+      -0.0005,
+      0.0006
+     ],
+     "better_share": 0.166,
+     "same_share": 0.64
+    },
+    "BASE|UNDER": {
+     "news_minus_plain_log": 0.0001,
+     "diff_90pct": [
+      -0.0001,
+      0.0004
+     ],
+     "better_share": 0.09,
+     "same_share": 0.811
+    },
+    "MANAGED|UNDER": {
+     "news_minus_plain_log": -0.0001,
+     "diff_90pct": [
+      -0.0001,
+      -0.0
+     ],
+     "better_share": 0.068,
+     "same_share": 0.838
+    }
+   }
+  }
+ }
+}

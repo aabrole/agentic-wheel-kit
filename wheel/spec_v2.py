@@ -16,13 +16,15 @@ WHAT IS NEW, AND THE EVIDENCE
          buying it; calls are proposed on it on the next run. Eligible = price >= $10 and above
          its 200-day average. Pick = highest trailing 252-session return ("strongest trend").
          Never a stock already held. The owner chose this over "calmest quality" on 2026-11-18.
-         Evidence: wheel_ladder/study_rotate.py arm ROTM, PARTIAL (47 of about 198 names):
-         one year, 965 cases: 37.8% against 39.7% holding and 26.6% with the cash in SPY;
-         2.5 years, 141 cases: +123% mean / +102% median against +111% / +49% holding.
-         NOT CONFIRMED: it bought the window's biggest winners, the 2.5-year figure rests on
-         three overlapping start dates, it is the fourth pick rule tried on the same cases, and
-         its drawdowns are close to holding's. It stays BETA until the full-list run agrees,
-         holds at twice the spread, and is not carried by a few names.
+         Evidence: wheel_ladder/study_rotate.py arm ROTM, full list (196 names, 4,050 one-year
+         cases): 34.9% against 43.8% holding and 28.3% with the cash in SPY; log gap vs holding
+         +0.025 [-0.066, +0.124], vs the SPY arm +0.017 [-0.101, +0.135]; beat holding 56%.
+         NOT CONFIRMED. It failed the three conditions set beforehand: the gaps span zero, they
+         shrink at twice the spread, and its purchases concentrate in a few names (RGTI, QUBT,
+         UMAC, RKLB, WULF, ASTS, CIFR, IREN). The 118-name partial run had shown 40.1% vs 35.3%.
+         A different arm (ROTT: uptrend filter, then highest implied volatility) did clear zero
+         against both, but it is the sixth rule tried on the same cases and is not adopted.
+         The rule stays available and BETA; the evidence does not favour it over "spy".
   Not adopted: the implied-volatility filter (worth about +0.5 log points in the study) needs
   a history of each stock's implied volatility that the live snapshot does not carry yet.
   Not adopted: skipping macro news days (no measurable effect in the study).

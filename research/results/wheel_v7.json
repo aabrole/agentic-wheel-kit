@@ -1,0 +1,418 @@
+{
+ "names": 198,
+ "spy": {
+  "final": 83157.37,
+  "cagr": 0.2062,
+  "max_dd": -0.1876
+ },
+ "runs": {
+  "PREMIUM_cap5": {
+   "final": 70811.21,
+   "cagr": 0.1368,
+   "max_dd": -0.1577,
+   "profit": 20811.21,
+   "premium_collected": 81417.51,
+   "assignments": 61,
+   "called_away": 42,
+   "rolls": 96,
+   "orders": 1243,
+   "cycles": 341,
+   "worst_cycle": -117.97,
+   "names_traded": [
+    "OPEN",
+    "CLF",
+    "SOUN",
+    "PTON",
+    "AMC",
+    "BBAI",
+    "CLSK",
+    "QUBT",
+    "MARA",
+    "BB",
+    "SNAP",
+    "WULF",
+    "RGTI",
+    "LUNR",
+    "ACHR",
+    "SMR",
+    "CIFR",
+    "IREN",
+    "PATH",
+    "JOBY",
+    "RIOT",
+    "UMAC",
+    "DJT",
+    "S",
+    "FRMI"
+   ],
+   "open_at_end": {
+    "CLF": {
+     "shares": 100,
+     "basis": 17.5,
+     "last": 12.98
+    },
+    "SNAP": {
+     "shares": 100,
+     "basis": 10.5,
+     "last": 6.23
+    },
+    "PTON": {
+     "shares": 200,
+     "basis": 8.0,
+     "last": 5.12
+    },
+    "QUBT": {
+     "shares": 100,
+     "basis": 19.5,
+     "last": 7.44
+    },
+    "FRMI": {
+     "shares": 100,
+     "basis": 17.5,
+     "last": 3.43
+    },
+    "OPEN": {
+     "shares": 100,
+     "basis": 8.0,
+     "last": 2.22
+    },
+    "SOUN": {
+     "shares": 100,
+     "basis": 11.5,
+     "last": 5.39
+    },
+    "BBAI": {
+     "shares": 100,
+     "basis": 6.0,
+     "last": 2.39
+    },
+    "DJT": {
+     "shares": 100,
+     "basis": 13.5,
+     "last": 8.11
+    },
+    "ACHR": {
+     "shares": 100,
+     "basis": 8.0,
+     "last": 4.96
+    },
+    "RGTI": {
+     "shares": 100,
+     "basis": 23.0,
+     "last": 14.03
+    },
+    "LUNR": {
+     "shares": 100,
+     "basis": 35.0,
+     "last": 13.19
+    },
+    "SMR": {
+     "shares": 200,
+     "basis": 10.5,
+     "last": 7.2
+    },
+    "JOBY": {
+     "shares": 100,
+     "basis": 8.5,
+     "last": 5.44
+    },
+    "WULF": {
+     "shares": 100,
+     "basis": 24.5,
+     "last": 13.77
+    },
+    "UMAC": {
+     "shares": 100,
+     "basis": 30.0,
+     "last": 20.83
+    },
+    "RIOT": {
+     "shares": 100,
+     "basis": 22.0,
+     "last": 16.89
+    },
+    "MARA": {
+     "shares": 300,
+     "basis": 12.0,
+     "last": 9.65
+    },
+    "CLSK": {
+     "shares": 100,
+     "basis": 13.5,
+     "last": 10.49
+    }
+   },
+   "premium_per_week": 575,
+   "net_option_cash": 56934,
+   "profit_per_week": 147,
+   "names_traded_count": 54,
+   "Q1_ge_10pct": true,
+   "Q2_beats_spy": false,
+   "Q3_smaller_dd": true
+  },
+  "PREMIUM_cap10": {
+   "final": 74959.22,
+   "cagr": 0.161,
+   "max_dd": -0.1665,
+   "profit": 24959.22,
+   "premium_collected": 105793.15,
+   "assignments": 49,
+   "called_away": 30,
+   "rolls": 86,
+   "orders": 1023,
+   "cycles": 287,
+   "worst_cycle": -148.46,
+   "names_traded": [
+    "PTON",
+    "MARA",
+    "AMC",
+    "OPEN",
+    "QUBT",
+    "BBAI",
+    "SNAP",
+    "LUNR",
+    "BB",
+    "CIFR",
+    "RGTI",
+    "UMAC",
+    "ACHR",
+    "PATH",
+    "SOUN",
+    "AI",
+    "CLSK",
+    "IREN",
+    "FRMI",
+    "SMR",
+    "OKLO",
+    "DJT",
+    "WULF",
+    "CCL",
+    "RIOT"
+   ],
+   "open_at_end": {
+    "AMC": {
+     "shares": 100,
+     "basis": 4.5,
+     "last": 2.98
+    },
+    "MARA": {
+     "shares": 200,
+     "basis": 24.0,
+     "last": 9.65
+    },
+    "SNAP": {
+     "shares": 100,
+     "basis": 10.0,
+     "last": 6.23
+    },
+    "PTON": {
+     "shares": 100,
+     "basis": 8.0,
+     "last": 5.12
+    },
+    "AI": {
+     "shares": 100,
+     "basis": 17.5,
+     "last": 11.53
+    },
+    "QUBT": {
+     "shares": 300,
+     "basis": 19.5,
+     "last": 7.44
+    },
+    "FRMI": {
+     "shares": 100,
+     "basis": 12.5,
+     "last": 3.43
+    },
+    "ACHR": {
+     "shares": 100,
+     "basis": 8.0,
+     "last": 4.96
+    },
+    "JOBY": {
+     "shares": 100,
+     "basis": 10.0,
+     "last": 5.44
+    },
+    "RGTI": {
+     "shares": 100,
+     "basis": 21.0,
+     "last": 14.03
+    },
+    "SMR": {
+     "shares": 200,
+     "basis": 11.0,
+     "last": 7.2
+    },
+    "LUNR": {
+     "shares": 100,
+     "basis": 35.0,
+     "last": 13.19
+    },
+    "BBAI": {
+     "shares": 100,
+     "basis": 5.0,
+     "last": 2.39
+    },
+    "BB": {
+     "shares": 200,
+     "basis": 10.0,
+     "last": 8.91
+    },
+    "UMAC": {
+     "shares": 100,
+     "basis": 27.0,
+     "last": 20.83
+    },
+    "SOUN": {
+     "shares": 100,
+     "basis": 6.5,
+     "last": 5.39
+    },
+    "OPEN": {
+     "shares": 100,
+     "basis": 3.0,
+     "last": 2.22
+    },
+    "CLSK": {
+     "shares": 100,
+     "basis": 13.5,
+     "last": 10.49
+    },
+    "RIOT": {
+     "shares": 100,
+     "basis": 18.0,
+     "last": 16.89
+    }
+   },
+   "premium_per_week": 747,
+   "net_option_cash": 68998,
+   "profit_per_week": 176,
+   "names_traded_count": 47,
+   "Q1_ge_10pct": true,
+   "Q2_beats_spy": false,
+   "Q3_smaller_dd": true
+  },
+  "QUALITY_cap5": {
+   "final": 50975.64,
+   "cagr": 0.0071,
+   "max_dd": -0.0171,
+   "profit": 975.64,
+   "premium_collected": 4874.57,
+   "assignments": 7,
+   "called_away": 4,
+   "rolls": 21,
+   "orders": 277,
+   "cycles": 100,
+   "worst_cycle": -96.55,
+   "names_traded": [
+    "CLF",
+    "ET",
+    "F",
+    "T",
+    "PFE",
+    "AAL",
+    "KMI",
+    "SLV",
+    "FXI",
+    "KHC",
+    "GME",
+    "EWZ"
+   ],
+   "open_at_end": {
+    "CLF": {
+     "shares": 100,
+     "basis": 17.5,
+     "last": 12.98
+    },
+    "F": {
+     "shares": 100,
+     "basis": 16.5,
+     "last": 12.17
+    },
+    "T": {
+     "shares": 100,
+     "basis": 25.0,
+     "last": 22.18
+    }
+   },
+   "premium_per_week": 34,
+   "net_option_cash": 3446,
+   "profit_per_week": 7,
+   "names_traded_count": 12,
+   "Q1_ge_10pct": false,
+   "Q2_beats_spy": false,
+   "Q3_smaller_dd": true
+  },
+  "QUALITY_cap10": {
+   "final": 55846.69,
+   "cagr": 0.0416,
+   "max_dd": -0.0531,
+   "profit": 5846.69,
+   "premium_collected": 21390.73,
+   "assignments": 13,
+   "called_away": 9,
+   "rolls": 78,
+   "orders": 668,
+   "cycles": 236,
+   "worst_cycle": -96.55,
+   "names_traded": [
+    "XLRE",
+    "XLF",
+    "ET",
+    "EEM",
+    "EWZ",
+    "KMI",
+    "T",
+    "F",
+    "BAC",
+    "SLV",
+    "VZ",
+    "PFE",
+    "FXI",
+    "KHC",
+    "SLB",
+    "GDX",
+    "AAL",
+    "DAL",
+    "GME",
+    "DVN",
+    "BMY",
+    "C",
+    "WFC",
+    "HAL",
+    "USB"
+   ],
+   "open_at_end": {
+    "F": {
+     "shares": 100,
+     "basis": 16.5,
+     "last": 12.17
+    },
+    "KMI": {
+     "shares": 100,
+     "basis": 32.0,
+     "last": 32.49
+    },
+    "XLRE": {
+     "shares": 100,
+     "basis": 43.0,
+     "last": 41.61
+    },
+    "T": {
+     "shares": 200,
+     "basis": 24.5,
+     "last": 22.18
+    }
+   },
+   "premium_per_week": 151,
+   "net_option_cash": 13338,
+   "profit_per_week": 41,
+   "names_traded_count": 25,
+   "Q1_ge_10pct": false,
+   "Q2_beats_spy": false,
+   "Q3_smaller_dd": true
+  }
+ }
+}

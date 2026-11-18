@@ -509,7 +509,7 @@ def rotation_proposals(snap, R, reserved=0.0):
     cost = round(limit * 100 * lots, 2)
     what = ("strongest one-year gain among stocks above their 200-day average" if rule == "trend"
             else "calmest stock passing the quality filter")
-    flags = ["BETA rule: tested on 47 of about 198 names so far; not yet confirmed on the full list",
+    flags = ["BETA rule, not confirmed: on the full 198-name test it did not clearly beat holding or putting this cash in SPY",
              f"candidate list measured {as_of}",
              f"this purchase is {cost / value:.0%} of the account in one stock"]
     if rank > 1:
