@@ -26,7 +26,7 @@ import core  # noqa: E402
 import scenarios  # noqa: E402
 
 MODE = os.environ.get("WHEEL_MODE", "staging")
-HOST = os.environ.get("WHEEL_HOST", "127.0.0.1")
+HOST = os.environ.get("WHEEL_HOST") or "127.0.0.1"   # a blank WHEEL_HOST= in .env means localhost
 PORT = int(os.environ.get("WHEEL_PORT", "8090"))
 TOKEN = os.environ.get("WHEEL_TOKEN", "")
 
