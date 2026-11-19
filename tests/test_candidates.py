@@ -90,3 +90,18 @@ def test_partial_premium_pull_is_dropped(monkeypatch):
     monkeypatch.setattr(C, "_alpaca_iv", fake_iv)
     out = C.build()
     assert out["iv_incomplete"] and all(r["atm_iv"] is None for r in out["candidates"])
+
+
+def test_robinhood_broker_still_gets_premium_levels_from_alpaca_keys(monkeypatch):
+    """Alpaca keys are a data source independent of BROKER: Robinhood can execute on this list."""
+    bars = {s: [(f"d{i}", 50.0 + i * 0.1) for i in range(300)] for s in ("AAA", "BBB")}
+    monkeypatch.setattr(C, "_alpaca", lambda names: (bars, "fake"))
+    monkeypatch.setattr(C.config, "get", lambda k, d=None: {"BROKER": "robinhood", "ALPACA_KEY": "x"}.get(k))
+
+    def fake_iv(rows):
+        for r in rows:
+            r["atm_iv"] = 0.5
+        return rows, len(rows), len(rows)
+    monkeypatch.setattr(C, "_alpaca_iv", fake_iv)
+    out = C.build()
+    assert out["iv_source"] and all(r["atm_iv"] == 0.5 for r in out["candidates"])

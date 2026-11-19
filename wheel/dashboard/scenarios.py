@@ -21,7 +21,7 @@ def _candidates():
 def _real():
     s = json.loads((FIX / "sample_account.json").read_text())
     c = _candidates()
-    s["candidates"] = [{k: r.get(k) for k in ("symbol", "last", "sma200", "ret_252", "vol_252")} for r in c["candidates"]]
+    s["candidates"] = [{k: r.get(k) for k in ("symbol", "last", "sma200", "ret_252", "vol_252", "atm_iv")} for r in c["candidates"]]
     s["candidates_as_of"] = c["candidates_as_of"]
     return s
 

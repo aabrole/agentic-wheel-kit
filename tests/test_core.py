@@ -240,9 +240,11 @@ class Rotation(Base):
         self.assertTrue(any(x["symbol"] == p["symbol"] and "no option chain" in x["reason"] for x in s["engine"]["skipped"]))
 
     def test_settings_accept_premium_and_reject_unknown_rule(self):
+        self.assertEqual(core.rules_for(core.load_settings("staging")).ROT_RULE, "premium")       # the shipped default
+        core.change_settings("staging", {"rules": {"ROT_RULE": "trend"}})
         r = core.change_settings("staging", {"rules": {"ROT_RULE": "premium"}})
         self.assertTrue(r["ok"], r)
-        self.assertEqual(core.load_settings("staging")["rules"]["ROT_RULE"], "premium")
+        self.assertEqual(core.rules_for(core.load_settings("staging")).ROT_RULE, "premium")
         r = core.change_settings("staging", {"rules": {"ROT_RULE": "momentum"}})
         self.assertFalse(r["ok"], r)
 
