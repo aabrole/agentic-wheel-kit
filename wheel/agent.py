@@ -66,7 +66,7 @@ def read():
         _state("base.json").write_text(json.dumps(snap, indent=1))
     out = core.record_run(MODE, "account read")
     print(f"read {config.BROKER}: {len(snap['positions'])} positions, cash ${snap['account']['cash']:,.2f}, "
-          f"{len(out['proposals'])} proposals, blocked: {out['blocked'] or 'no'}")
+          f"{_waiting()} proposals, blocked: {out['blocked'] or 'no'}")
     return out
 
 
@@ -185,6 +185,12 @@ def connect():
     asyncio.run(go())
 
 
+def _waiting(st=None):
+    """Proposals still waiting for a decision. Declined and queued ones are not counted."""
+    st = st or core.full_state(MODE)
+    return sum(p["status"] == "new" for p in st["engine"]["proposals"])
+
+
 def status():
     st = core.full_state(MODE)
     if st.get("empty"):
@@ -192,7 +198,7 @@ def status():
         return
     pf = st["portfolio"]
     print(f"broker {st['broker']}  sending {'ON' if st['send_enabled'] else 'OFF'}  account ${pf['account_value']:,.2f}  "
-          f"cash ${pf['cash']:,.2f}  calls out {pf['calls_out']}/{pf['lots_total']}  proposals {len(st['engine']['proposals'])}  "
+          f"cash ${pf['cash']:,.2f}  calls out {pf['calls_out']}/{pf['lots_total']}  proposals {_waiting(st)}  "
           f"orders waiting {sum(o['status'] == 'queued' for o in st['outbox'])}")
 
 
