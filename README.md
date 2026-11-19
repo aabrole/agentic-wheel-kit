@@ -134,7 +134,7 @@ It takes several hours and a few gigabytes of disk. The results describe one str
 | `hermes/` | The `wheel-desk` skill Hermes loads. |
 | `prompts/` | Setup, full test rerun, weekly review, and the contractor prompt that tests a suggestion. |
 | `research/` | The test code and the small data files it needs. Downloaded option prices are not included. |
-| `tests/` | 64 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
+| `tests/` | 86 automated tests. Run them with `.venv/bin/python -m pytest -q tests`. |
 
 ## What is and is not verified
 
