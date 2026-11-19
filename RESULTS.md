@@ -78,7 +78,7 @@ Over 2.5 years there are only three overlapping start dates (549 cases), so thes
 
 - Base rule: 35-day calls at or above your net cost, one lot always kept free. Tested, modest, locked.
 - Rolls: on, small benefit.
-- Called-away cash: committed to the wheel. It buys 100-share lots of the top-ranked stock under the trend rule, which is labelled beta and "not confirmed" on every proposal because it failed the full test. Cash too small for a lot is parked in SPY and sold again when it can fund one. The owner chose this setup knowing the test result. A switch sends all free cash to SPY instead, which is the choice the tests support; quality and off are the other options.
+- Called-away cash: committed to the wheel. It buys 100-share lots of the top-ranked stock under the trend rule, which is labelled beta and "not confirmed" on every proposal because it failed the full test. Cash too small for a lot is parked in SPY and sold again when it can fund one. The owner chose this setup knowing the test result. A switch sends all free cash to SPY instead, which is the choice the tests support; quality and off are the other options. A second beta rule, "premium", is available on the same switch: uptrend filter, then highest option premium (the 45.5% row above). It needs Alpaca keys, because the premium level of each stock comes from Alpaca option quotes, and every proposal from it is flagged as a lead, not a finding.
 - Puts: off. Not tested enough.
 - The scoreboard shows premium next to profit and next to "if you had just held", because that gap is the main finding.
 

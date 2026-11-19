@@ -38,8 +38,9 @@ ROLLS_ENABLED = True
 ROLL_DTE = 7                     # consider a roll when an in-the-money call has this many days or fewer
 
 ROTATION_ENABLED = True
-ROT_RULE = "trend"               # "trend" (beta, not confirmed) | "quality" (calmest) | "spy" (all free cash to SPY) | "off"
-SWEEP_TO_SPY = True              # with "trend" or "quality": cash too small for 100 shares is parked in SPY, and
+ROT_RULE = "trend"               # "trend" (beta, not confirmed) | "premium" (beta: uptrend, then highest option premium;
+                                 # needs Alpaca keys for premium levels) | "quality" (calmest) | "spy" (all free cash to SPY) | "off"
+SWEEP_TO_SPY = True              # with "trend", "premium" or "quality": cash too small for 100 shares is parked in SPY, and
                                  # parked SPY counts as buying power (it is sold when it can fund a 100-share lot).
                                  # Owner's choice 2026-11-18: "most committed to the wheel, leftover cash held in SPY".
 SWEEP_MIN = 25.0                 # do not bother parking less than this

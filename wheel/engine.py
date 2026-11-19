@@ -252,7 +252,8 @@ def validate(snap: dict):
         cands.append({"symbol": sym, "last": _num(c.get("last"), f"{sym} candidate price", E, positive=True),
                       "sma200": _num(c.get("sma200"), f"{sym} 200-day average", E, allow_none=True),
                       "ret_252": _num(c.get("ret_252"), f"{sym} one-year return", E, allow_none=True),
-                      "vol_252": _num(c.get("vol_252"), f"{sym} one-year volatility", E, allow_none=True)})
+                      "vol_252": _num(c.get("vol_252"), f"{sym} one-year volatility", E, allow_none=True),
+                      "atm_iv": _num(c.get("atm_iv"), f"{sym} option premium level", E, positive=True, allow_none=True)})
     out["candidates"] = cands
     out["candidates_as_of"] = str(snap.get("candidates_as_of") or "")
     parked = _num(snap.get("parked_spy_shares") or 0.0, "parked SPY shares", E)
@@ -467,7 +468,7 @@ def rotation_proposals(snap, R, reserved=0.0):
     as_of = snap.get("candidates_as_of") or "unknown date"
     value = _account_value(snap)
     # --- parking: cash that cannot buy 100 shares sits in SPY, and parked SPY is buying power
-    sweep = bool(getattr(R, "SWEEP_TO_SPY", False)) and rule in ("trend", "quality")
+    sweep = bool(getattr(R, "SWEEP_TO_SPY", False)) and rule in ("trend", "quality", "premium")
     park = getattr(R, "PARK_SYMBOL", "SPY")
     park_px = float((snap.get("quotes") or {}).get(park)
                     or next((c["last"] for c in cands if c["symbol"] == park), 0.0) or 0.0)
@@ -499,6 +500,11 @@ def rotation_proposals(snap, R, reserved=0.0):
     if not cands:
         return _park_cash("no candidate list in the snapshot"), [{"symbol": "*", "reason": "rotation: no candidate list in the snapshot"}]
     ranked, passed_over = [], []
+    if rule == "premium" and not any(c.get("atm_iv") is not None for c in cands):
+        return _park_cash("the candidate list has no option premium levels"), [{
+            "symbol": "*", "reason": "rotation: the candidate list has no option premium levels (they come from Alpaca option quotes, "
+                                     "so they need Alpaca keys and a complete pull); delete today's saved candidate list to "
+                                     "rebuild it, or pick another rule"}]
     for c in cands:
         sym, last = c["symbol"], c["last"]
         if sym in held or (sweep and sym == park):
@@ -509,6 +515,10 @@ def rotation_proposals(snap, R, reserved=0.0):
             if c["ret_252"] is None:
                 continue
             ranked.append((-c["ret_252"], sym, c))
+        elif rule == "premium":                                 # highest option premium first
+            if c.get("atm_iv") is None:
+                continue
+            ranked.append((-c["atm_iv"], sym, c))
         else:                                                   # "quality": calmest first
             if c["vol_252"] is None or c["vol_252"] > R.ROT_QUALITY_MAX_VOL:
                 continue
@@ -522,7 +532,7 @@ def rotation_proposals(snap, R, reserved=0.0):
             break
         if len(passed_over) < R.ROT_SHOW_RANKS:
             passed_over.append({"symbol": sym, "reason": f"100 shares cost ${c['last'] * 100:,.0f}, free cash is ${free:,.0f}",
-                                "ret_252": c["ret_252"], "last": c["last"]})
+                                "ret_252": c["ret_252"], "atm_iv": c.get("atm_iv"), "last": c["last"]})
     if pick is None:
         why = (f"rotation: free cash ${free:,.0f} does not cover 100 shares of any eligible stock"
                if ranked else "rotation: no stock passes the trend filter")
@@ -540,31 +550,50 @@ def rotation_proposals(snap, R, reserved=0.0):
                  "why": f"cash is ${cash_free:,.2f}, parked {park} is worth ${park_val:,.2f}, and 100 shares of {sym} now fit",
                  "evidence": "Leftover cash held in SPY instead of idle: see RESULTS.md, section 3 (the '+ leftover in SPY' rows).",
                  "flags": [f"only the {park_sh:.4f} {park} shares this system parked are counted; any other {park} you hold is not touched",
-                           "the stock pick that follows uses a BETA rule that was not confirmed on the full test"],
+                           "the stock pick that follows uses a BETA rule that is a lead, not a finding" if rule == "premium"
+                           else "the stock pick that follows uses a BETA rule that was not confirmed on the full test"],
                  "rejected_strikes": []}], []
     what = ("strongest one-year gain among stocks above their 200-day average" if rule == "trend"
             else "calmest stock passing the quality filter")
-    flags = ["BETA rule, not confirmed: on the full 198-name test it did not clearly beat holding or putting this cash in SPY",
-             f"candidate list measured {as_of}",
-             f"this purchase is {cost / value:.0%} of the account in one stock"]
+    if rule == "premium":
+        flags = ["BETA rule, a lead and not a finding: it beat holding and all-SPY on the 198-name test, but it was the sixth pick rule tried on the same history",
+                 "highest premium means the most volatile stocks: average worst drop in the test was 37%, against 24% for all-SPY"]
+    else:
+        flags = ["BETA rule, not confirmed: on the full 198-name test it did not clearly beat holding or putting this cash in SPY"]
+    flags += [f"candidate list measured {as_of}",
+              f"this purchase is {cost / value:.0%} of the account in one stock"]
     if rank > 1:
         flags.insert(0, f"{sym} ranks {rank} of {len(ranked)} eligible stocks: the {rank - 1} ranked above it "
                         f"cost more than the ${free:,.0f} of free cash for 100 shares")
     if snap.get("earnings", {}).get(sym) is None and sym not in R.ETFS:
         flags.append(f"next earnings date for {sym} is not in the snapshot: calls will not be proposed on it until it is")
+    if rule == "trend":
+        why_this = f"{what}: {sym} is {c['ret_252']:+.0%} over a year, ${c['last']:,.2f} against a 200-day average of ${c['sma200']:,.2f}"
+        evidence = ("Full test (198 names, one year, 4,050 cases): 34.9% against 43.8% holding and 28.3% with the cash in SPY. "
+                    "The gaps were not distinguishable from zero and its purchases were concentrated in a handful of stocks. Not confirmed.")
+    elif rule == "premium":
+        why_this = (f"highest option premium among stocks above their 200-day average: {sym} implied volatility {c['atm_iv']:.0%}, "
+                    f"${c['last']:,.2f} against a 200-day average of ${c['sma200']:,.2f}")
+        evidence = ("Full test (198 names, one year, 4,050 cases): 45.5% against 43.8% holding and 28.3% with the cash in SPY; "
+                    "it beat holding in 65% of cases and held up at twice the trading cost. "
+                    "It was the sixth rule tried, so treat it as a lead until it is tested forward.")
+    else:
+        why_this = f"{what}: {sym} one-year volatility {c['vol_252']:.0%}"
+        evidence = ("Full test (198 names, one year, 4,050 cases): 25.0% against 28.3% with the cash in SPY and 43.8% holding, "
+                    "with the smallest drops (21%).")
+    downside = ("full stock risk: the option market is pricing these as the stocks most likely to move a lot, in either direction"
+                if rule == "premium"
+                else "full stock risk: the shares can fall, and stocks that have risen the most can fall the most")
     return [{"id": _pid(R.VERSION, snap["today"], sym, "rotate", lots),
              "action": "BUY", "kind": "rotation stock", "symbol": sym, "shares": 100 * lots, "lots": lots,
              "limit": limit, "cost": cost, "cash_after": round(free - cost, 2), "spot": c["last"],
-             "ret_252": c["ret_252"], "sma200": c["sma200"], "rule": rule, "rank": rank, "eligible": len(ranked),
+             "ret_252": c["ret_252"], "atm_iv": c.get("atm_iv"), "sma200": c["sma200"], "rule": rule, "rank": rank, "eligible": len(ranked),
              "agreeing_to": f"buy {100 * lots} {sym} shares at up to ${limit:,.2f} (${cost:,.2f}); calls are proposed on them next run",
-             "why_this_stock": f"{what}: {sym} is {c['ret_252']:+.0%} over a year, ${c['last']:,.2f} against a 200-day average of ${c['sma200']:,.2f}"
-                               if rule == "trend" else f"{what}: {sym} one-year volatility {c['vol_252']:.0%}",
-             "ranked": [{"symbol": s2, "ret_252": c2["ret_252"], "vol_252": c2["vol_252"], "last": c2["last"]}
+             "why_this_stock": why_this,
+             "ranked": [{"symbol": s2, "ret_252": c2["ret_252"], "vol_252": c2["vol_252"], "atm_iv": c2.get("atm_iv"), "last": c2["last"]}
                         for _, s2, c2 in ranked[:R.ROT_SHOW_RANKS]],
-             "downside": "full stock risk: the shares can fall, and stocks that have risen the most can fall the most",
-             "evidence": "Partial test (47 names): over one year 37.8% against 39.7% holding and 26.6% with the cash in SPY; "
-                         "over 2.5 years it beat holding in 78% of 141 cases. It bought that period's biggest winners." if rule == "trend"
-                         else "Partial test (47 names): about the same return as putting the cash in SPY (24.2% against 26.6% over one year).",
+             "downside": downside,
+             "evidence": evidence,
              "flags": flags, "rejected_strikes": passed_over}], []
 
 

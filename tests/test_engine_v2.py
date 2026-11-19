@@ -184,6 +184,76 @@ class Rotation(unittest.TestCase):
         p = self.rot(engine.propose(self.snap(9000.0), rules(ROT_RULE="quality")))[0]
         self.assertEqual(p["symbol"], "CALM")
 
+    # ---- premium rule: uptrend, then highest option premium
+    def psnap(self, cash, ivs, **over):
+        s = self.snap(cash, **over)
+        s["candidates"] = copy.deepcopy(CANDS)
+        for c in s["candidates"]:
+            c["atm_iv"] = ivs.get(c["symbol"])
+        return s
+
+    def test_premium_picks_highest_iv_in_uptrend(self):
+        # DOWN has the highest IV but is below its 200-day average; BIG is unaffordable at 9,000
+        s = self.psnap(9000.0, {"BIG": 0.8, "RUN": 0.55, "DOWN": 0.95, "CALM": 0.2, "PENNY": 0.99})
+        p = self.rot(engine.propose(s, rules(ROT_RULE="premium")))[0]
+        self.assertEqual((p["symbol"], p["rule"], p["atm_iv"]), ("RUN", "premium", 0.55))
+        self.assertIn("highest option premium", p["why_this_stock"])
+        self.assertIn("implied volatility 55%", p["why_this_stock"])
+        self.assertTrue(any("BETA rule, a lead and not a finding" in f for f in p["flags"]))
+        self.assertTrue(any("37%" in f for f in p["flags"]))
+        self.assertTrue(any(f.startswith("RUN ranks 2 of") for f in p["flags"]))      # BIG ranked first, cost too much
+        self.assertIn("option market is pricing", p["downside"])
+        self.assertTrue(all("atm_iv" in r for r in p["ranked"]))
+        self.assertTrue(any(x["symbol"] == "BIG" and x["atm_iv"] == 0.8 for x in p["rejected_strikes"]))
+        self.assertNotIn("DOWN", [r["symbol"] for r in p["ranked"]])
+
+    def test_premium_buys_top_name_when_affordable_and_skips_missing_iv(self):
+        s = self.psnap(100_000.0, {"BIG": 0.5, "RUN": 0.7, "CALM": None})
+        p = self.rot(engine.propose(s, rules(ROT_RULE="premium")))[0]
+        self.assertEqual(p["symbol"], "RUN")
+        self.assertEqual([r["symbol"] for r in p["ranked"]], ["RUN", "BIG"])          # CALM has no premium level
+        self.assertEqual(p["eligible"], 2)
+
+    def test_premium_with_no_iv_anywhere_proposes_no_stock_and_parks(self):
+        s = self.psnap(9000.0, {})
+        s["quotes"]["SPY"] = 600.0
+        out = engine.propose(s, rules(ROT_RULE="premium"))
+        self.assertFalse([p for p in out["proposals"] if p["kind"] == "rotation stock"])
+        self.assertTrue(any("no option premium levels" in x["reason"] and "Alpaca keys" in x["reason"] for x in out["skipped"]))
+        self.assertEqual([(p["symbol"], p["dollars"]) for p in self.rot(out)], [("SPY", 9000.0)])
+        out = engine.propose(s, rules(ROT_RULE="premium", SWEEP_TO_SPY=False))
+        self.assertEqual(self.rot(out), [])
+
+    def test_premium_parks_leftover_and_releases_parked_spy(self):
+        ivs = {"BIG": 0.8, "RUN": 0.55}
+        s = self.psnap(2000.0, ivs)
+        s["quotes"]["SPY"] = 600.0
+        s["parked_spy_shares"] = 0
+        out = engine.propose(s, rules(ROT_RULE="premium"))
+        self.assertEqual([(x["symbol"], x["dollars"], x.get("parked")) for x in self.rot(out)], [("SPY", 2000.0, True)])
+        s = self.psnap(1000.0, ivs)
+        s["quotes"]["SPY"] = 600.0
+        s["positions"].append({"symbol": "SPY", "shares": 6.0, "avg_cost": 590.0})
+        s["parked_spy_shares"] = 6.0
+        out = engine.propose(s, rules(ROT_RULE="premium"))
+        rel = [x for x in out["proposals"] if x["kind"] == "release parked SPY"]
+        self.assertEqual(len(rel), 1)
+        self.assertIn("a lead, not a finding", " ".join(rel[0]["flags"]))
+
+    def test_negative_atm_iv_fails_validation(self):
+        for bad in (-0.2, 0, "abc"):
+            s = self.psnap(9000.0, {"RUN": bad})
+            out = engine.propose(s, rules(ROT_RULE="premium"))
+            self.assertTrue(out["blocked"], bad)
+            self.assertEqual(out["proposals"], [])
+
+    def test_evidence_is_the_full_test_not_the_partial_one(self):
+        s = self.psnap(9000.0, {"RUN": 0.5, "CALM": 0.2})
+        for rule in ("trend", "premium", "quality"):
+            p = self.rot(engine.propose(s, rules(ROT_RULE=rule)))[0]
+            self.assertIn("198 names", p["evidence"])
+            self.assertNotIn("Partial test", p["evidence"])
+
     def test_spy_rule_and_off(self):
         p = self.rot(engine.propose(self.snap(9000.0), rules(ROT_RULE="spy")))[0]
         self.assertEqual((p["symbol"], p["dollars"]), ("SPY", 9000.0))

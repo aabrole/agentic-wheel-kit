@@ -239,6 +239,13 @@ class Rotation(Base):
         self.assertIn(p["symbol"], [x["symbol"] for x in s["portfolio"]["positions"]])
         self.assertTrue(any(x["symbol"] == p["symbol"] and "no option chain" in x["reason"] for x in s["engine"]["skipped"]))
 
+    def test_settings_accept_premium_and_reject_unknown_rule(self):
+        r = core.change_settings("staging", {"rules": {"ROT_RULE": "premium"}})
+        self.assertTrue(r["ok"], r)
+        self.assertEqual(core.load_settings("staging")["rules"]["ROT_RULE"], "premium")
+        r = core.change_settings("staging", {"rules": {"ROT_RULE": "momentum"}})
+        self.assertFalse(r["ok"], r)
+
     def test_rule_switch_changes_the_pick(self):
         core.change_settings("staging", {"rules": {"ROT_RULE": "trend"}})
         a = next(p for p in self.st()["engine"]["proposals"] if p["kind"] == "rotation stock")["symbol"]

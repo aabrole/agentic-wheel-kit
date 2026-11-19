@@ -56,8 +56,9 @@ def read():
         c = json.loads(cache.read_text())
     else:
         c = candidates.build()
-        cache.write_text(json.dumps(c))
-    snap["candidates"] = [{k: r.get(k) for k in ("symbol", "last", "sma200", "ret_252", "vol_252")} for r in c["candidates"]]
+        if not c.get("iv_incomplete"):                        # a partial premium pull is retried next run
+            cache.write_text(json.dumps(c))
+    snap["candidates"] = [{k: r.get(k) for k in ("symbol", "last", "sma200", "ret_252", "vol_252", "atm_iv")} for r in c["candidates"]]
     snap["candidates_as_of"] = c["candidates_as_of"]
     snap["_note"] = f"LIVE: read from {snap.get('broker', config.BROKER)} at {core.now()}."
     _state("snapshot.json").write_text(json.dumps(snap, indent=1))

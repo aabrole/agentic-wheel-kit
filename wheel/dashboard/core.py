@@ -42,9 +42,9 @@ ADJUSTABLE = {
     "CALL_DTE_TARGET": ("int", 31, 45, "Days to expiry aimed for on new calls"),
     "CALL_DELTA_TARGET": ("float", 0.20, 0.40, "Delta aimed for on new calls (higher = closer to the price, more premium, called away more)"),
     "ROLLS_ENABLED": ("bool", None, None, "Propose rolling in-the-money calls up and out for a credit"),
-    "ROT_RULE": ("choice", ["trend", "quality", "spy", "off"], None,
-                 "Where free cash goes: trend (beta: strongest one-year gain), quality (calmest), spy, or off"),
-    "SWEEP_TO_SPY": ("bool", None, None, "With trend or quality: park cash that cannot buy 100 shares in SPY, and sell it when it can"),
+    "ROT_RULE": ("choice", ["trend", "premium", "quality", "spy", "off"], None,
+                 "Where free cash goes: trend (beta: strongest one-year gain), premium (beta: uptrend, then highest option premium), quality (calmest), spy, or off"),
+    "SWEEP_TO_SPY": ("bool", None, None, "With trend, premium or quality: park cash that cannot buy 100 shares in SPY, and sell it when it can"),
     "MAX_PROPOSALS": ("int", 1, 8, "Most proposals shown per run"),
 }
 LOCKED = [
