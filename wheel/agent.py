@@ -26,6 +26,7 @@ It never decides a trade. The engine proposes from the rules, the owner approves
 import asyncio
 import json
 import sys
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -150,7 +151,13 @@ def telegram():
     chat, offset = str(config.get("TELEGRAM_CHAT_ID")), 0
     print("listening for Telegram button presses (Ctrl-C to stop)")
     while True:
-        for u in _tg("getUpdates", offset=offset, timeout=60).get("result", []):
+        try:
+            updates = _tg("getUpdates", offset=offset, timeout=60).get("result", [])
+        except OSError as e:                                # a dropped or timed-out connection: wait and ask again
+            print(f"Telegram unreachable ({type(e).__name__}); retrying in 10s")
+            time.sleep(10)
+            continue
+        for u in updates:
             offset = u["update_id"] + 1
             cb = u.get("callback_query")
             if not cb or str(cb["message"]["chat"]["id"]) != chat:
